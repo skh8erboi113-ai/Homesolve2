@@ -1,3 +1,34 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-house",
+      "description": "Modern suburban house with clear blue sky",
+      "imageUrl": "https://picsum.photos/seed/home1/1200/600",
+      "imageHint": "modern house"
+    },
+    {
+      "id": "house-listing-1",
+      "description": "Cozy single family home",
+      "imageUrl": "https://picsum.photos/seed/home2/600/400",
+      "imageHint": "suburban home"
+    },
+    {
+      "id": "house-listing-2",
+      "description": "Modern city condo apartment",
+      "imageUrl": "https://picsum.photos/seed/home3/600/400",
+      "imageHint": "modern condo"
+    },
+    {
+      "id": "house-listing-3",
+      "description": "Elegant townhouse architecture",
+      "imageUrl": "https://picsum.photos/seed/home4/600/400",
+      "imageHint": "townhouse exterior"
+    },
+    {
+      "id": "user-avatar",
+      "description": "Professional user avatar",
+      "imageUrl": "https://picsum.photos/seed/user1/100/100",
+      "imageHint": "smiling person"
+    }
+  ]
 }
