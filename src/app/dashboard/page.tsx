@@ -1,12 +1,14 @@
+
 "use client";
 
 import { Navbar } from "@/components/navbar";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { Home, ArrowUpRight, MessageSquare, List, DollarSign, Clock, CheckCircle2 } from "lucide-react";
+import { Home, ArrowUpRight, MessageSquare, List, DollarSign, Clock, CheckCircle2, CreditCard, Shield } from "lucide-react";
 import Link from "next/link";
+import { Progress } from "@/components/ui/progress";
 
 const STATS = [
   { label: "Active Listings", value: "2", icon: List, color: "text-blue-500" },
@@ -109,8 +111,61 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          {/* Activity Feed */}
-          <Card className="shadow-sm">
+          {/* Billing & Plan Side Card */}
+          <div className="space-y-6">
+            <Card className="shadow-sm border-primary/20 bg-primary/5">
+              <CardHeader className="pb-4">
+                <div className="flex justify-between items-center mb-1">
+                  <CardTitle className="text-lg">Pro Plan</CardTitle>
+                  <Badge className="bg-primary text-primary-foreground">Active</Badge>
+                </div>
+                <CardDescription>Next billing date: July 24, 2025</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <div className="flex justify-between text-xs font-medium">
+                    <span>AI Valuation Credits</span>
+                    <span>18 / 50 used</span>
+                  </div>
+                  <Progress value={36} className="h-1.5" />
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-xs font-medium">
+                    <span>Active Listings</span>
+                    <span>2 / 10 used</span>
+                  </div>
+                  <Progress value={20} className="h-1.5" />
+                </div>
+              </CardContent>
+              <CardFooter className="pt-2">
+                <Button variant="outline" className="w-full text-xs h-9 rounded-full bg-white" asChild>
+                  <Link href="/dashboard/billing">
+                    <CreditCard className="mr-2 h-3.5 w-3.5" /> Manage Billing
+                  </Link>
+                </Button>
+              </CardFooter>
+            </Card>
+
+            <Card className="shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-lg">Security & Privacy</CardTitle>
+              </CardHeader>
+              <CardContent className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                  <Shield className="h-5 w-5" />
+                </div>
+                <div className="text-sm">
+                  <p className="font-medium">Data Encryption Active</p>
+                  <p className="text-muted-foreground text-xs">Your financial data is secured via SSL.</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+           {/* Activity Feed */}
+           <Card className="lg:col-span-2 shadow-sm">
             <CardHeader>
               <CardTitle>Recent Activity</CardTitle>
               <CardDescription>Stay updated on listings and offers.</CardDescription>
@@ -142,13 +197,12 @@ export default function DashboardPage() {
               </div>
             </CardContent>
           </Card>
-        </div>
 
-        <section className="mt-12">
-          <h2 className="text-xl font-bold font-headline mb-6 text-primary flex items-center gap-2">
-            <CheckCircle2 className="h-5 w-5" /> Active Transactions
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Transaction Summary Card */}
+          <section>
+            <h2 className="text-xl font-bold font-headline mb-6 text-primary flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5" /> Active Transactions
+            </h2>
             <Card className="border-l-4 border-l-primary shadow-sm">
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-4">
@@ -168,8 +222,8 @@ export default function DashboardPage() {
                 </div>
               </CardContent>
             </Card>
-          </div>
-        </section>
+          </section>
+        </div>
       </main>
     </div>
   );
