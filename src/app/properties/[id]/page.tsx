@@ -8,12 +8,15 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Badge } from "@/components/ui/badge";
 import { useDoc, useFirestore, useMemoFirebase, useUser } from "@/firebase";
 import { doc, collection, query, where, getDocs, serverTimestamp } from "firebase/firestore";
-import { Loader2, MapPin, BedDouble, Bath, Square, TrendingDown, DollarSign, Calendar, ShieldCheck, User, MessageCircle } from "lucide-react";
+import { Loader2, MapPin, BedDouble, Bath, Square, TrendingDown, DollarSign, Calendar, ShieldCheck, User, MessageCircle, Share2, Sparkles, Copy } from "lucide-react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
+import { generateOutreach, OutreachOutput } from "@/ai/flows/generate-outreach-flow";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function PropertyDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -22,6 +25,9 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
   const { toast } = useToast();
   const router = useRouter();
   const [isStartingChat, setIsStartingChat] = useState(false);
+  const [isGeneratingOutreach, setIsGeneratingOutreach] = useState(false);
+  const [outreachResult, setOutreachResult] = useState<OutreachOutput | null>(null);
+  const [targetPlatform, setTargetPlatform] = useState<any>("LinkedIn");
 
   const propertyRef = useMemoFirebase(() => {
     return doc(db, "public_property_listings", id);
@@ -43,7 +49,6 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
 
     setIsStartingChat(true);
     try {
-      // Check if conversation already exists
       const convsRef = collection(db, "conversations");
       const q = query(
         convsRef, 
@@ -57,7 +62,6 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
       if (!existing.empty) {
         conversationId = existing.docs[0].id;
       } else {
-        // Create new conversation
         const newConvData = {
           propertyListingId: id,
           participantIds: [user.uid, property?.homeownerId],
@@ -79,15 +83,35 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
     }
   };
 
-  const handleMakeOffer = () => {
-    toast({
-      title: "Coming Soon",
-      description: "Direct offer submittal is being finalized for your market.",
-    });
+  const handleGenerateOutreach = async () => {
+    if (!property) return;
+    setIsGeneratingOutreach(true);
+    try {
+      const result = await generateOutreach({
+        propertyAddress: property.addressStreet,
+        askingPrice: property.askingPrice,
+        bedrooms: property.bedrooms,
+        bathrooms: property.bathrooms,
+        foreclosureStatus: property.foreclosureStatus,
+        targetPlatform: targetPlatform,
+      });
+      setOutreachResult(result);
+    } catch (err) {
+      toast({ title: "AI Error", description: "Failed to generate marketing content.", variant: "destructive" });
+    } finally {
+      setIsGeneratingOutreach(false);
+    }
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast({ title: "Copied!", description: "Content copied to clipboard." });
   };
 
   if (isLoading) return <div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin h-12 w-12 text-primary" /></div>;
   if (!property) return <div className="min-h-screen flex items-center justify-center">Property not found.</div>;
+
+  const isOwner = user?.uid === property.homeownerId;
 
   return (
     <div className="min-h-screen bg-background">
@@ -109,12 +133,74 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
               </div>
             </div>
 
-            <div className="space-y-4">
-              <h1 className="text-4xl font-bold font-headline">{property.addressStreet}</h1>
-              <div className="flex items-center text-muted-foreground gap-4">
-                <div className="flex items-center gap-1"><MapPin className="h-4 w-4 text-accent" /> {property.addressCity}, {property.addressState} {property.addressZip}</div>
-                <div className="flex items-center gap-1"><Calendar className="h-4 w-4" /> Built in {property.yearBuilt}</div>
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="space-y-2">
+                <h1 className="text-4xl font-bold font-headline">{property.addressStreet}</h1>
+                <div className="flex items-center text-muted-foreground gap-4">
+                  <div className="flex items-center gap-1"><MapPin className="h-4 w-4 text-accent" /> {property.addressCity}, {property.addressState} {property.addressZip}</div>
+                  <div className="flex items-center gap-1"><Calendar className="h-4 w-4" /> Built in {property.yearBuilt}</div>
+                </div>
               </div>
+
+              {isOwner && (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" className="rounded-full border-primary text-primary hover:bg-primary/5 h-12 px-6">
+                      <Sparkles className="mr-2 h-4 w-4" /> AI Marketing Kit
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle>AI Outreach Generator</DialogTitle>
+                      <DialogDescription>
+                        Generate high-converting social media posts and messages for this property.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-6 py-4">
+                      <div className="flex items-center gap-4">
+                        <Select value={targetPlatform} onValueChange={setTargetPlatform}>
+                          <SelectTrigger className="w-[200px]">
+                            <SelectValue placeholder="Select Platform" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="LinkedIn">LinkedIn (Professional)</SelectItem>
+                            <SelectItem value="Facebook">Facebook (Community)</SelectItem>
+                            <SelectItem value="Twitter">Twitter (Short/Viral)</SelectItem>
+                            <SelectItem value="Direct Message">Direct Message (Private)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <Button onClick={handleGenerateOutreach} disabled={isGeneratingOutreach} className="flex-1 rounded-full">
+                          {isGeneratingOutreach ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : <Sparkles className="mr-2 h-4 w-4" />}
+                          Generate Post
+                        </Button>
+                      </div>
+
+                      {outreachResult && (
+                        <Card className="bg-muted/30 border-dashed">
+                          <CardContent className="pt-6 space-y-4">
+                            <div>
+                              <h4 className="text-xs font-bold uppercase text-muted-foreground mb-2">Headline</h4>
+                              <p className="font-bold text-lg">{outreachResult.headline}</p>
+                            </div>
+                            <div>
+                              <h4 className="text-xs font-bold uppercase text-muted-foreground mb-2">Body Text</h4>
+                              <p className="text-sm whitespace-pre-wrap leading-relaxed">{outreachResult.body}</p>
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                              {outreachResult.hashtags.map(tag => (
+                                <Badge key={tag} variant="secondary" className="text-[10px]">{tag}</Badge>
+                              ))}
+                            </div>
+                            <Button className="w-full mt-4" variant="outline" onClick={() => copyToClipboard(`${outreachResult.headline}\n\n${outreachResult.body}\n\n${outreachResult.hashtags.join(' ')}`)}>
+                              <Copy className="mr-2 h-4 w-4" /> Copy Content
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      )}
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              )}
             </div>
 
             <div className="grid grid-cols-3 gap-6 p-6 bg-white rounded-2xl border shadow-sm">
@@ -183,7 +269,7 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
                 </div>
 
                 <div className="pt-6 border-t space-y-3">
-                  <Button className="w-full h-12 rounded-full text-lg" onClick={handleMakeOffer}>
+                  <Button className="w-full h-12 rounded-full text-lg" onClick={() => toast({ title: "Feature coming soon", description: "Offer submittal is being finalized." })}>
                     Submit Cash Offer
                   </Button>
                   <Button variant="outline" className="w-full h-12 rounded-full" onClick={handleStartConversation} disabled={isStartingChat}>
@@ -203,16 +289,6 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
                    </div>
                  </div>
               </CardFooter>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6 text-center space-y-4">
-                <TrendingDown className="h-12 w-12 mx-auto text-accent/40" />
-                <h3 className="font-bold">Investor Insight</h3>
-                <p className="text-sm text-muted-foreground">
-                  Properties in {property.addressCity} with this foreclosure status typically close 30% faster on HomeSolve compared to traditional MLS listings.
-                </p>
-              </CardContent>
             </Card>
           </div>
         </div>
