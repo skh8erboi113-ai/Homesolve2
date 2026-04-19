@@ -2,9 +2,18 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Home, Search, PlusCircle, LayoutDashboard, DollarSign } from "lucide-react";
+import { Home, Search, PlusCircle, LayoutDashboard, DollarSign, LogOut, User } from "lucide-react";
+import { useUser, useAuth } from "@/firebase";
+import { signOut } from "firebase/auth";
 
 export function Navbar() {
+  const { user } = useUser();
+  const auth = useAuth();
+
+  const handleSignOut = () => {
+    signOut(auth);
+  };
+
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -31,9 +40,21 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center space-x-4">
-          <Button variant="default" asChild className="rounded-full">
-            <Link href="/dashboard">Login / Join</Link>
-          </Button>
+          {user ? (
+            <div className="flex items-center gap-3">
+              <Button variant="ghost" size="icon" className="rounded-full h-9 w-9 bg-accent/10 text-accent" asChild>
+                <Link href="/dashboard"><User className="h-5 w-5" /></Link>
+              </Button>
+              <Button variant="outline" size="sm" className="rounded-full" onClick={handleSignOut}>
+                <LogOut className="h-4 w-4 md:mr-2" />
+                <span className="hidden md:inline">Sign Out</span>
+              </Button>
+            </div>
+          ) : (
+            <Button variant="default" asChild className="rounded-full">
+              <Link href="/auth">Login / Join</Link>
+            </Button>
+          )}
         </div>
       </div>
     </nav>

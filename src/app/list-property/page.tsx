@@ -13,10 +13,19 @@ import { Badge } from "@/components/ui/badge";
 import { homeownerQuickSaleValuation, HomeownerQuickSaleValuationOutput } from "@/ai/flows/homeowner-quick-sale-valuation";
 import { Loader2, TrendingUp, Info, DollarSign, CheckCircle2, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useFirestore, useUser } from "@/firebase";
+import { collection, doc, serverTimestamp } from "firebase/firestore";
+import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function ListPropertyPage() {
   const { toast } = useToast();
+  const router = useRouter();
+  const db = useFirestore();
+  const { user, isUserLoading } = useUser();
   const [loading, setLoading] = useState(false);
+  const [publishing, setPublishing] = useState(false);
   const [valuation, setValuation] = useState<HomeownerQuickSaleValuationOutput | null>(null);
 
   const [formData, setFormData] = useState({
@@ -65,6 +74,64 @@ export default function ListPropertyPage() {
       setLoading(false);
     }
   };
+
+  const handlePublish = async () => {
+    if (!user) {
+      toast({
+        title: "Sign In Required",
+        description: "Please sign in to publish your listing.",
+        variant: "destructive"
+      });
+      router.push("/auth");
+      return;
+    }
+
+    if (!valuation) return;
+
+    setPublishing(true);
+    try {
+      const publicListingsRef = collection(db, "public_property_listings");
+      const listingData = {
+        homeownerId: user.uid,
+        title: `${formData.numberOfBedrooms} Bed ${formData.propertyType} in ${formData.address.split(',')[1]?.trim() || 'Your Area'}`,
+        description: `Motivated sale. AI Estimated value is based on current condition and foreclosure status. ${formData.specialFeatures}`,
+        addressStreet: formData.address.split(',')[0]?.trim() || formData.address,
+        addressCity: formData.address.split(',')[1]?.trim() || "Unknown City",
+        addressState: formData.address.split(',')[2]?.trim()?.split(' ')[0] || "ST",
+        addressZip: formData.address.split(',')[2]?.trim()?.split(' ')[1] || "00000",
+        propertyType: formData.propertyType,
+        bedrooms: formData.numberOfBedrooms,
+        bathrooms: formData.numberOfBathrooms,
+        squareFootage: formData.squareFootage,
+        lotSize: 0, // Mock for now
+        yearBuilt: formData.yearBuilt,
+        askingPrice: valuation.estimatedValue,
+        foreclosureStatus: formData.foreclosureStatus,
+        status: "active",
+        aiQuickSaleValuation: valuation.estimatedValue,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      };
+
+      addDocumentNonBlocking(publicListingsRef, listingData);
+      
+      toast({
+        title: "Listing Published!",
+        description: "Your property is now visible to our investor network.",
+      });
+      router.push("/properties");
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Could not publish listing. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setPublishing(false);
+    }
+  };
+
+  if (isUserLoading) return <div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin" /></div>;
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -243,7 +310,7 @@ export default function ListPropertyPage() {
                   </div>
                   <h3 className="text-xl font-bold mb-2">No Valuation Generated</h3>
                   <p className="text-muted-foreground mb-6 max-w-sm">Please fill out your property details and click "Get AI Valuation" to see your estimate.</p>
-                  <Button variant="outline" onClick={() => {}}>Return to Details</Button>
+                  <Button variant="outline" asChild><Link href="#details">Return to Details</Link></Button>
                 </Card>
               ) : (
                 <div className="space-y-6 animate-in fade-in zoom-in-95 duration-500">
@@ -295,7 +362,13 @@ export default function ListPropertyPage() {
                           <div className="h-6 w-6 rounded-full bg-primary text-white flex items-center justify-center text-xs shrink-0">3</div>
                           <p className="text-sm">Receive cash offers</p>
                         </div>
-                        <Button className="w-full mt-6 bg-primary rounded-full">Publish Listing</Button>
+                        <Button 
+                          className="w-full mt-6 bg-primary rounded-full" 
+                          onClick={handlePublish} 
+                          disabled={publishing}
+                        >
+                          {publishing ? <Loader2 className="animate-spin h-4 w-4 mr-2" /> : "Publish Listing"}
+                        </Button>
                       </CardContent>
                     </Card>
                   </div>
