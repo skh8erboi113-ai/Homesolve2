@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Home, Search, PlusCircle, MessageSquare, LayoutDashboard } from "lucide-react";
+import { Home, Search, PlusCircle, LayoutDashboard, DollarSign } from "lucide-react";
 
 export function Navbar() {
   return (
@@ -22,15 +22,15 @@ export function Navbar() {
           <Link href="/list-property" className="hover:text-primary transition-colors flex items-center gap-1">
             <PlusCircle className="h-4 w-4" /> Sell Your Home
           </Link>
+          <Link href="/pricing" className="hover:text-primary transition-colors flex items-center gap-1">
+            <DollarSign className="h-4 w-4" /> Pricing
+          </Link>
           <Link href="/dashboard" className="hover:text-primary transition-colors flex items-center gap-1">
             <LayoutDashboard className="h-4 w-4" /> Dashboard
           </Link>
         </div>
 
         <div className="flex items-center space-x-4">
-          <Link href="/messages" className="hidden sm:flex text-muted-foreground hover:text-primary transition-colors">
-            <MessageSquare className="h-5 w-5" />
-          </Link>
           <Button variant="default" asChild className="rounded-full">
             <Link href="/dashboard">Login / Join</Link>
           </Button>

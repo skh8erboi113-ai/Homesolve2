@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Navbar } from "@/components/navbar";
@@ -6,15 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { Home, ArrowUpRight, MessageSquare, List, DollarSign, Clock, CheckCircle2, CreditCard, Shield } from "lucide-react";
+import { Home, ArrowUpRight, MessageSquare, List, DollarSign, Clock, CheckCircle2, CreditCard, Shield, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
 
 const STATS = [
   { label: "Active Listings", value: "2", icon: List, color: "text-blue-500" },
-  { label: "Offers Received", value: "8", icon: ArrowUpRight, color: "text-accent" },
+  { label: "Pending Offers", value: "8", icon: ArrowUpRight, color: "text-accent" },
   { label: "Messages", value: "12", icon: MessageSquare, color: "text-primary" },
-  { label: "Est. Commission", value: "$4,250", icon: DollarSign, color: "text-green-600" },
+  { label: "Est. Revenue", value: "$4,250", icon: DollarSign, color: "text-green-600" },
 ];
 
 const RECENT_ACTIVITY = [
@@ -41,14 +40,19 @@ export default function DashboardPage() {
       <main className="container mx-auto px-4 py-8">
         <header className="mb-10 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold font-headline text-primary">Dashboard</h1>
-            <p className="text-muted-foreground">Welcome back. Here's what's happening with your properties.</p>
+            <h1 className="text-3xl font-bold font-headline text-primary">Profit Dashboard</h1>
+            <p className="text-muted-foreground">Tracking your transaction fees and investor subscription revenue.</p>
           </div>
-          <Button asChild className="rounded-full px-6 bg-accent text-accent-foreground hover:bg-accent/90">
-            <Link href="/list-property">
-              <Home className="mr-2 h-4 w-4" /> Add New Listing
-            </Link>
-          </Button>
+          <div className="flex gap-3">
+            <Button variant="outline" asChild className="rounded-full px-6">
+              <Link href="/pricing">View Plan Details</Link>
+            </Button>
+            <Button asChild className="rounded-full px-6 bg-accent text-accent-foreground hover:bg-accent/90">
+              <Link href="/list-property">
+                <Home className="mr-2 h-4 w-4" /> Add New Listing
+              </Link>
+            </Button>
+          </div>
         </header>
 
         {/* Stats Grid */}
@@ -73,10 +77,12 @@ export default function DashboardPage() {
           <Card className="lg:col-span-2 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between pb-8">
               <div>
-                <CardTitle>Commission Tracking</CardTitle>
-                <CardDescription>Monthly revenue generated from successful closings.</CardDescription>
+                <CardTitle>Revenue Analytics</CardTitle>
+                <CardDescription>Monthly profit from 1.5% transaction commissions.</CardDescription>
               </div>
-              <Badge variant="outline" className="h-8 px-3 rounded-full border-accent text-accent">Real-time Data</Badge>
+              <Badge variant="outline" className="h-8 px-3 rounded-full border-accent text-accent">
+                <TrendingUp className="h-3 w-3 mr-1" /> +12% vs last month
+              </Badge>
             </CardHeader>
             <CardContent>
               <div className="h-[300px] w-full">
@@ -116,31 +122,31 @@ export default function DashboardPage() {
             <Card className="shadow-sm border-primary/20 bg-primary/5">
               <CardHeader className="pb-4">
                 <div className="flex justify-between items-center mb-1">
-                  <CardTitle className="text-lg">Pro Plan</CardTitle>
+                  <CardTitle className="text-lg">Pro Investor Tier</CardTitle>
                   <Badge className="bg-primary text-primary-foreground">Active</Badge>
                 </div>
-                <CardDescription>Next billing date: July 24, 2025</CardDescription>
+                <CardDescription>Recurring subscription: $199/mo</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <div className="flex justify-between text-xs font-medium">
-                    <span>AI Valuation Credits</span>
+                    <span>AI Valuation Usage</span>
                     <span>18 / 50 used</span>
                   </div>
                   <Progress value={36} className="h-1.5" />
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-xs font-medium">
-                    <span>Active Listings</span>
-                    <span>2 / 10 used</span>
+                    <span>Priority Leads Access</span>
+                    <span>Unlimited</span>
                   </div>
-                  <Progress value={20} className="h-1.5" />
+                  <Progress value={100} className="h-1.5 bg-gray-200" />
                 </div>
               </CardContent>
               <CardFooter className="pt-2">
                 <Button variant="outline" className="w-full text-xs h-9 rounded-full bg-white" asChild>
-                  <Link href="/dashboard/billing">
-                    <CreditCard className="mr-2 h-3.5 w-3.5" /> Manage Billing
+                  <Link href="/pricing">
+                    <CreditCard className="mr-2 h-3.5 w-3.5" /> Billing Settings
                   </Link>
                 </Button>
               </CardFooter>
@@ -148,15 +154,20 @@ export default function DashboardPage() {
 
             <Card className="shadow-sm">
               <CardHeader>
-                <CardTitle className="text-lg">Security & Privacy</CardTitle>
+                <CardTitle className="text-lg">Commission Breakdown</CardTitle>
               </CardHeader>
-              <CardContent className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                  <Shield className="h-5 w-5" />
+              <CardContent className="space-y-4">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-muted-foreground">Platform Fee</span>
+                  <span className="font-bold">1.5%</span>
                 </div>
-                <div className="text-sm">
-                  <p className="font-medium">Data Encryption Active</p>
-                  <p className="text-muted-foreground text-xs">Your financial data is secured via SSL.</p>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-muted-foreground">Investor Sub</span>
+                  <span className="font-bold">$199.00</span>
+                </div>
+                <div className="pt-2 border-t flex justify-between items-center">
+                  <span className="font-medium">Total Lifetime Profit</span>
+                  <span className="text-primary font-bold">$23,190</span>
                 </div>
               </CardContent>
             </Card>
@@ -167,8 +178,8 @@ export default function DashboardPage() {
            {/* Activity Feed */}
            <Card className="lg:col-span-2 shadow-sm">
             <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
-              <CardDescription>Stay updated on listings and offers.</CardDescription>
+              <CardTitle>Sales Pipeline</CardTitle>
+              <CardDescription>Monitor your deals nearing closure.</CardDescription>
             </CardHeader>
             <CardContent className="p-0">
               <div className="divide-y">
@@ -190,31 +201,26 @@ export default function DashboardPage() {
                   </div>
                 ))}
               </div>
-              <div className="p-4 border-t">
-                <Button variant="ghost" className="w-full text-primary hover:text-primary hover:bg-primary/5 text-sm" asChild>
-                  <Link href="/activity">View all activity <ArrowUpRight className="ml-1 h-3 w-3" /></Link>
-                </Button>
-              </div>
             </CardContent>
           </Card>
 
           {/* Transaction Summary Card */}
           <section>
             <h2 className="text-xl font-bold font-headline mb-6 text-primary flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5" /> Active Transactions
+              <CheckCircle2 className="h-5 w-5" /> Pending Commission
             </h2>
             <Card className="border-l-4 border-l-primary shadow-sm">
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-4">
-                   <Badge className="bg-primary/10 text-primary hover:bg-primary/10 border-none">Under Contract</Badge>
-                   <span className="text-xs text-muted-foreground">Est. Closing: July 12</span>
+                   <Badge className="bg-primary/10 text-primary hover:bg-primary/10 border-none">In Escrow</Badge>
+                   <span className="text-xs text-muted-foreground">Payout: July 12</span>
                 </div>
-                <h4 className="font-bold text-lg mb-1">452 Oak Avenue</h4>
-                <p className="text-sm text-muted-foreground mb-4">Buyer: Alpha Holdings LLC</p>
+                <h4 className="font-bold text-lg mb-1">$4,650.00</h4>
+                <p className="text-sm text-muted-foreground mb-4">452 Oak Avenue Closing</p>
                 <div className="space-y-2">
                    <div className="flex justify-between text-sm">
-                     <span>Escrow Status</span>
-                     <span className="font-medium">Paperwork Pending</span>
+                     <span>Closing Progress</span>
+                     <span className="font-medium">75%</span>
                    </div>
                    <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
                       <div className="h-full bg-primary w-3/4"></div>
