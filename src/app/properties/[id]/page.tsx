@@ -1,27 +1,83 @@
+
 "use client";
 
-import { use } from "react";
+import { use, useState } from "react";
 import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useDoc, useFirestore, useMemoFirebase } from "@/firebase";
-import { doc } from "firebase/firestore";
+import { useDoc, useFirestore, useMemoFirebase, useUser } from "@/firebase";
+import { doc, collection, query, where, getDocs, serverTimestamp } from "firebase/firestore";
 import { Loader2, MapPin, BedDouble, Bath, Square, TrendingDown, DollarSign, Calendar, ShieldCheck, User, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 
 export default function PropertyDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const db = useFirestore();
+  const { user } = useUser();
   const { toast } = useToast();
+  const router = useRouter();
+  const [isStartingChat, setIsStartingChat] = useState(false);
 
   const propertyRef = useMemoFirebase(() => {
     return doc(db, "public_property_listings", id);
   }, [db, id]);
 
   const { data: property, isLoading } = useDoc(propertyRef);
+
+  const handleStartConversation = async () => {
+    if (!user) {
+      toast({ title: "Login Required", description: "Please sign in to message the homeowner.", variant: "destructive" });
+      router.push("/auth");
+      return;
+    }
+
+    if (user.uid === property?.homeownerId) {
+      toast({ title: "Action Denied", description: "You cannot message yourself about your own listing.", variant: "destructive" });
+      return;
+    }
+
+    setIsStartingChat(true);
+    try {
+      // Check if conversation already exists
+      const convsRef = collection(db, "conversations");
+      const q = query(
+        convsRef, 
+        where("participantIds", "array-contains", user.uid),
+        where("propertyListingId", "==", id)
+      );
+      
+      const existing = await getDocs(q);
+      let conversationId = "";
+
+      if (!existing.empty) {
+        conversationId = existing.docs[0].id;
+      } else {
+        // Create new conversation
+        const newConvData = {
+          propertyListingId: id,
+          participantIds: [user.uid, property?.homeownerId],
+          startedAt: serverTimestamp(),
+          lastMessageAt: serverTimestamp(),
+          subject: `Inquiry for ${property?.addressStreet}`,
+        };
+        const docRef = await addDocumentNonBlocking(convsRef, newConvData);
+        conversationId = docRef?.id || "";
+      }
+
+      if (conversationId) {
+        router.push(`/messages?id=${conversationId}`);
+      }
+    } catch (error) {
+      toast({ title: "Error", description: "Could not start conversation.", variant: "destructive" });
+    } finally {
+      setIsStartingChat(false);
+    }
+  };
 
   const handleMakeOffer = () => {
     toast({
@@ -39,7 +95,6 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
       
       <main className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             <div className="relative aspect-video rounded-3xl overflow-hidden border shadow-lg">
               <Image 
@@ -106,7 +161,6 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
             </Card>
           </div>
 
-          {/* Sidebar Action Card */}
           <div className="space-y-6">
             <Card className="shadow-xl border-2 border-primary/20 sticky top-24">
               <CardHeader>
@@ -132,8 +186,9 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
                   <Button className="w-full h-12 rounded-full text-lg" onClick={handleMakeOffer}>
                     Submit Cash Offer
                   </Button>
-                  <Button variant="outline" className="w-full h-12 rounded-full" onClick={handleMakeOffer}>
-                    <MessageCircle className="mr-2 h-4 w-4" /> Message Homeowner
+                  <Button variant="outline" className="w-full h-12 rounded-full" onClick={handleStartConversation} disabled={isStartingChat}>
+                    {isStartingChat ? <Loader2 className="animate-spin h-4 w-4 mr-2" /> : <MessageCircle className="mr-2 h-4 w-4" />}
+                    Message Homeowner
                   </Button>
                 </div>
               </CardContent>

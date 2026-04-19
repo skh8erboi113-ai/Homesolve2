@@ -1,8 +1,9 @@
+
 "use client";
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Home, Search, PlusCircle, LayoutDashboard, DollarSign, LogOut, User } from "lucide-react";
+import { Home, Search, PlusCircle, LayoutDashboard, DollarSign, LogOut, User, MessageSquare } from "lucide-react";
 import { useUser, useAuth } from "@/firebase";
 import { signOut } from "firebase/auth";
 
@@ -24,15 +25,18 @@ export function Navbar() {
           <span className="text-xl font-bold tracking-tight font-headline text-primary">HomeSolve</span>
         </Link>
         
-        <div className="hidden md:flex items-center space-x-6 text-sm font-medium">
+        <div className="hidden lg:flex items-center space-x-6 text-sm font-medium">
           <Link href="/properties" className="hover:text-primary transition-colors flex items-center gap-1">
             <Search className="h-4 w-4" /> Browse
           </Link>
           <Link href="/list-property" className="hover:text-primary transition-colors flex items-center gap-1">
             <PlusCircle className="h-4 w-4" /> Sell Your Home
           </Link>
-          <Link href="/pricing" className="hover:text-primary transition-colors flex items-center gap-1">
-            <DollarSign className="h-4 w-4" /> Pricing
+          <Link href="/investor-join" className="hover:text-primary transition-colors flex items-center gap-1">
+            <TrendingUpIcon className="h-4 w-4" /> Investor Network
+          </Link>
+          <Link href="/messages" className="hover:text-primary transition-colors flex items-center gap-1">
+            <MessageSquare className="h-4 w-4" /> Messages
           </Link>
           <Link href="/dashboard" className="hover:text-primary transition-colors flex items-center gap-1">
             <LayoutDashboard className="h-4 w-4" /> Dashboard
@@ -42,7 +46,7 @@ export function Navbar() {
         <div className="flex items-center space-x-4">
           {user ? (
             <div className="flex items-center gap-3">
-              <Button variant="ghost" size="icon" className="rounded-full h-9 w-9 bg-accent/10 text-accent" asChild>
+              <Button variant="ghost" size="icon" className="rounded-full h-9 w-9 bg-accent/10 text-accent hidden md:flex" asChild>
                 <Link href="/dashboard"><User className="h-5 w-5" /></Link>
               </Button>
               <Button variant="outline" size="sm" className="rounded-full" onClick={handleSignOut}>
@@ -58,5 +62,25 @@ export function Navbar() {
         </div>
       </div>
     </nav>
+  );
+}
+
+function TrendingUpIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+      <polyline points="16 7 22 7 22 13" />
+    </svg>
   );
 }
