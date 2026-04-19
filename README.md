@@ -2,6 +2,12 @@
 
 This is a Next.js application built for HomeSolve, connecting homeowners facing foreclosure with qualified real estate investors.
 
+## Quick Links
+
+- **Home Page**: [http://localhost:9002/](http://localhost:9002/)
+- **Investor Join Page**: [http://localhost:9002/investor-join](http://localhost:9002/investor-join)
+- **Production URL (Example)**: `https://homesolve.web.app/`
+
 ## Key Application Routes
 
 - **Home Page**: `/` - The main landing page.
