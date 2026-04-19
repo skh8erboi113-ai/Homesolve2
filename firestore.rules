@@ -1,0 +1,174 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * HomeSolve Security Rules Philosophy
+     * 
+     * Core Philosophy: This ruleset implements a strict user-ownership and collaborator-based model. 
+     * Access is governed by the user's authenticated UID and its presence in ownership fields or 
+     * participant lists. 
+     * 
+     * Data Structure: 
+     * - Private user data and draft property listings are nested under /users/{userId}.
+     * - Public listings, offers, conversations, and transactions are stored in top-level collections 
+     *   using denormalized authorization fields for high performance and atomicity.
+     * 
+     * Key Security Decisions: 
+     * - Denormalization for Authorization: To avoid slow get() calls, fields like 'homeownerId' or 
+     *   'participantIds' are copied onto documents to allow immediate authorization checks.
+     * - Structural Segregation: Draft listings are kept in a separate user-scoped collection from 
+     *   public listings to simplify security boundaries.
+     * - Prototyping Mode: Rules enforce 'who' can access data but do not strictly validate 'what' 
+     *   the data looks like (schema flexibility), except for fields critical to relational integrity.
+     */
+
+    // --- Helper Functions ---
+
+    /** Checks if the request is from an authenticated user. */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /** Checks if the provided UID matches the authenticated user's UID. */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /** Combined check for existence and ownership, used for updates/deletes. */
+    function isExistingOwner(userId) {
+      return resource != null && isOwner(userId);
+    }
+
+    /** Checks if the authenticated user's UID is present in a list (e.g., participants). */
+    function isMember(memberList) {
+      return isSignedIn() && request.auth.uid in memberList;
+    }
+
+    /** Validates that a field in the incoming data matches the user's UID. */
+    function isValidOwnerField(field) {
+      return request.resource.data[field] == request.auth.uid;
+    }
+
+    /** Ensures a field has not been changed during an update. */
+    function isImmutable(field) {
+      return request.resource.data[field] == resource.data[field];
+    }
+
+    // --- Collection Rules ---
+
+    /**
+     * @description Rules for user profile documents. Restricted to the profile owner.
+     * @path /users/{userId}
+     * @allow (get, update) if user is the owner. (create) if user is owner and setting correct ID.
+     * @deny (list) listing users is globally forbidden.
+     * @principle Path-based ownership and relational integrity validation.
+     */
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false; 
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isExistingOwner(userId) && isImmutable('id');
+      allow delete: if isExistingOwner(userId);
+
+      /**
+       * @description Draft listings are private to the homeowner until published.
+       * @path /users/{homeownerId}/draft_listings/{listingId}
+       * @allow (all) full access if the user matches {homeownerId}.
+       * @deny access to any other authenticated or unauthenticated user.
+       * @principle Structural segregation of private/draft data.
+       */
+      match /draft_listings/{listingId} {
+        // Fix: 'homeownerId' is not a path variable in this scope. It should be 'userId' from the parent match.
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.homeownerId == userId;
+        allow update: if isExistingOwner(userId) && isImmutable('homeownerId');
+        allow delete: if isExistingOwner(userId);
+      }
+    }
+
+    /**
+     * @description Public property listings viewable by anyone, but editable only by the owner.
+     * @path /public_property_listings/{listingId}
+     * @allow (get, list) public read access. (create, update, delete) only by the homeowner.
+     * @deny (write) if user is not the homeownerId specified in the document.
+     * @principle Public Read with Owner-Only Writes via denormalized ownership field.
+     */
+    match /public_property_listings/{listingId} {
+      allow get, list: if true;
+      allow create: if isSignedIn() && isValidOwnerField('homeownerId');
+      allow update: if isExistingOwner(resource.data.homeownerId) && isImmutable('homeownerId');
+      allow delete: if isExistingOwner(resource.data.homeownerId);
+
+      /**
+       * @description Images associated with public listings. Inherits ownership logic from denormalized field.
+       * @path /public_property_listings/{listingId}/images/{imageId}
+       * @allow (get, list) public read. (write) if user matches 'listingHomeownerId'.
+       * @deny (write) if user is not the listing owner.
+       * @principle Denormalization for authorization to avoid parent document lookups.
+       */
+      match /images/{imageId} {
+        allow get, list: if true;
+        allow create: if isSignedIn() && isValidOwnerField('listingHomeownerId');
+        allow update: if isExistingOwner(resource.data.listingHomeownerId) && isImmutable('listingHomeownerId');
+        allow delete: if isExistingOwner(resource.data.listingHomeownerId);
+      }
+    }
+
+    /**
+     * @description Offers on properties. Accessible only by the proposer, the receiver, or the property owner.
+     * @path /offers/{offerId}
+     * @allow (get, list) if UID matches proposingUserId, receivingUserId, or propertyListingHomeownerId.
+     * @deny access to any party not involved in the transaction.
+     * @principle Shared access for closed collaborators using denormalized party UIDs.
+     */
+    match /offers/{offerId} {
+      allow get, list: if isSignedIn() && (request.auth.uid == resource.data.proposingUserId || request.auth.uid == resource.data.receivingUserId || request.auth.uid == resource.data.propertyListingHomeownerId);
+      allow create: if isSignedIn() && isValidOwnerField('proposingUserId');
+      allow update: if isSignedIn() && (request.auth.uid == resource.data.proposingUserId || request.auth.uid == resource.data.receivingUserId) && isImmutable('proposingUserId');
+      allow delete: if isExistingOwner(resource.data.proposingUserId);
+    }
+
+    /**
+     * @description Direct messaging threads. Restricted to users in the participantIds array.
+     * @path /conversations/{conversationId}
+     * @allow (get, list) if UID is in participantIds.
+     * @deny access if UID is missing from participant list.
+     * @principle Shared access via membership array.
+     */
+    match /conversations/{conversationId} {
+      allow get, list: if isMember(resource.data.participantIds);
+      allow create: if isSignedIn() && isMember(request.resource.data.participantIds);
+      allow update: if isMember(resource.data.participantIds) && isImmutable('participantIds');
+      allow delete: if false; // Conversations typically archived, not deleted for audit trails.
+
+      /**
+       * @description Messages within a conversation. Access uses denormalized participant list.
+       * @path /conversations/{conversationId}/messages/{messageId}
+       * @allow (get, list, create) if user is in 'conversationParticipantIds'.
+       * @deny write access to non-participants.
+       * @principle Denormalization for efficient subcollection authorization.
+       */
+      match /messages/{messageId} {
+        allow get, list: if isMember(resource.data.conversationParticipantIds);
+        allow create: if isMember(request.resource.data.conversationParticipantIds) && isValidOwnerField('senderId');
+        allow update: if isExistingOwner(resource.data.senderId) && isImmutable('senderId');
+        allow delete: if isExistingOwner(resource.data.senderId);
+      }
+    }
+
+    /**
+     * @description Finalized transactions. Private to the homeowner and the buyer/investor.
+     * @path /transactions/{transactionId}
+     * @allow (get, list) if UID matches homeownerId or buyerInvestorId.
+     * @deny (write) modifications to finalized transactions are restricted.
+     * @principle Secure access for involved parties in a closed transaction.
+     */
+    match /transactions/{transactionId} {
+      allow get, list: if isSignedIn() && (request.auth.uid == resource.data.homeownerId || request.auth.uid == resource.data.buyerInvestorId);
+      allow create: if isSignedIn(); // Transactions likely created by a system process or admin; simple check for prototype.
+      allow update: if false; // Transactions are usually immutable records once finalized.
+      allow delete: if false;
+    }
+  }
+}

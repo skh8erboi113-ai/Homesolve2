@@ -1,0 +1,585 @@
+{
+  "entities": {
+    "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProfile",
+      "type": "object",
+      "description": "Represents a user of the HomeSolve platform, either a homeowner or a buyer/investor.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserProfile entity."
+        },
+        "email": {
+          "type": "string",
+          "description": "The user's email address, used for communication and login (via external auth).",
+          "format": "email"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the user."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the user."
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The user's contact phone number."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the user profile was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the user profile was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "firstName",
+        "lastName",
+        "createdAt"
+      ]
+    },
+    "PropertyListing": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PropertyListing",
+      "type": "object",
+      "description": "Details about a property listed for sale on the HomeSolve platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the PropertyListing entity."
+        },
+        "homeownerId": {
+          "type": "string",
+          "description": "Reference to the UserProfile of the homeowner listing the property. (Relationship: UserProfile 1:N PropertyListing)"
+        },
+        "title": {
+          "type": "string",
+          "description": "A descriptive title for the property listing."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the property, highlighting key features."
+        },
+        "addressStreet": {
+          "type": "string",
+          "description": "The street address of the property."
+        },
+        "addressCity": {
+          "type": "string",
+          "description": "The city where the property is located."
+        },
+        "addressState": {
+          "type": "string",
+          "description": "The state where the property is located."
+        },
+        "addressZip": {
+          "type": "string",
+          "description": "The postal code of the property."
+        },
+        "latitude": {
+          "type": "number",
+          "description": "The geographical latitude coordinate of the property."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "The geographical longitude coordinate of the property."
+        },
+        "propertyType": {
+          "type": "string",
+          "description": "The type of property (e.g., 'single-family home', 'condo', 'townhouse')."
+        },
+        "bedrooms": {
+          "type": "number",
+          "description": "The number of bedrooms in the property."
+        },
+        "bathrooms": {
+          "type": "number",
+          "description": "The number of bathrooms in the property."
+        },
+        "squareFootage": {
+          "type": "number",
+          "description": "The total heated square footage of the property."
+        },
+        "lotSize": {
+          "type": "number",
+          "description": "The size of the property's lot in appropriate units (e.g., acres, square feet)."
+        },
+        "yearBuilt": {
+          "type": "number",
+          "description": "The year the property was built."
+        },
+        "askingPrice": {
+          "type": "number",
+          "description": "The initial price the homeowner is asking for the property."
+        },
+        "foreclosureStatus": {
+          "type": "string",
+          "description": "The current foreclosure status of the property (e.g., 'pre-foreclosure', 'foreclosure-auction', 'REO')."
+        },
+        "foreclosureDate": {
+          "type": "string",
+          "description": "The scheduled date of foreclosure, if applicable.",
+          "format": "date"
+        },
+        "aiQuickSaleValuation": {
+          "type": "number",
+          "description": "The estimated quick-sale valuation provided by the AI tool. This might be updated over time."
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the property listing (e.g., 'active', 'under-offer', 'sold', 'delisted')."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the property listing was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the property listing was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "homeownerId",
+        "title",
+        "description",
+        "addressStreet",
+        "addressCity",
+        "addressState",
+        "addressZip",
+        "propertyType",
+        "bedrooms",
+        "bathrooms",
+        "squareFootage",
+        "lotSize",
+        "yearBuilt",
+        "foreclosureStatus",
+        "status",
+        "createdAt"
+      ]
+    },
+    "PropertyImage": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PropertyImage",
+      "type": "object",
+      "description": "Represents an image associated with a property listing.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the PropertyImage entity."
+        },
+        "propertyListingId": {
+          "type": "string",
+          "description": "Reference to the PropertyListing this image belongs to. (Relationship: PropertyListing 1:N PropertyImage)"
+        },
+        "url": {
+          "type": "string",
+          "description": "The URL where the image file is stored.",
+          "format": "uri"
+        },
+        "caption": {
+          "type": "string",
+          "description": "An optional caption or description for the image."
+        },
+        "order": {
+          "type": "number",
+          "description": "The display order for this image within the property listing."
+        },
+        "uploadedAt": {
+          "type": "string",
+          "description": "Timestamp when the image was uploaded.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "propertyListingId",
+        "url",
+        "uploadedAt"
+      ]
+    },
+    "Offer": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Offer",
+      "type": "object",
+      "description": "Represents an offer or counter-offer made on a property listing.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Offer entity."
+        },
+        "propertyListingId": {
+          "type": "string",
+          "description": "Reference to the PropertyListing this offer is for. (Relationship: PropertyListing 1:N Offer)"
+        },
+        "proposingUserId": {
+          "type": "string",
+          "description": "Reference to the UserProfile who is making this offer/counter-offer. (Relationship: UserProfile 1:N Offer)"
+        },
+        "receivingUserId": {
+          "type": "string",
+          "description": "Reference to the UserProfile who is the recipient of this offer/counter-offer. (Relationship: UserProfile 1:N Offer)"
+        },
+        "parentOfferId": {
+          "type": "string",
+          "description": "Reference to a previous offer in a negotiation chain, if this is a counter-offer. (Relationship: Offer 1:N Offer)"
+        },
+        "offerAmount": {
+          "type": "number",
+          "description": "The monetary amount of the offer."
+        },
+        "contingencies": {
+          "type": "string",
+          "description": "Details about any conditions or contingencies tied to the offer."
+        },
+        "offerDate": {
+          "type": "string",
+          "description": "The date when the offer was made.",
+          "format": "date-time"
+        },
+        "expirationDate": {
+          "type": "string",
+          "description": "The date and time when the offer expires, if applicable.",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the offer (e.g., 'pending', 'accepted', 'rejected', 'countered', 'withdrawn')."
+        },
+        "message": {
+          "type": "string",
+          "description": "An optional message included with the offer."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the offer was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the offer was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "propertyListingId",
+        "proposingUserId",
+        "receivingUserId",
+        "offerAmount",
+        "offerDate",
+        "status",
+        "createdAt"
+      ]
+    },
+    "Conversation": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Conversation",
+      "type": "object",
+      "description": "Represents a direct messaging thread between users, possibly related to a property.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Conversation entity."
+        },
+        "propertyListingId": {
+          "type": "string",
+          "description": "Optional reference to the PropertyListing this conversation pertains to. (Relationship: PropertyListing 1:N Conversation)"
+        },
+        "participantIds": {
+          "type": "array",
+          "description": "An array of UserProfile IDs participating in this conversation. (Relationship: UserProfile N:N Conversation)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "startedAt": {
+          "type": "string",
+          "description": "Timestamp when the conversation was initiated.",
+          "format": "date-time"
+        },
+        "lastMessageAt": {
+          "type": "string",
+          "description": "Timestamp of the most recent message in the conversation.",
+          "format": "date-time"
+        },
+        "subject": {
+          "type": "string",
+          "description": "An optional subject or topic for the conversation."
+        }
+      },
+      "required": [
+        "id",
+        "participantIds",
+        "startedAt"
+      ]
+    },
+    "Message": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Message",
+      "type": "object",
+      "description": "Represents an individual message within a conversation thread.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Message entity."
+        },
+        "conversationId": {
+          "type": "string",
+          "description": "Reference to the Conversation this message belongs to. (Relationship: Conversation 1:N Message)"
+        },
+        "senderId": {
+          "type": "string",
+          "description": "Reference to the UserProfile who sent this message. (Relationship: UserProfile 1:N Message)"
+        },
+        "content": {
+          "type": "string",
+          "description": "The text content of the message."
+        },
+        "sentAt": {
+          "type": "string",
+          "description": "Timestamp when the message was sent.",
+          "format": "date-time"
+        },
+        "isRead": {
+          "type": "boolean",
+          "description": "Indicates whether the message has been read by the recipient(s)."
+        }
+      },
+      "required": [
+        "id",
+        "conversationId",
+        "senderId",
+        "content",
+        "sentAt"
+      ]
+    },
+    "Transaction": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Transaction",
+      "type": "object",
+      "description": "Records the final details of a property sale, including commission tracking.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Transaction entity."
+        },
+        "propertyListingId": {
+          "type": "string",
+          "description": "Reference to the PropertyListing that was sold. (Relationship: PropertyListing 1:1 Transaction)"
+        },
+        "acceptedOfferId": {
+          "type": "string",
+          "description": "Reference to the specific Offer that was accepted to close the deal. (Relationship: Offer 1:1 Transaction)"
+        },
+        "homeownerId": {
+          "type": "string",
+          "description": "Reference to the UserProfile of the homeowner involved in the transaction. (Relationship: UserProfile 1:N Transaction)"
+        },
+        "buyerInvestorId": {
+          "type": "string",
+          "description": "Reference to the UserProfile of the buyer/investor involved in the transaction. (Relationship: UserProfile 1:N Transaction)"
+        },
+        "finalSalePrice": {
+          "type": "number",
+          "description": "The final agreed-upon sale price of the property."
+        },
+        "platformCommissionRate": {
+          "type": "number",
+          "description": "The percentage rate of commission owed to the HomeSolve platform for this transaction."
+        },
+        "platformCommissionAmount": {
+          "type": "number",
+          "description": "The calculated monetary amount of commission owed to the platform."
+        },
+        "saleDate": {
+          "type": "string",
+          "description": "The date when the property sale was finalized.",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the transaction (e.g., 'completed', 'pending-payment', 'cancelled')."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the transaction record was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp when the transaction record was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "propertyListingId",
+        "acceptedOfferId",
+        "homeownerId",
+        "buyerInvestorId",
+        "finalSalePrice",
+        "platformCommissionRate",
+        "platformCommissionAmount",
+        "saleDate",
+        "status",
+        "createdAt"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "Stores individual user profiles. Access is restricted to the authenticated user matching '{userId}'. The document ID matches the user's Firebase Auth UID."
+        }
+      },
+      {
+        "path": "/users/{homeownerId}/draft_listings/{listingId}",
+        "definition": {
+          "entityName": "PropertyListing",
+          "schema": {
+            "$ref": "#/backend/entities/PropertyListing"
+          },
+          "description": "Stores property listings in 'DRAFT' or 'UNPUBLISHED' states, editable only by the homeowner. The document contains a 'homeownerId' field which MUST match '{homeownerId}'.",
+          "params": [
+            {
+              "name": "homeownerId",
+              "description": "The unique identifier of the homeowner (user UID) who owns this draft listing."
+            },
+            {
+              "name": "listingId",
+              "description": "The unique identifier for the specific property listing in draft status."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/public_property_listings/{listingId}",
+        "definition": {
+          "entityName": "PropertyListing",
+          "schema": {
+            "$ref": "#/backend/entities/PropertyListing"
+          },
+          "description": "Stores properties that are actively published and viewable by all users. The document includes the 'homeownerId' (denormalized from the user profile) to identify the owner for write permissions.",
+          "params": [
+            {
+              "name": "listingId",
+              "description": "The unique identifier for the public property listing."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/public_property_listings/{listingId}/images/{imageId}",
+        "definition": {
+          "entityName": "PropertyImage",
+          "schema": {
+            "$ref": "#/backend/entities/PropertyImage"
+          },
+          "description": "Images associated with a public property listing. Each image document includes 'listingHomeownerId' (denormalized from the parent listing) to ensure only the listing owner can manage images.",
+          "params": [
+            {
+              "name": "listingId",
+              "description": "The unique identifier of the parent public property listing."
+            },
+            {
+              "name": "imageId",
+              "description": "The unique identifier for the specific property image."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/offers/{offerId}",
+        "definition": {
+          "entityName": "Offer",
+          "schema": {
+            "$ref": "#/backend/entities/Offer"
+          },
+          "description": "Centralized storage for all offers. Documents include 'proposingUserId', 'receivingUserId', and 'propertyListingHomeownerId' (denormalized from the associated PropertyListing) to enable atomic authorization checks for all involved parties without 'get()' calls.",
+          "params": [
+            {
+              "name": "offerId",
+              "description": "The unique identifier for the specific offer."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/conversations/{conversationId}",
+        "definition": {
+          "entityName": "Conversation",
+          "schema": {
+            "$ref": "#/backend/entities/Conversation"
+          },
+          "description": "Direct messaging threads between users, potentially related to a property listing. Each conversation document includes 'participantIds' (array of UIDs acting as a membership map) and 'propertyListingHomeownerId' (denormalized if linked to a property listing) for robust, independent authorization.",
+          "params": [
+            {
+              "name": "conversationId",
+              "description": "The unique identifier for the specific conversation thread."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/conversations/{conversationId}/messages/{messageId}",
+        "definition": {
+          "entityName": "Message",
+          "schema": {
+            "$ref": "#/backend/entities/Message"
+          },
+          "description": "Individual messages within a conversation. Each message document includes 'conversationParticipantIds' (denormalized from the parent conversation) to ensure only participants can read/write messages without requiring a 'get()' call to the parent conversation.",
+          "params": [
+            {
+              "name": "conversationId",
+              "description": "The unique identifier of the parent conversation."
+            },
+            {
+              "name": "messageId",
+              "description": "The unique identifier for the specific message."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/transactions/{transactionId}",
+        "definition": {
+          "entityName": "Transaction",
+          "schema": {
+            "$ref": "#/backend/entities/Transaction"
+          },
+          "description": "Records finalized property sales. Each document includes 'homeownerId' and 'buyerInvestorId' (denormalized from user profiles) to enable atomic authorization checks for the involved parties.",
+          "params": [
+            {
+              "name": "transactionId",
+              "description": "The unique identifier for the specific transaction."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The HomeSolve Firestore data structure is designed with a strong emphasis on Authorization Independence, Structural Segregation, and Access Modeling to ensure security, scalability, and debuggability. \n\n**Authorization Independence (CRITICAL):** This is achieved by extensively denormalizing authorization-relevant fields directly into the documents that require access control. This strategy eliminates the need for expensive and complex `get()` calls in Firestore Security Rules, which would break atomic operations and be difficult to debug. For instance:\n*   `PropertyImage` documents include `listingHomeownerId` (denormalized from the parent `PropertyListing`) to allow direct verification of image ownership.\n*   `Offer` documents include `propertyListingHomeownerId` in addition to `proposingUserId` and `receivingUserId`, enabling rules to check all relevant parties for an offer's access.\n*   `Conversation` documents contain a `participantIds` array (acting as a membership map) and `propertyListingHomeownerId` (if linked to a property), allowing authorization without querying the parent `PropertyListing` or individual user profiles.\n*   `Message` documents within a conversation subcollection will denormalize `conversationParticipantIds` from their parent `Conversation`, ensuring messages can be authorized without a `get()` on the conversation document itself.\n\n**Structural Segregation (Homogeneous Security Posture):** This principle is applied by separating publicly viewable data from private or draft data. \n*   `/public_property_listings/{listingId}` holds all published properties, allowing public read access for browsing, while write access is restricted to the denormalized `homeownerId` within the document.\n*   `/users/{homeownerId}/draft_listings/{listingId}` stores private or draft property listings, ensuring only the owner has access. This simplifies security rules by making the access posture of each collection clear and consistent.\n\n**Access Modeling & QAPs (Rules are not Filters):**\n*   **Private Data:** `UserProfile` data is stored in `/users/{userId}/profile`, ensuring only the owner can access it, consistent with Path-Based ownership.\n*   **User-Owned Hierarchical Data:** `draft_listings` and its subcollections (like images) are nested under `/users/{userId}`, clearly delineating personal data.\n*   **Collaborative Data:** `offers` and `conversations` are top-level collections. Their documents include denormalized `participantIds` or multiple `userId` fields (`proposingUserId`, `receivingUserId`, `homeownerId`) which are used by Security Rules to efficiently filter lists and ensure only authorized users see relevant documents. This design supports Query-Able Access Patterns (QAPs) by allowing direct queries on these denormalized fields without relying on rules to filter results, which is inefficient and insecure.\n\nThis architecture minimizes rule complexity by pushing authorization logic into the data structure itself and leveraging explicit denormalization, making the system easier to secure, maintain, and debug."
+  }
+}
