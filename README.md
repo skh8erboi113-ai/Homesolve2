@@ -11,11 +11,25 @@ The quickest way to publish HomeSolve for free is using **Firebase App Hosting**
 4.  **Enable App Hosting**: Navigate to **Build > App Hosting** and connect your GitHub repository.
 5.  **Auto-Deploy**: Firebase will automatically build and deploy your app to `https://homesolve.web.app/` on every push.
 
-## 💻 Where is the Terminal?
-To run the commands to push your code to GitHub:
-1.  **Open your IDE** (like VS Code).
-2.  **Press `Ctrl + ~`** (Control + Tilde) to open the built-in terminal.
-3.  **Paste the Git commands** provided in the chat.
+## 📱 Mobile & Web Instructions
+If you are on a mobile device or cannot use a terminal:
+1. **Download the Files**: Use the "Download" or "Export" feature in your current editor to get a ZIP of the project.
+2. **Go to GitHub**: Open your repository on [GitHub.com](https://github.com).
+3. **Upload Directly**: Click **Add file** > **Upload files**.
+4. **Drag & Drop**: Select all the files from your extracted project and commit them directly to the `main` branch.
+
+## 💻 Desktop Terminal Instructions
+If you are on a computer:
+1. **Open the Terminal**: Press `Ctrl + ~` (Control + Tilde) or find "Terminal" in the top menu.
+2. **Run Commands**:
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   git branch -M main
+   git remote add origin YOUR_REPO_URL
+   git push -u origin main
+   ```
 
 ## 📧 Outreach Links (Copy & Paste)
 Use these links in your emails, DMs, and social media posts:
@@ -29,57 +43,19 @@ If you are using external sales tools like **Apollo.io** to find prospects, use 
 
 1.  **Destination URL:** `https://homesolve.web.app/`
 2.  **Tracking Parameters:** You can append UTM codes to track which leads come from Apollo (e.g., `https://homesolve.web.app/list-property?utm_source=apollo&utm_medium=email`).
-3.  **Lead Targeting:** Filter Apollo leads for "Homeowners" or "Real Estate Investors" in the Texas region to match your geographical focus.
 
 ## 🚀 Pain Points We Solve
-1. **The "Timing Trap"**: Traditional real estate sales take 60-90 days, but foreclosure auctions often happen in 30 days or less. We close the gap with a 14-21 day cycle.
-2. **The "Valuation Void"**: Distressed sellers often don't know what their home is worth in its *current* condition for a *quick* sale. Our AI provides instant, realistic data-backed estimates.
-3. **The "Trust Gap"**: Homeowners are often bombarded with predatory low-ball offers. We provide a secure, transparent platform with a vetted investor network to ensure fair treatment.
+1. **The "Timing Trap"**: Closing the gap with a 14-21 day cycle vs the traditional 60-90 days.
+2. **The "Valuation Void"**: Instant, data-backed estimates for quick sales.
+3. **The "Trust Gap"**: Secure, transparent platform with a vetted investor network.
 
 ## 🌟 Key Benefits
-1. **Equity Preservation**: Don't let the bank take everything. Sell quickly and walk away with your remaining equity before the auction date.
-2. **Speed & Certainty**: Close in 14-21 days with verified cash buyers, bypassing the long waits and uncertainty of traditional bank financing.
-3. **AI-Driven Transparency**: Know exactly what your home is worth in its current condition with our proprietary valuation tool, giving you confidence during negotiations.
-
-## 🏠 What We Offer Sellers
-- **AI Quick-Sale Valuations**: Instant, data-backed estimates for homes in foreclosure.
-- **Equity Preservation**: Avoid a total loss at auction by selling to a cash buyer before the bank takes over.
-- **Speed & Certainty**: Receive verified cash offers without the need for traditional retail listings.
-
-## 🏢 What We Offer Buyers (Investors)
-- **Pre-Foreclosure Lead Flow**: Direct access to motivated sellers before properties hit the public market.
-- **AI Risk Analytics**: Advanced reporting on equity margins, foreclosure status, and local market risks.
-- **Direct Communication**: Secure, in-app messaging to negotiate directly with homeowners.
+1. **Equity Preservation**: Salvage value before auction.
+2. **Speed & Certainty**: Fast closing with verified cash buyers.
+3. **AI-Driven Transparency**: Data-backed confidence for negotiations.
 
 ## 📍 Geographical Focus
-HomeSolve currently focuses on **Texas (Austin, Dallas, Houston, and San Antonio)** with rapid expansion plans for nationwide pre-foreclosure data coverage.
+HomeSolve currently focuses on **Texas (Austin, Dallas, Houston, and San Antonio)**.
 
 ## ⏱️ Average Closing Time
-Our streamlined process facilitates property transitions in an average of **14–21 days**, significantly faster than the traditional 60-90 day retail cycle.
-
-## 🎯 Target Audience
-
-### For Homeowners (The Sellers)
-- **Pre-Foreclosure Leads**: Individuals who have received a Notice of Default or have a scheduled auction date.
-- **Distressed Sellers**: Those who need liquidity within 2-3 weeks and cannot wait for a traditional retail sale.
-- **Equity-Preservers**: Homeowners looking to avoid the "total loss" of a bank foreclosure.
-
-### For Investors (The Buyers)
-- **Fix & Flip Pros**: Individual investors looking for properties with high equity upside.
-- **Buy & Hold Landlords**: Investors seeking long-term rental properties at a discount.
-- **Institutional Funds**: REITs and investment groups looking for high-volume, off-market deal flow.
-
-## 🌐 Official Links
-- **Development URL:** [http://localhost:9002/](http://localhost:9002/)
-- **Production URL:** `https://homesolve.web.app/`
-
-## 🛠️ Development
-To start the development server:
-```bash
-npm run dev
-```
-
-## 📈 Business Model
-HomeSolve operates on a performance-based model:
-1. **Commission**: 1.5% success fee on closed transactions.
-2. **Subscription**: $199/month for Pro Investor access.
+Our streamlined process facilitates property transitions in an average of **14–21 days**.
