@@ -26,9 +26,11 @@ yarn-error.log*
 .env*.local
 .env
 
-# vercel
-.vercel
+# firebase
+.firebase/
+firestore-debug.log
+ui-debug.log
+firebase-debug.log*
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# genkit
+.genkit/
