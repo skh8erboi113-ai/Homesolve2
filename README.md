@@ -11,12 +11,13 @@ The quickest way to publish HomeSolve for free is using **Firebase App Hosting**
 4.  **Enable App Hosting**: Navigate to **Build > App Hosting** and connect your GitHub repository.
 5.  **Auto-Deploy**: Firebase will automatically build and deploy your app to `https://homesolve.web.app/` on every push.
 
-## 📱 Mobile & Web Instructions
+## 📱 Mobile & Web Instructions (No Terminal Required)
 If you are on a mobile device or cannot use a terminal:
-1. **Download the Files**: Use the "Download" or "Export" feature in your current editor to get a ZIP of the project.
-2. **Go to GitHub**: Open your repository on [GitHub.com](https://github.com).
-3. **Upload Directly**: Click **Add file** > **Upload files**.
-4. **Drag & Drop**: Select all the files from your extracted project and commit them directly to the `main` branch.
+1. **Download the Project**: Click the **Download** or **Export** button in your current workspace toolbar to save the project as a ZIP file to your device.
+2. **Extract Files**: Open the ZIP file on your phone or tablet to see the project folder.
+3. **Go to GitHub**: Open [GitHub.com](https://github.com) in your browser and create a new repository called `Homesolve`.
+4. **Upload Directly**: On your new repository page, click **Add file** > **Upload files**.
+5. **Drag & Drop**: Select all the files (everything inside the folder) from your extracted project and commit them directly to the `main` branch.
 
 ## 💻 Desktop Terminal Instructions
 If you are on a computer:
