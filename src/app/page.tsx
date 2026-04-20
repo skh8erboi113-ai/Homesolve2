@@ -27,13 +27,13 @@ export default function Home() {
               HomeSolve connects homeowners facing foreclosure with qualified investors for quick, fair transactions across Texas. Skip the uncertainty of the traditional market.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" asChild className="h-12 px-8 rounded-full text-lg shadow-lg">
+              <Button size="lg" asChild className="h-14 px-10 rounded-full text-lg shadow-lg bg-primary hover:bg-primary/90">
                 <Link href="/list-property">
-                  Get Started <ArrowRight className="ml-2 h-5 w-5" />
+                  Start Your Free Valuation <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" asChild className="h-12 px-8 rounded-full text-lg">
-                <Link href="/properties">Browse Listings</Link>
+              <Button size="lg" variant="outline" asChild className="h-14 px-10 rounded-full text-lg">
+                <Link href="/properties">Browse Investment Leads</Link>
               </Button>
             </div>
           </div>
@@ -188,14 +188,14 @@ export default function Home() {
             <div className="rounded-3xl bg-accent/20 p-12 text-center border-2 border-accent/20">
               <h2 className="text-3xl font-bold font-headline mb-6">Ready to find your solution?</h2>
               <p className="text-lg mb-8 text-foreground/80 max-w-2xl mx-auto">
-                Join thousands of homeowners and investors in Texas today. Our platform provides the transparency and speed you need.
+                Join thousands of homeowners and investors in Texas today. Our platform provides the transparency and speed you need to move forward.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button size="lg" asChild className="rounded-full px-10 h-14 bg-primary text-lg">
-                  <Link href="/list-property">List My Property</Link>
+                  <Link href="/list-property">Get My Free Valuation</Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild className="rounded-full px-10 h-14 text-lg">
-                  <Link href="/properties">Search Properties</Link>
+                  <Link href="/investor-join">Join the Investor Network</Link>
                 </Button>
               </div>
             </div>

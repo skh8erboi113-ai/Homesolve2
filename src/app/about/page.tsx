@@ -176,8 +176,8 @@ export default function HowItWorksPage() {
             ))}
           </div>
           <div className="mt-10 text-center">
-            <Button size="lg" className="rounded-full px-10" asChild>
-              <Link href="/list-property">Get Started for Free</Link>
+            <Button size="lg" className="rounded-full px-10 h-12" asChild>
+              <Link href="/list-property">Start Your Free Valuation Now</Link>
             </Button>
           </div>
         </section>
@@ -201,8 +201,8 @@ export default function HowItWorksPage() {
             ))}
           </div>
           <div className="mt-12">
-            <Button variant="outline" size="lg" className="rounded-full border-accent text-accent hover:bg-accent hover:text-white" asChild>
-              <Link href="/investor-join">Join the Network</Link>
+            <Button variant="outline" size="lg" className="rounded-full border-accent text-accent hover:bg-accent hover:text-white h-12" asChild>
+              <Link href="/investor-join">Apply for Investor Access</Link>
             </Button>
           </div>
         </section>
@@ -241,9 +241,9 @@ export default function HowItWorksPage() {
                   <span className="text-xl font-bold text-accent">14-21 Days</span>
                 </div>
                 <div className="pt-4">
-                  <Button className="w-full rounded-full h-12 text-lg" asChild>
+                  <Button className="w-full rounded-full h-14 text-lg bg-primary hover:bg-primary/90" asChild>
                     <Link href="/list-property">
-                      Start Your Valuation <ArrowRight className="ml-2 h-5 w-5" />
+                      Claim Your Equity Now <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                   </Button>
                 </div>
