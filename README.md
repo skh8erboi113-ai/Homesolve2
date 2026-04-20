@@ -11,6 +11,12 @@ The quickest way to publish HomeSolve for free is using **Firebase App Hosting**
 4.  **Enable App Hosting**: Navigate to **Build > App Hosting** and connect your GitHub repository.
 5.  **Auto-Deploy**: Firebase will automatically build and deploy your app to `https://homesolve.web.app/` on every push.
 
+## 💻 Where is the Terminal?
+To run the commands to push your code to GitHub:
+1.  **Open your IDE** (like VS Code).
+2.  **Press `Ctrl + ~`** (Control + Tilde) to open the built-in terminal.
+3.  **Paste the Git commands** provided in the chat.
+
 ## 📧 Outreach Links (Copy & Paste)
 Use these links in your emails, DMs, and social media posts:
 
@@ -64,17 +70,8 @@ Our streamlined process facilitates property transitions in an average of **14�
 - **Institutional Funds**: REITs and investment groups looking for high-volume, off-market deal flow.
 
 ## 🌐 Official Links
-- **Development URL**: [http://localhost:9002/](http://localhost:9002/)
-- **Production URL**: `https://homesolve.web.app/`
-
-## 🚀 Key Application Routes
-- **Home Page**: `/`
-- **Property Search**: `/properties`
-- **List Property**: `/list-property`
-- **Investor Network**: `/investor-join`
-- **Dashboard**: `/dashboard`
-- **Messages**: `/messages`
-- **Contact**: `/contact`
+- **Development URL:** [http://localhost:9002/](http://localhost:9002/)
+- **Production URL:** `https://homesolve.web.app/`
 
 ## 🛠️ Development
 To start the development server:
