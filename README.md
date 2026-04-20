@@ -2,6 +2,15 @@
 
 HomeSolve is an AI-powered marketplace that bridges the gap between homeowners facing foreclosure and professional real estate investors. We provide instant AI-driven property valuations, verified lead flow, and secure messaging to facilitate fast, fair property transitions.
 
+## 🚀 Quick Deployment (Free)
+The quickest way to publish HomeSolve for free is using **Firebase App Hosting**.
+
+1.  **Push your code to GitHub**: Create a repository and push this project's code.
+2.  **Go to Firebase Console**: Open [console.firebase.google.com](https://console.firebase.google.com/).
+3.  **Select Project**: `studio-4450623487-72853`.
+4.  **Enable App Hosting**: Navigate to **Build > App Hosting** and connect your GitHub repository.
+5.  **Auto-Deploy**: Firebase will automatically build and deploy your app to `https://homesolve.web.app/` on every push.
+
 ## 📧 Outreach Links (Copy & Paste)
 Use these links in your emails, DMs, and social media posts:
 
