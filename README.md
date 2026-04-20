@@ -2,6 +2,18 @@
 
 HomeSolve is an AI-powered marketplace that bridges the gap between homeowners facing foreclosure and professional real estate investors. We provide instant AI-driven property valuations, verified lead flow, and secure messaging to facilitate fast, fair property transitions.
 
+## 🎯 Target Audience
+
+### 🏠 For Homeowners (The Sellers)
+- **Pre-Foreclosure Leads**: Individuals who have received a Notice of Default or have a scheduled auction date.
+- **Distressed Sellers**: Those who need liquidity within 14-21 days and cannot wait for a traditional retail sale.
+- **Equity-Preservers**: Homeowners looking to avoid the "total loss" of a bank foreclosure by selling quickly to a cash buyer.
+
+### 🏢 For Investors (The Buyers)
+- **Fix & Flip Pros**: Individual investors looking for properties with high equity upside.
+- **Buy & Hold Landlords**: Investors seeking long-term rental properties at a discount.
+- **Institutional Funds**: REITs and investment groups looking for high-volume, off-market deal flow.
+
 ## 🌐 Official Links
 
 - **Development URL**: [http://localhost:9002/](http://localhost:9002/)
