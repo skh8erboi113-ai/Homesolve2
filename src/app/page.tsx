@@ -150,7 +150,7 @@ export default function Home() {
             <span className="text-lg font-bold tracking-tight text-primary">HomeSolve</span>
           </div>
           <p className="text-muted-foreground text-sm max-w-md mx-auto mb-8">
-            Empowering homeowners with proactive solutions. We specialize in fast-tracked real estate transactions for those facing foreclosure.
+            HomeSolve is an AI-powered marketplace that bridges the gap between homeowners facing foreclosure and professional real estate investors. We provide instant AI-driven property valuations, verified lead flow, and secure messaging to facilitate fast, fair property transitions.
           </p>
           <div className="flex justify-center space-x-6 text-sm font-medium text-muted-foreground mb-8">
             <Link href="/properties" className="hover:text-primary transition-colors">Properties</Link>

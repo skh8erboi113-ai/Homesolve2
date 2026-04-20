@@ -1,6 +1,6 @@
 # HomeSolve - AI-Powered Foreclosure Solutions
 
-This is a Next.js application built for HomeSolve, connecting homeowners facing foreclosure with qualified real estate investors.
+HomeSolve is an AI-powered marketplace that bridges the gap between homeowners facing foreclosure and professional real estate investors. We provide instant AI-driven property valuations, verified lead flow, and secure messaging to facilitate fast, fair property transitions.
 
 ## 🌐 Official Links
 
