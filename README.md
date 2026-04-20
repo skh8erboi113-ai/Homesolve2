@@ -7,16 +7,24 @@ If you are ready to publish, follow these steps to get your files:
 
 1.  **Look Up**: In the top header bar of this workspace, look for the **Download** icon (a cloud with a downward arrow).
 2.  **Save ZIP**: Click that button to save the entire project as a `.zip` file to your phone or computer.
-3.  **Extract**: Open the ZIP to see your project folders (`src`, `public`, etc.).
+3.  **Extract**: Open the ZIP on your device to see your project folders (`src`, `public`, etc.).
+
+## 📤 How to Upload to GitHub (Mobile Web Interface)
+Since you are on a mobile device, follow these steps to get your code onto GitHub:
+
+1.  **Create Repository**: Go to [github.com/new](https://github.com/new), name it `Homesolve`, and click **Create repository**.
+2.  **Add Files**: On your new repository page, look for the **"Add file"** dropdown button.
+3.  **Upload**: Select **"Upload files"** from that menu.
+4.  **Select All**: Tap "choose your files" and select **all files and folders** from your extracted project (everything inside the folder you unzipped).
+5.  **Commit**: Scroll down and click **"Commit changes"**.
 
 ## 🚀 Quick Deployment to Firebase
 The quickest way to publish HomeSolve for free is using **Firebase App Hosting**.
 
-1.  **Push to GitHub**: Create a repo at `github.com/new` called `Homesolve`.
-2.  **Upload Files**: On GitHub, click **Add file > Upload files** and drag your extracted project files there.
-3.  **Go to Firebase Console**: Open [console.firebase.google.com](https://console.firebase.google.com/).
-4.  **Enable App Hosting**: Navigate to **Build > App Hosting** and connect your GitHub repository.
-5.  **Auto-Deploy**: Firebase will automatically build and deploy your app.
+1.  **Go to Firebase Console**: Open [console.firebase.google.com](https://console.firebase.google.com/).
+2.  **Select Project**: Use the project associated with this workspace (`studio-4450623487-72853`).
+3.  **Enable App Hosting**: Navigate to **Build > App Hosting** and connect your GitHub repository.
+4.  **Auto-Deploy**: Firebase will automatically build and deploy your app.
 
 ## 📧 Outreach Links (Copy & Paste)
 Use these links in your emails and social media:
@@ -37,6 +45,3 @@ Use these links in your emails and social media:
 
 ## 📍 Geographical Focus
 HomeSolve currently focuses on **Texas (Austin, Dallas, Houston, and San Antonio)**.
-
-## ⏱️ Average Closing Time
-Our streamlined process facilitates property transitions in an average of **14–21 days**.
