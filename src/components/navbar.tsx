@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Home, Search, PlusCircle, LayoutDashboard, DollarSign, LogOut, User, MessageSquare } from "lucide-react";
+import { Home, Search, PlusCircle, LayoutDashboard, DollarSign, LogOut, User, MessageSquare, Info } from "lucide-react";
 import { useUser, useAuth } from "@/firebase";
 import { signOut } from "firebase/auth";
 
@@ -26,6 +26,9 @@ export function Navbar() {
         </Link>
         
         <div className="hidden lg:flex items-center space-x-6 text-sm font-medium">
+          <Link href="/about" className="hover:text-primary transition-colors flex items-center gap-1">
+            <Info className="h-4 w-4" /> How it Works
+          </Link>
           <Link href="/properties" className="hover:text-primary transition-colors flex items-center gap-1">
             <Search className="h-4 w-4" /> Browse
           </Link>

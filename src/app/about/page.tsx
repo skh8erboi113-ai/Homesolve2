@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Navbar } from "@/components/navbar";
@@ -12,49 +13,47 @@ import {
   Users, 
   ArrowRight,
   FileText,
-  DollarSign
+  DollarSign,
+  Zap,
+  Sparkles,
+  BarChart3
 } from "lucide-react";
 import Link from "next/link";
 
 export default function HowItWorksPage() {
-  const homeownerSteps = [
+  const homeownerServices = [
     {
-      icon: FileText,
-      title: "1. Provide Property Details",
-      description: "Enter your home's address and basic information. Our platform is designed to handle sensitive situations with complete privacy."
-    },
-    {
-      icon: TrendingUp,
-      title: "2. Get AI Valuation",
-      description: "Our proprietary AI analyzes real-time market data and foreclosure trends to provide a realistic 'quick-sale' value instantly."
+      icon: Zap,
+      title: "AI Quick-Sale Valuation",
+      description: "Get an instant market estimate tailored for fast-track sales, accounting for foreclosure urgency and local market trends."
     },
     {
       icon: Users,
-      title: "3. Connect with Buyers",
-      description: "Your listing is shared with our pre-vetted network of professional investors who specialize in fast-closing transactions."
+      title: "Vetted Buyer Network",
+      description: "Skip the open market. We connect you directly with professional investors ready to make cash offers immediately."
     },
     {
-      icon: Handshake,
-      title: "4. Receive & Close",
-      description: "Review cash offers with no obligation. Once you accept, we help facilitate a fast closing, often in as little as 14 days."
+      icon: Clock,
+      title: "Fast-Track Closing",
+      description: "Our streamlined process aims to close transactions in 14-21 days, helping you meet bank deadlines and preserve equity."
     }
   ];
 
-  const investorSteps = [
+  const investorServices = [
     {
       icon: Search,
-      title: "1. Browse Opportunities",
-      description: "Access a curated feed of properties nearing foreclosure. Filter by location, urgency, and estimated equity."
+      title: "Premium Deal Flow",
+      description: "Access high-intent leads nearing foreclosure. Pro members get 24-hour early access to the freshest opportunities."
     },
     {
-      icon: ShieldCheck,
-      title: "2. Verified Analytics",
-      description: "View detailed AI-driven property reports, including condition assessments and historical market performance."
+      icon: BarChart3,
+      title: "AI Risk Analytics",
+      description: "Every listing includes an AI-generated analysis of foreclosure status, market risk, and potential equity upside."
     },
     {
-      icon: DollarSign,
-      title: "3. Make Cash Offers",
-      description: "Submit offers directly through the platform. Our standardized process ensures clear communication and transparency."
+      icon: Sparkles,
+      title: "Marketing Kit",
+      description: "Use our AI tools to generate high-converting outreach content for your acquisitions and flips."
     }
   ];
 
@@ -64,59 +63,65 @@ export default function HowItWorksPage() {
       
       <main className="container mx-auto px-4 py-16">
         <header className="text-center max-w-3xl mx-auto mb-20">
-          <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary mb-6">How HomeSolve Works</h1>
+          <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary mb-6">Our Products & Services</h1>
           <p className="text-xl text-muted-foreground">
-            We bridge the gap between motivated sellers and professional buyers, creating a transparent marketplace for time-sensitive real estate.
+            HomeSolve is more than a marketplace; it's an AI-powered toolkit designed to solve the complexity of distressed real estate.
           </p>
         </header>
 
         {/* Homeowner Section */}
         <section className="mb-24">
           <div className="flex items-center gap-3 mb-10">
-            <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white">
-              <HomeIcon className="h-5 w-5" />
-            </div>
-            <h2 className="text-3xl font-bold font-headline">For Homeowners</h2>
+            <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">1</div>
+            <h2 className="text-3xl font-bold font-headline">Services for Homeowners</h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {homeownerSteps.map((step, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {homeownerServices.map((service, i) => (
               <Card key={i} className="border-none shadow-sm hover:shadow-md transition-shadow">
-                <CardContent className="pt-8 text-center md:text-left">
-                  <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6 mx-auto md:mx-0">
-                    <step.icon className="h-6 w-6" />
+                <CardContent className="pt-8">
+                  <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6">
+                    <service.icon className="h-6 w-6" />
                   </div>
-                  <h3 className="font-bold text-lg mb-3">{step.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
+                  <h3 className="font-bold text-lg mb-3">{service.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{service.description}</p>
                 </CardContent>
               </Card>
             ))}
+          </div>
+          <div className="mt-10 text-center">
+            <Button size="lg" className="rounded-full px-10" asChild>
+              <Link href="/list-property">Get Started for Free</Link>
+            </Button>
           </div>
         </section>
 
         {/* Investor Section */}
         <section className="mb-24 bg-accent/5 rounded-3xl p-8 md:p-12 border border-accent/20">
           <div className="flex items-center gap-3 mb-10">
-            <div className="h-10 w-10 rounded-full bg-accent flex items-center justify-center text-accent-foreground">
-              <TrendingUp className="h-5 w-5" />
-            </div>
-            <h2 className="text-3xl font-bold font-headline">For Investors</h2>
+            <div className="h-10 w-10 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold">2</div>
+            <h2 className="text-3xl font-bold font-headline">Products for Investors</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {investorSteps.map((step, i) => (
+            {investorServices.map((service, i) => (
               <div key={i} className="space-y-4">
                 <div className="h-12 w-12 rounded-full bg-white flex items-center justify-center text-accent shadow-sm">
-                  <step.icon className="h-6 w-6" />
+                  <service.icon className="h-6 w-6" />
                 </div>
-                <h3 className="font-bold text-xl">{step.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+                <h3 className="font-bold text-xl">{service.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{service.description}</p>
               </div>
             ))}
           </div>
+          <div className="mt-12">
+            <Button variant="outline" size="lg" className="rounded-full border-accent text-accent hover:bg-accent hover:text-white" asChild>
+              <Link href="/investor-join">Join the Network</Link>
+            </Button>
+          </div>
         </section>
 
-        {/* Trust & Stats */}
+        {/* Trust & Comparison */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-24">
           <div className="space-y-6">
             <h2 className="text-3xl font-bold font-headline text-primary leading-tight">Built on Transparency and Speed</h2>
@@ -125,7 +130,7 @@ export default function HowItWorksPage() {
             </p>
             <ul className="space-y-4">
               {[
-                { icon: Clock, text: "Closing as fast as 14 business days" },
+                { icon: Clock, text: "Closing as fast as 14-21 business days" },
                 { icon: ShieldCheck, text: "Vetted and verified buyer network" },
                 { icon: Users, text: "Direct communication with stakeholders" }
               ].map((item, i) => (
@@ -161,25 +166,5 @@ export default function HowItWorksPage() {
         </section>
       </main>
     </div>
-  );
-}
-
-function HomeIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-      <polyline points="9 22 9 12 15 12 15 22" />
-    </svg>
   );
 }
