@@ -2,48 +2,28 @@
 
 HomeSolve is an AI-powered marketplace that bridges the gap between homeowners facing foreclosure and professional real estate investors. We provide instant AI-driven property valuations, verified lead flow, and secure messaging to facilitate fast, fair property transitions.
 
-## 🚀 Quick Deployment (Free)
+## 📥 How to Download Your Code (Mobile & Web)
+If you are ready to publish, follow these steps to get your files:
+
+1.  **Look Up**: In the top header bar of this workspace, look for the **Download** icon (a cloud with a downward arrow).
+2.  **Save ZIP**: Click that button to save the entire project as a `.zip` file to your phone or computer.
+3.  **Extract**: Open the ZIP to see your project folders (`src`, `public`, etc.).
+
+## 🚀 Quick Deployment to Firebase
 The quickest way to publish HomeSolve for free is using **Firebase App Hosting**.
 
-1.  **Push your code to GitHub**: Create a repository and push this project's code.
-2.  **Go to Firebase Console**: Open [console.firebase.google.com](https://console.firebase.google.com/).
-3.  **Select Project**: `studio-4450623487-72853`.
+1.  **Push to GitHub**: Create a repo at `github.com/new` called `Homesolve`.
+2.  **Upload Files**: On GitHub, click **Add file > Upload files** and drag your extracted project files there.
+3.  **Go to Firebase Console**: Open [console.firebase.google.com](https://console.firebase.google.com/).
 4.  **Enable App Hosting**: Navigate to **Build > App Hosting** and connect your GitHub repository.
-5.  **Auto-Deploy**: Firebase will automatically build and deploy your app to `https://homesolve.web.app/` on every push.
-
-## 📱 Mobile & Web Instructions (No Terminal Required)
-If you are on a mobile device or cannot use a terminal:
-1. **Download the Project**: Click the **Download** or **Export** button in your current workspace toolbar to save the project as a ZIP file to your device.
-2. **Extract Files**: Open the ZIP file on your phone or tablet to see the project folder.
-3. **Go to GitHub**: Open [GitHub.com](https://github.com) in your browser and create a new repository called `Homesolve`.
-4. **Upload Directly**: On your new repository page, click **Add file** > **Upload files**.
-5. **Drag & Drop**: Select all the files (everything inside the folder) from your extracted project and commit them directly to the `main` branch.
-
-## 💻 Desktop Terminal Instructions
-If you are on a computer:
-1. **Open the Terminal**: Press `Ctrl + ~` (Control + Tilde) or find "Terminal" in the top menu.
-2. **Run Commands**:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git branch -M main
-   git remote add origin YOUR_REPO_URL
-   git push -u origin main
-   ```
+5.  **Auto-Deploy**: Firebase will automatically build and deploy your app.
 
 ## 📧 Outreach Links (Copy & Paste)
-Use these links in your emails, DMs, and social media posts:
+Use these links in your emails and social media:
 
-*   **Homeowner Valuation Link:** `https://homesolve.web.app/list-property`
-*   **Investor Registration Link:** `https://homesolve.web.app/investor-join`
-*   **Public Property Listings:** `https://homesolve.web.app/properties`
-
-## 🤖 External Outreach Setup (Apollo.io / Instantly.ai)
-If you are using external sales tools like **Apollo.io** to find prospects, use the following configuration:
-
-1.  **Destination URL:** `https://homesolve.web.app/`
-2.  **Tracking Parameters:** You can append UTM codes to track which leads come from Apollo (e.g., `https://homesolve.web.app/list-property?utm_source=apollo&utm_medium=email`).
+*   **Homeowner Valuation:** `https://homesolve.web.app/list-property`
+*   **Investor Registration:** `https://homesolve.web.app/investor-join`
+*   **Public Listings:** `https://homesolve.web.app/properties`
 
 ## 🚀 Pain Points We Solve
 1. **The "Timing Trap"**: Closing the gap with a 14-21 day cycle vs the traditional 60-90 days.
