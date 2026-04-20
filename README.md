@@ -2,6 +2,11 @@
 
 HomeSolve is an AI-powered marketplace that bridges the gap between homeowners facing foreclosure and professional real estate investors. We provide instant AI-driven property valuations, verified lead flow, and secure messaging to facilitate fast, fair property transitions.
 
+## 🚀 Pain Points We Solve
+1. **The "Timing Trap"**: Traditional real estate sales take 60-90 days, but foreclosure auctions often happen in 30 days or less. We close the gap with a 14-21 day cycle.
+2. **The "Valuation Void"**: Distressed sellers often don't know what their home is worth in its *current* condition for a *quick* sale. Our AI provides instant, realistic data-backed estimates.
+3. **The "Trust Gap"**: Homeowners are often bombarded with predatory low-ball offers. We provide a secure, transparent platform with a vetted investor network to ensure fair treatment.
+
 ## 🏠 What We Offer Sellers
 - **AI Quick-Sale Valuations**: Instant, data-backed estimates for homes in foreclosure.
 - **Equity Preservation**: Avoid a total loss at auction by selling to a cash buyer before the bank takes over.

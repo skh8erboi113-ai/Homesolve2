@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ShieldCheck, Zap, BarChart3, Users, MapPin } from "lucide-react";
+import { ArrowRight, ShieldCheck, Zap, BarChart3, Users, MapPin, Clock, DollarSign, AlertTriangle } from "lucide-react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
@@ -52,8 +52,49 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Pain Points Section */}
+        <section className="py-24 bg-white border-y">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl font-bold font-headline mb-4">Stopping the Foreclosure Crisis</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                We solve the three biggest problems homeowners face when the bank starts the clock.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              <div className="space-y-4">
+                <div className="h-12 w-12 bg-red-50 text-red-500 rounded-full flex items-center justify-center">
+                  <Clock className="h-6 w-6" />
+                </div>
+                <h3 className="text-xl font-bold">Foreclosure Deadlines</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Traditional sales take 60-90 days. Banks don't wait. We close deals in as little as 14-21 days to beat the auction date.
+                </p>
+              </div>
+              <div className="space-y-4">
+                <div className="h-12 w-12 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center">
+                  <DollarSign className="h-6 w-6" />
+                </div>
+                <h3 className="text-xl font-bold">Low-Ball Predators</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Avoid the "We Buy Houses" spam. Our AI provides instant, data-backed valuations so you know exactly what your home is worth today.
+                </p>
+              </div>
+              <div className="space-y-4">
+                <div className="h-12 w-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center">
+                  <ShieldCheck className="h-6 w-6" />
+                </div>
+                <h3 className="text-xl font-bold">Privacy & Security</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Distressed sales are high-stress. We provide a secure platform and a vetted investor network, keeping your data and negotiations private.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Focus Section */}
-        <section className="py-12 bg-accent/5 border-y">
+        <section className="py-12 bg-accent/5 border-b">
           <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-center gap-8 text-center md:text-left">
             <div className="flex items-center gap-3">
               <MapPin className="h-6 w-6 text-primary" />

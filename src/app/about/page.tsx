@@ -16,11 +16,30 @@ import {
   Zap,
   Sparkles,
   BarChart3,
-  MapPin
+  MapPin,
+  AlertCircle
 } from "lucide-react";
 import Link from "next/link";
 
 export default function HowItWorksPage() {
+  const painPoints = [
+    {
+      title: "The Timing Trap",
+      description: "Traditional sales take 60-90 days. Banks move in 30. We solve the urgency crisis by closing in 14-21 days.",
+      icon: Clock
+    },
+    {
+      title: "The Valuation Void",
+      description: "Knowing a 'quick-sale' price vs. a retail price is hard. Our AI provides instant, realistic market estimates.",
+      icon: DollarSign
+    },
+    {
+      title: "The Trust Gap",
+      description: "Avoid predatory low-ballers. Our platform uses a vetted investor network and secure messaging to protect you.",
+      icon: ShieldCheck
+    }
+  ];
+
   const homeownerServices = [
     {
       icon: Zap,
@@ -68,6 +87,25 @@ export default function HowItWorksPage() {
             HomeSolve is more than a marketplace; it's an AI-powered toolkit designed to solve the complexity of distressed real estate.
           </p>
         </header>
+
+        {/* Pain Points Section */}
+        <section className="mb-24">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">The Problems We Solve</h2>
+            <p className="text-muted-foreground">Navigating foreclosure is stressful. We remove the biggest hurdles.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {painPoints.map((point, i) => (
+              <div key={i} className="flex flex-col items-center text-center p-6 rounded-2xl bg-white border shadow-sm">
+                <div className="h-12 w-12 rounded-full bg-destructive/10 text-destructive flex items-center justify-center mb-4">
+                  <point.icon className="h-6 w-6" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">{point.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{point.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* Geographical Focus */}
         <section className="mb-24 p-8 bg-primary/5 rounded-2xl border border-primary/20 flex flex-col md:flex-row items-center gap-8">
