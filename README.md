@@ -2,36 +2,24 @@
 
 HomeSolve is an AI-powered marketplace that bridges the gap between homeowners facing foreclosure and professional real estate investors. We provide instant AI-driven property valuations, verified lead flow, and secure messaging to facilitate fast, fair property transitions.
 
-## 📥 How to Download Your Code (Mobile & Web)
-If you are ready to publish, follow these steps to get your files:
+## 📱 Mobile Success Checklist (Read This First!)
+Since you are on a mobile device, follow these steps to go live:
 
-1.  **Look Up**: In the top header bar of this workspace, look for the **Download** icon (a cloud with a downward arrow).
-2.  **Save ZIP**: Click that button to save the entire project as a `.zip` file to your phone or computer.
-3.  **Extract**: Open the ZIP on your device to see your project folders (`src`, `public`, etc.).
-
-## 📤 How to Upload to GitHub (Mobile Web Interface)
-Since you are on a mobile device, follow these steps to get your code onto GitHub:
-
-1.  **Create Repository**: Go to [github.com/new](https://github.com/new), name it `Homesolve`, and click **Create repository**.
-2.  **Add Files**: On your new repository page, look for the **"Add file"** dropdown button.
-3.  **Upload**: Select **"Upload files"** from that menu.
-4.  **Select All**: Tap "choose your files" and select **all files and folders** from your extracted project (everything inside the folder you unzipped).
-5.  **Commit**: Scroll down and click **"Commit changes"**.
-
-## 🚀 Quick Deployment to Firebase
-The quickest way to publish HomeSolve for free is using **Firebase App Hosting**.
-
-1.  **Go to Firebase Console**: Open [console.firebase.google.com](https://console.firebase.google.com/).
-2.  **Select Project**: Use the project associated with this workspace (`studio-4450623487-72853`).
-3.  **Enable App Hosting**: Navigate to **Build > App Hosting** and connect your GitHub repository.
-4.  **Auto-Deploy**: Firebase will automatically build and deploy your app.
-
-## 📧 Outreach Links (Copy & Paste)
-Use these links in your emails and social media:
-
-*   **Homeowner Valuation:** `https://homesolve.web.app/list-property`
-*   **Investor Registration:** `https://homesolve.web.app/investor-join`
-*   **Public Listings:** `https://homesolve.web.app/properties`
+1.  **Download the Code**:
+    *   Look at the **top right** of this screen for a **Cloud Icon with a Down Arrow**.
+    *   Tap it to save the entire project as a `.zip` file to your phone's "Files" or "Downloads" app.
+2.  **Prepare for GitHub**:
+    *   Go to [github.com/new](https://github.com/new) in your mobile browser.
+    *   Name your repo `Homesolve`.
+    *   **CRITICAL**: Do NOT check "Add a README file" (you already have one!).
+    *   Tap **"Create repository"**.
+3.  **Upload the Files**:
+    *   On the next page, find the link that says **"uploading an existing file"**.
+    *   Select all the files and folders from your extracted ZIP (everything inside the `src`, `public`, etc. folders).
+    *   Tap **"Commit changes"** at the bottom.
+4.  **Go Live with Firebase**:
+    *   Open [console.firebase.google.com](https://console.firebase.google.com/).
+    *   Go to **Build > App Hosting** and connect your new GitHub repo.
 
 ## 🚀 Pain Points We Solve
 1. **The "Timing Trap"**: Closing the gap with a 14-21 day cycle vs the traditional 60-90 days.
@@ -45,3 +33,9 @@ Use these links in your emails and social media:
 
 ## 📍 Geographical Focus
 HomeSolve currently focuses on **Texas (Austin, Dallas, Houston, and San Antonio)**.
+
+## 📧 Outreach Links (Copy & Paste)
+Use these links in your emails and social media:
+*   **Homeowner Valuation:** `https://homesolve.web.app/list-property`
+*   **Investor Registration:** `https://homesolve.web.app/investor-join`
+*   **Public Listings:** `https://homesolve.web.app/properties`
