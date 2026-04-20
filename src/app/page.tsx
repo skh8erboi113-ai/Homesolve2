@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ShieldCheck, Zap, BarChart3, Users } from "lucide-react";
+import { ArrowRight, ShieldCheck, Zap, BarChart3, Users, MapPin } from "lucide-react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
@@ -24,7 +24,7 @@ export default function Home() {
               Sell Your Home Faster When <span className="text-primary underline decoration-accent underline-offset-8">Timing Matters Most</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-              HomeSolve connects homeowners facing foreclosure with qualified investors for quick, fair transactions. Skip the uncertainty of the traditional market.
+              HomeSolve connects homeowners facing foreclosure with qualified investors for quick, fair transactions across Texas. Skip the uncertainty of the traditional market.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button size="lg" asChild className="h-12 px-8 rounded-full text-lg shadow-lg">
@@ -48,6 +48,27 @@ export default function Home() {
                 data-ai-hint="modern house"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+            </div>
+          </div>
+        </section>
+
+        {/* Focus Section */}
+        <section className="py-12 bg-accent/5 border-y">
+          <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-center gap-8 text-center md:text-left">
+            <div className="flex items-center gap-3">
+              <MapPin className="h-6 w-6 text-primary" />
+              <div>
+                <p className="font-bold">Primary Focus</p>
+                <p className="text-sm text-muted-foreground">Texas: Austin, Dallas, Houston, San Antonio</p>
+              </div>
+            </div>
+            <div className="h-8 w-px bg-border hidden md:block"></div>
+            <div className="flex items-center gap-3">
+              <ShieldCheck className="h-6 w-6 text-primary" />
+              <div>
+                <p className="font-bold">Verified Network</p>
+                <p className="text-sm text-muted-foreground">2,500+ Professional Cash Buyers</p>
+              </div>
             </div>
           </div>
         </section>
@@ -105,7 +126,7 @@ export default function Home() {
                 <div className="text-primary-foreground/70">Property Value Sold</div>
               </div>
               <div>
-                <div className="text-4xl font-bold mb-2">14 Days</div>
+                <div className="text-4xl font-bold mb-2">14-21 Days</div>
                 <div className="text-primary-foreground/70">Avg. Time to Close</div>
               </div>
               <div>
@@ -126,7 +147,7 @@ export default function Home() {
             <div className="rounded-3xl bg-accent/20 p-12 text-center border-2 border-accent/20">
               <h2 className="text-3xl font-bold font-headline mb-6">Ready to find your solution?</h2>
               <p className="text-lg mb-8 text-foreground/80 max-w-2xl mx-auto">
-                Join thousands of homeowners and investors today. Our platform provides the transparency and speed you need.
+                Join thousands of homeowners and investors in Texas today. Our platform provides the transparency and speed you need.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button size="lg" asChild className="rounded-full px-10 h-14 bg-primary text-lg">
@@ -159,7 +180,7 @@ export default function Home() {
             <Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link>
           </div>
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} HomeSolve. All rights reserved. Real Estate License #123456789.
+            © {new Date().getFullYear()} HomeSolve. All rights reserved. Real Estate License #123456789. Primary focus: Texas.
           </p>
         </div>
       </footer>

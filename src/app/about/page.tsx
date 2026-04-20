@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Navbar } from "@/components/navbar";
@@ -16,7 +15,8 @@ import {
   DollarSign,
   Zap,
   Sparkles,
-  BarChart3
+  BarChart3,
+  MapPin
 } from "lucide-react";
 import Link from "next/link";
 
@@ -68,6 +68,19 @@ export default function HowItWorksPage() {
             HomeSolve is more than a marketplace; it's an AI-powered toolkit designed to solve the complexity of distressed real estate.
           </p>
         </header>
+
+        {/* Geographical Focus */}
+        <section className="mb-24 p-8 bg-primary/5 rounded-2xl border border-primary/20 flex flex-col md:flex-row items-center gap-8">
+           <div className="h-16 w-16 rounded-full bg-primary flex items-center justify-center text-white shrink-0">
+             <MapPin className="h-8 w-8" />
+           </div>
+           <div>
+             <h2 className="text-2xl font-bold mb-2">Our Geographical Focus</h2>
+             <p className="text-muted-foreground leading-relaxed">
+               HomeSolve is currently operating primarily in the **Texas triangle** (Austin, Dallas, Houston, San Antonio). We focus on these high-growth markets where timing is critical for homeowners and opportunities are abundant for investors.
+             </p>
+           </div>
+        </section>
 
         {/* Homeowner Section */}
         <section className="mb-24">
