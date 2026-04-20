@@ -1,12 +1,30 @@
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ShieldCheck, Zap, Users, MapPin, Clock, DollarSign, TrendingUp, Sparkles } from "lucide-react";
+import { ArrowRight, ShieldCheck, Zap, Users, MapPin, Clock, DollarSign, TrendingUp, Sparkles, AlertTriangle } from "lucide-react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 export default function Home() {
   const heroImage = PlaceHolderImages.find(img => img.id === "hero-house");
+
+  const painPoints = [
+    {
+      title: "The Timing Trap",
+      description: "Banks move in 30 days. Traditional sales take 90. We close the gap with a 14-21 day cycle.",
+      icon: Clock
+    },
+    {
+      title: "The Valuation Void",
+      description: "Guesswork leads to low-ball offers. Our AI provides instant, realistic market estimates.",
+      icon: DollarSign
+    },
+    {
+      title: "The Trust Gap",
+      description: "Avoid predatory 'we buy houses' schemes. Use our vetted network and secure platform.",
+      icon: ShieldCheck
+    }
+  ];
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -52,11 +70,31 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Pain Points Section */}
+        <section className="py-24 bg-accent/5">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl font-bold font-headline mb-4 text-primary">Stop the Foreclosure Stress</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto mb-16">Traditional real estate isn't built for urgency. We are.</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {painPoints.map((point, index) => (
+                <div key={index} className="bg-white p-8 rounded-2xl border shadow-sm text-left">
+                  <div className="h-12 w-12 bg-destructive/10 text-destructive rounded-full flex items-center justify-center mb-6">
+                    <point.icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">{point.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{point.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Benefits Section */}
         <section className="py-24 bg-white border-y">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold font-headline mb-4">Key Benefits of HomeSolve</h2>
+              <h2 className="text-3xl font-bold font-headline mb-4 text-primary">Why Choose HomeSolve?</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
                 Our platform is designed to provide maximum value for both homeowners and professional investors.
               </p>
@@ -114,87 +152,19 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="py-24 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold font-headline mb-4">The HomeSolve Toolkit</h2>
-              <p className="text-muted-foreground max-w-xl mx-auto">
-                Advanced features to help you navigate property transitions under pressure.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-8 rounded-2xl border bg-background hover:shadow-md transition-shadow">
-                <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6">
-                  <Zap className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Quick-Sale Valuation</h3>
-                <p className="text-muted-foreground">
-                  Our advanced AI analyzes your property and market trends to give you a realistic cash-offer expectation in seconds.
-                </p>
-              </div>
-              
-              <div className="p-8 rounded-2xl border bg-background hover:shadow-md transition-shadow">
-                <div className="h-12 w-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent-foreground mb-6">
-                  <Users className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Vetted Buyer Network</h3>
-                <p className="text-muted-foreground">
-                  Instantly access a pool of pre-vetted investors looking to close quickly, often without traditional financing hurdles.
-                </p>
-              </div>
-              
-              <div className="p-8 rounded-2xl border bg-background hover:shadow-md transition-shadow">
-                <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6">
-                  <ShieldCheck className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Secure Negotiations</h3>
-                <p className="text-muted-foreground">
-                  Communicate and manage offers through our secure in-app messaging system. Privacy and professional handling guaranteed.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Stats / Proof Section */}
-        <section className="py-20 bg-primary text-primary-foreground">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <div>
-                <div className="text-4xl font-bold mb-2">$50M+</div>
-                <div className="text-primary-foreground/70">Property Value Sold</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold mb-2">14-21 Days</div>
-                <div className="text-primary-foreground/70">Avg. Time to Close</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold mb-2">2,500+</div>
-                <div className="text-primary-foreground/70">Registered Investors</div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold mb-2">98%</div>
-                <div className="text-primary-foreground/70">Successful Closures</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Call to Action */}
         <section className="py-24">
           <div className="container mx-auto px-4 max-w-4xl">
-            <div className="rounded-3xl bg-accent/20 p-12 text-center border-2 border-accent/20">
+            <div className="rounded-3xl bg-primary p-12 text-center text-white border-2 border-primary/20 shadow-2xl">
               <h2 className="text-3xl font-bold font-headline mb-6">Ready to find your solution?</h2>
-              <p className="text-lg mb-8 text-foreground/80 max-w-2xl mx-auto">
+              <p className="text-lg mb-8 opacity-90 max-w-2xl mx-auto">
                 Join thousands of homeowners and investors in Texas today. Our platform provides the transparency and speed you need to move forward.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Button size="lg" asChild className="rounded-full px-10 h-14 bg-primary text-lg">
+                <Button size="lg" asChild variant="secondary" className="rounded-full px-10 h-14 text-lg">
                   <Link href="/list-property">Get My Free Valuation</Link>
                 </Button>
-                <Button size="lg" variant="outline" asChild className="rounded-full px-10 h-14 text-lg">
+                <Button size="lg" variant="outline" asChild className="rounded-full px-10 h-14 text-lg bg-transparent border-white text-white hover:bg-white hover:text-primary">
                   <Link href="/investor-join">Join the Investor Network</Link>
                 </Button>
               </div>

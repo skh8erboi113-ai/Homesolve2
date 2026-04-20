@@ -1,4 +1,3 @@
-
 "use client";
 
 import { use, useState } from "react";
@@ -83,6 +82,19 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
     }
   };
 
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: property?.title || "Property Opportunity",
+        text: `Check out this ${property?.foreclosureStatus} opportunity on HomeSolve!`,
+        url: window.location.href,
+      }).catch(console.error);
+    } else {
+      copyToClipboard(window.location.href);
+      toast({ title: "Link Copied", description: "Property URL copied to clipboard." });
+    }
+  };
+
   const handleGenerateOutreach = async () => {
     if (!property) return;
     setIsGeneratingOutreach(true);
@@ -142,65 +154,70 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
                 </div>
               </div>
 
-              {isOwner && (
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant="outline" className="rounded-full border-primary text-primary hover:bg-primary/5 h-12 px-6">
-                      <Sparkles className="mr-2 h-4 w-4" /> AI Marketing Kit
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-2xl">
-                    <DialogHeader>
-                      <DialogTitle>AI Outreach Generator</DialogTitle>
-                      <DialogDescription>
-                        Generate high-converting social media posts and messages for this property.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="space-y-6 py-4">
-                      <div className="flex items-center gap-4">
-                        <Select value={targetPlatform} onValueChange={setTargetPlatform}>
-                          <SelectTrigger className="w-[200px]">
-                            <SelectValue placeholder="Select Platform" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="LinkedIn">LinkedIn (Professional)</SelectItem>
-                            <SelectItem value="Facebook">Facebook (Community)</SelectItem>
-                            <SelectItem value="Twitter">Twitter (Short/Viral)</SelectItem>
-                            <SelectItem value="Direct Message">Direct Message (Private)</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <Button onClick={handleGenerateOutreach} disabled={isGeneratingOutreach} className="flex-1 rounded-full">
-                          {isGeneratingOutreach ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : <Sparkles className="mr-2 h-4 w-4" />}
-                          Generate Post
-                        </Button>
-                      </div>
+              <div className="flex gap-2">
+                <Button variant="outline" className="rounded-full h-12 w-12 p-0" onClick={handleShare}>
+                  <Share2 className="h-5 w-5" />
+                </Button>
+                {isOwner && (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" className="rounded-full border-primary text-primary hover:bg-primary/5 h-12 px-6">
+                        <Sparkles className="mr-2 h-4 w-4" /> AI Marketing Kit
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl">
+                      <DialogHeader>
+                        <DialogTitle>AI Outreach Generator</DialogTitle>
+                        <DialogDescription>
+                          Generate high-converting social media posts and messages for this property.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-6 py-4">
+                        <div className="flex items-center gap-4">
+                          <Select value={targetPlatform} onValueChange={setTargetPlatform}>
+                            <SelectTrigger className="w-[200px]">
+                              <SelectValue placeholder="Select Platform" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="LinkedIn">LinkedIn (Professional)</SelectItem>
+                              <SelectItem value="Facebook">Facebook (Community)</SelectItem>
+                              <SelectItem value="Twitter">Twitter (Short/Viral)</SelectItem>
+                              <SelectItem value="Direct Message">Direct Message (Private)</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <Button onClick={handleGenerateOutreach} disabled={isGeneratingOutreach} className="flex-1 rounded-full">
+                            {isGeneratingOutreach ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : <Sparkles className="mr-2 h-4 w-4" />}
+                            Generate Post
+                          </Button>
+                        </div>
 
-                      {outreachResult && (
-                        <Card className="bg-muted/30 border-dashed">
-                          <CardContent className="pt-6 space-y-4">
-                            <div>
-                              <h4 className="text-xs font-bold uppercase text-muted-foreground mb-2">Headline</h4>
-                              <p className="font-bold text-lg">{outreachResult.headline}</p>
-                            </div>
-                            <div>
-                              <h4 className="text-xs font-bold uppercase text-muted-foreground mb-2">Body Text</h4>
-                              <p className="text-sm whitespace-pre-wrap leading-relaxed">{outreachResult.body}</p>
-                            </div>
-                            <div className="flex flex-wrap gap-2">
-                              {outreachResult.hashtags.map(tag => (
-                                <Badge key={tag} variant="secondary" className="text-[10px]">{tag}</Badge>
-                              ))}
-                            </div>
-                            <Button className="w-full mt-4" variant="outline" onClick={() => copyToClipboard(`${outreachResult.headline}\n\n${outreachResult.body}\n\n${outreachResult.hashtags.join(' ')}`)}>
-                              <Copy className="mr-2 h-4 w-4" /> Copy Content
-                            </Button>
-                          </CardContent>
-                        </Card>
-                      )}
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              )}
+                        {outreachResult && (
+                          <Card className="bg-muted/30 border-dashed">
+                            <CardContent className="pt-6 space-y-4">
+                              <div>
+                                <h4 className="text-xs font-bold uppercase text-muted-foreground mb-2">Headline</h4>
+                                <p className="font-bold text-lg">{outreachResult.headline}</p>
+                              </div>
+                              <div>
+                                <h4 className="text-xs font-bold uppercase text-muted-foreground mb-2">Body Text</h4>
+                                <p className="text-sm whitespace-pre-wrap leading-relaxed">{outreachResult.body}</p>
+                              </div>
+                              <div className="flex flex-wrap gap-2">
+                                {outreachResult.hashtags.map(tag => (
+                                  <Badge key={tag} variant="secondary" className="text-[10px]">{tag}</Badge>
+                                ))}
+                              </div>
+                              <Button className="w-full mt-4" variant="outline" onClick={() => copyToClipboard(`${outreachResult.headline}\n\n${outreachResult.body}\n\n${outreachResult.hashtags.join(' ')}`)}>
+                                <Copy className="mr-2 h-4 w-4" /> Copy Content
+                              </Button>
+                            </CardContent>
+                          </Card>
+                        )}
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                )}
+              </div>
             </div>
 
             <div className="grid grid-cols-3 gap-6 p-6 bg-white rounded-2xl border shadow-sm">
