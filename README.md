@@ -9,6 +9,13 @@ Use these links in your emails, DMs, and social media posts:
 *   **Investor Registration Link:** `https://homesolve.web.app/investor-join`
 *   **Public Property Listings:** `https://homesolve.web.app/properties`
 
+## 🤖 External Outreach Setup (Apollo.io / Instantly.ai)
+If you are using external sales tools like **Apollo.io** to find prospects, use the following configuration:
+
+1.  **Destination URL:** `https://homesolve.web.app/`
+2.  **Tracking Parameters:** You can append UTM codes to track which leads come from Apollo (e.g., `https://homesolve.web.app/list-property?utm_source=apollo&utm_medium=email`).
+3.  **Lead Targeting:** Filter Apollo leads for "Homeowners" or "Real Estate Investors" in the Texas region to match your geographical focus.
+
 ## 🚀 Pain Points We Solve
 1. **The "Timing Trap"**: Traditional real estate sales take 60-90 days, but foreclosure auctions often happen in 30 days or less. We close the gap with a 14-21 day cycle.
 2. **The "Valuation Void"**: Distressed sellers often don't know what their home is worth in its *current* condition for a *quick* sale. Our AI provides instant, realistic data-backed estimates.
