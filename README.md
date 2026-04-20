@@ -7,6 +7,11 @@ HomeSolve is an AI-powered marketplace that bridges the gap between homeowners f
 2. **The "Valuation Void"**: Distressed sellers often don't know what their home is worth in its *current* condition for a *quick* sale. Our AI provides instant, realistic data-backed estimates.
 3. **The "Trust Gap"**: Homeowners are often bombarded with predatory low-ball offers. We provide a secure, transparent platform with a vetted investor network to ensure fair treatment.
 
+## 🌟 Key Benefits
+1. **Equity Preservation**: Don't let the bank take everything. Sell quickly and walk away with your remaining equity before the auction date.
+2. **Speed & Certainty**: Close in 14-21 days with verified cash buyers, bypassing the long waits and uncertainty of traditional bank financing.
+3. **AI-Driven Transparency**: Know exactly what your home is worth in its current condition with our proprietary valuation tool, giving you confidence during negotiations.
+
 ## 🏠 What We Offer Sellers
 - **AI Quick-Sale Valuations**: Instant, data-backed estimates for homes in foreclosure.
 - **Equity Preservation**: Avoid a total loss at auction by selling to a cash buyer before the bank takes over.

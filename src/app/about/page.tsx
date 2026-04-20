@@ -5,19 +5,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { 
   Search, 
-  TrendingUp, 
-  Handshake, 
   ShieldCheck, 
   Clock, 
   Users, 
   ArrowRight,
-  FileText,
   DollarSign,
   Zap,
   Sparkles,
   BarChart3,
   MapPin,
-  AlertCircle
+  TrendingUp,
+  Target
 } from "lucide-react";
 import Link from "next/link";
 
@@ -37,6 +35,24 @@ export default function HowItWorksPage() {
       title: "The Trust Gap",
       description: "Avoid predatory low-ballers. Our platform uses a vetted investor network and secure messaging to protect you.",
       icon: ShieldCheck
+    }
+  ];
+
+  const coreBenefits = [
+    {
+      title: "Equity Preservation",
+      description: "Sellers can salvage their home's value before a foreclosure auction wipes it out completely.",
+      icon: Target
+    },
+    {
+      title: "Speed & Certainty",
+      description: "Transactions close in 14-21 days with verified cash buyers, removing traditional financing stress.",
+      icon: Clock
+    },
+    {
+      title: "AI-Driven Transparency",
+      description: "Both parties negotiate with confidence using data-backed valuations and risk analytics.",
+      icon: Sparkles
     }
   ];
 
@@ -87,6 +103,25 @@ export default function HowItWorksPage() {
             HomeSolve is more than a marketplace; it's an AI-powered toolkit designed to solve the complexity of distressed real estate.
           </p>
         </header>
+
+        {/* Benefits Section */}
+        <section className="mb-24">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">Why Choose HomeSolve?</h2>
+            <p className="text-muted-foreground">We focus on speed, value, and data-driven results.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {coreBenefits.map((benefit, i) => (
+              <div key={i} className="flex flex-col items-center text-center p-8 rounded-2xl bg-white border-2 border-primary/5 shadow-sm hover:border-primary/20 transition-all">
+                <div className="h-14 w-14 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-6">
+                  <benefit.icon className="h-7 w-7" />
+                </div>
+                <h3 className="text-xl font-bold mb-3">{benefit.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{benefit.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* Pain Points Section */}
         <section className="mb-24">

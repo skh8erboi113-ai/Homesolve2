@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ShieldCheck, Zap, BarChart3, Users, MapPin, Clock, DollarSign, AlertTriangle } from "lucide-react";
+import { ArrowRight, ShieldCheck, Zap, Users, MapPin, Clock, DollarSign, TrendingUp, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
@@ -52,41 +52,41 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Pain Points Section */}
+        {/* Benefits Section */}
         <section className="py-24 bg-white border-y">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold font-headline mb-4">Stopping the Foreclosure Crisis</h2>
+              <h2 className="text-3xl font-bold font-headline mb-4">Key Benefits of HomeSolve</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                We solve the three biggest problems homeowners face when the bank starts the clock.
+                Our platform is designed to provide maximum value for both homeowners and professional investors.
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              <div className="space-y-4">
-                <div className="h-12 w-12 bg-red-50 text-red-500 rounded-full flex items-center justify-center">
-                  <Clock className="h-6 w-6" />
+              <div className="flex flex-col items-center text-center space-y-4 p-8 rounded-2xl bg-primary/5 border border-primary/10">
+                <div className="h-16 w-16 bg-white text-primary rounded-full flex items-center justify-center shadow-sm">
+                  <TrendingUp className="h-8 w-8" />
                 </div>
-                <h3 className="text-xl font-bold">Foreclosure Deadlines</h3>
+                <h3 className="text-xl font-bold">Equity Preservation</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Traditional sales take 60-90 days. Banks don't wait. We close deals in as little as 14-21 days to beat the auction date.
+                  Avoid the total loss of a bank foreclosure. Sell quickly and walk away with your remaining equity to start your next chapter.
                 </p>
               </div>
-              <div className="space-y-4">
-                <div className="h-12 w-12 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center">
-                  <DollarSign className="h-6 w-6" />
+              <div className="flex flex-col items-center text-center space-y-4 p-8 rounded-2xl bg-accent/5 border border-accent/10">
+                <div className="h-16 w-16 bg-white text-accent rounded-full flex items-center justify-center shadow-sm">
+                  <Clock className="h-8 w-8" />
                 </div>
-                <h3 className="text-xl font-bold">Low-Ball Predators</h3>
+                <h3 className="text-xl font-bold">Speed & Certainty</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Avoid the "We Buy Houses" spam. Our AI provides instant, data-backed valuations so you know exactly what your home is worth today.
+                  Close in 14-21 days. We skip traditional financing delays, providing you with verified cash offers and a guaranteed timeline.
                 </p>
               </div>
-              <div className="space-y-4">
-                <div className="h-12 w-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center">
-                  <ShieldCheck className="h-6 w-6" />
+              <div className="flex flex-col items-center text-center space-y-4 p-8 rounded-2xl bg-primary/5 border border-primary/10">
+                <div className="h-16 w-16 bg-white text-primary rounded-full flex items-center justify-center shadow-sm">
+                  <Sparkles className="h-8 w-8" />
                 </div>
-                <h3 className="text-xl font-bold">Privacy & Security</h3>
+                <h3 className="text-xl font-bold">AI-Driven Transparency</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Distressed sales are high-stress. We provide a secure platform and a vetted investor network, keeping your data and negotiations private.
+                  Gain confidence with instant, data-backed AI valuations. Know your home's true worth today without waiting for an appraisal.
                 </p>
               </div>
             </div>
@@ -118,9 +118,9 @@ export default function Home() {
         <section className="py-24 bg-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold font-headline mb-4">Why HomeSolve?</h2>
+              <h2 className="text-3xl font-bold font-headline mb-4">The HomeSolve Toolkit</h2>
               <p className="text-muted-foreground max-w-xl mx-auto">
-                We've built the ultimate toolkit to help you navigate property transitions under pressure.
+                Advanced features to help you navigate property transitions under pressure.
               </p>
             </div>
             
@@ -129,7 +129,7 @@ export default function Home() {
                 <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6">
                   <Zap className="h-6 w-6" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">AI Quick-Sale Valuation</h3>
+                <h3 className="text-xl font-semibold mb-3">Quick-Sale Valuation</h3>
                 <p className="text-muted-foreground">
                   Our advanced AI analyzes your property and market trends to give you a realistic cash-offer expectation in seconds.
                 </p>
@@ -139,7 +139,7 @@ export default function Home() {
                 <div className="h-12 w-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent-foreground mb-6">
                   <Users className="h-6 w-6" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">Verified Buyer Network</h3>
+                <h3 className="text-xl font-semibold mb-3">Vetted Buyer Network</h3>
                 <p className="text-muted-foreground">
                   Instantly access a pool of pre-vetted investors looking to close quickly, often without traditional financing hurdles.
                 </p>
