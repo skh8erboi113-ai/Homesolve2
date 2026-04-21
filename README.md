@@ -1,3 +1,4 @@
+
 # 🚀 HomeSolve - Mobile Go-Live Manual
 
 Follow these steps to publish your AI-powered marketplace from your mobile device.
@@ -32,3 +33,12 @@ Follow these steps to publish your AI-powered marketplace from your mobile devic
 *   **Homeowner Valuation:** `https://lethomesolveit.com/list-property`
 *   **Investor Registration:** `https://lethomesolveit.com/investor-join`
 *   **Public Listings:** `https://lethomesolveit.com/properties`
+
+---
+
+## ✅ Launch Checklist
+- [ ] Code downloaded as ZIP
+- [ ] Uploaded to GitHub (via browser)
+- [ ] Firebase project switched to **Blaze Plan**
+- [ ] `GEMINI_API_KEY` added to App Hosting Secrets
+- [ ] `lethomesolveit.com` verified in Firebase
