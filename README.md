@@ -23,7 +23,7 @@ Follow these steps to publish your AI-powered marketplace from your mobile devic
 3. **Billing**: Go to Project Settings > Usage and Billing and ensure you are on the **Blaze (Pay-as-you-go) plan** to support AI and custom domains.
 4. Go to **Build > App Hosting** in the left menu.
 5. Connect your new GitHub repository.
-6. **AI Setup**: Under **Secrets**, add `GEMINI_API_KEY` with your key from AI Studio.
+6. **AI Setup**: Under **Secrets**, add `GEMINI_API_KEY` with your key from AI Studio. This is required for the valuation feature to work.
 7. **Custom Domain**: Go to **Settings > Custom Domains** in App Hosting and add `lethomesolveit.com`.
 
 ---
