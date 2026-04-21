@@ -100,7 +100,7 @@ export default function HowItWorksPage() {
         <header className="text-center max-w-3xl mx-auto mb-20">
           <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary mb-6">Our Products & Services</h1>
           <p className="text-xl text-muted-foreground">
-            HomeSolve is more than a marketplace; it's an AI-powered toolkit designed to solve the complexity of distressed real estate.
+            HomeSolve is more than a marketplace; it's an AI-powered toolkit designed to solve the complexity of distressed real estate nationwide.
           </p>
         </header>
 
@@ -108,7 +108,7 @@ export default function HowItWorksPage() {
         <section className="mb-24">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Why Choose HomeSolve?</h2>
-            <p className="text-muted-foreground">We focus on speed, value, and data-driven results.</p>
+            <p className="text-muted-foreground">We focus on speed, value, and data-driven results for everyone.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {coreBenefits.map((benefit, i) => (
@@ -148,9 +148,9 @@ export default function HowItWorksPage() {
              <MapPin className="h-8 w-8" />
            </div>
            <div>
-             <h2 className="text-2xl font-bold mb-2">Our Geographical Focus</h2>
+             <h2 className="text-2xl font-bold mb-2">Our Nationwide Focus</h2>
              <p className="text-muted-foreground leading-relaxed">
-               HomeSolve is currently operating primarily in the **Texas triangle** (Austin, Dallas, Houston, San Antonio). We focus on these high-growth markets where timing is critical for homeowners and opportunities are abundant for investors.
+               HomeSolve is currently operating across the **entire United States**. We focus on all markets where timing is critical for homeowners and opportunities are abundant for investors. No matter where you are, we've got you covered.
              </p>
            </div>
         </section>
@@ -212,7 +212,7 @@ export default function HowItWorksPage() {
           <div className="space-y-6">
             <h2 className="text-3xl font-bold font-headline text-primary leading-tight">Built on Transparency and Speed</h2>
             <p className="text-muted-foreground text-lg">
-              Facing foreclosure is stressful. We remove the uncertainty of the traditional retail market by providing immediate liquidity through verified channels.
+              Facing foreclosure is stressful. We remove the uncertainty of the traditional retail market by providing immediate liquidity through verified channels across the country.
             </p>
             <ul className="space-y-4">
               {[

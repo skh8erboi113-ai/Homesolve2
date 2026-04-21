@@ -46,9 +46,9 @@ const quickSaleValuationPrompt = ai.definePrompt({
   name: 'quickSaleValuationPrompt',
   input: { schema: HomeownerQuickSaleValuationInputSchema },
   output: { schema: HomeownerQuickSaleValuationOutputSchema },
-  prompt: `You are an expert real estate valuer specializing in quick sales and properties under foreclosure.
+  prompt: `You are an expert real estate valuer specializing in quick sales and properties under foreclosure across all markets.
 Your task is to provide a realistic estimated quick-sale market value for the given property.
-Consider all provided property details, its current condition, special features, and the urgency of the sale due to its foreclosure status.
+Consider all provided property details, its current condition, special features, and the urgency of the sale due to its foreclosure status. Use your knowledge of local market trends for the provided address.
 
 Property Details:
 Address: {{{address}}}
@@ -64,7 +64,7 @@ Urgency for Sale: {{{urgency}}}
 
 {{#if photoDataUri}}Photo: {{media url=photoDataUri}}{{/if}}
 
-Provide the estimated quick-sale market value, the currency, a detailed explanation of your valuation taking into account market conditions and foreclosure quick-sale factors, and a clear disclaimer.
+Provide the estimated quick-sale market value, the currency, a detailed explanation of your valuation taking into account national and local market conditions and foreclosure quick-sale factors, and a clear disclaimer.
 `,
 });
 

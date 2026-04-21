@@ -36,13 +36,13 @@ export default function Home() {
           <div className="container mx-auto px-4 text-center">
             <div className="inline-flex items-center rounded-full border bg-accent/10 px-4 py-1.5 text-sm font-semibold text-primary mb-8 animate-in fade-in slide-in-from-bottom-3 duration-1000">
               <Sparkles className="mr-2 h-4 w-4" />
-              Now serving Austin, Dallas, Houston, and San Antonio
+              Now serving homeowners and investors nationwide
             </div>
             <h1 className="text-4xl md:text-7xl font-bold font-headline tracking-tight mb-8 max-w-5xl mx-auto leading-tight">
               A Smarter Way Out of <span className="text-primary italic">Foreclosure</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">
-              Connect with verified cash buyers and get an instant AI valuation. We help Texas homeowners protect their equity and close in as little as 14 days.
+              Connect with verified cash buyers and get an instant AI valuation. We help homeowners nationwide protect their equity and close in as little as 14 days.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <Button size="lg" asChild className="h-16 px-12 rounded-full text-xl shadow-xl bg-primary hover:bg-primary/90 transition-all hover:scale-105">
@@ -60,7 +60,7 @@ export default function Home() {
             <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[21/9]">
               <Image 
                 src={heroImage?.imageUrl || "https://picsum.photos/seed/home1/1200/600"} 
-                alt="Modern Texas Home" 
+                alt="Modern Family Home" 
                 fill 
                 className="object-cover"
                 data-ai-hint="luxury house"
@@ -69,7 +69,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
               <div className="absolute bottom-6 left-6 text-white flex items-center gap-2">
                 <MapPin className="h-5 w-5 text-accent" />
-                <span className="font-semibold text-lg">Austin, TX</span>
+                <span className="font-semibold text-lg">Nationwide Coverage</span>
               </div>
             </div>
           </div>
@@ -80,9 +80,9 @@ export default function Home() {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               {[
-                { label: "Vetted Investors", val: "2,500+" },
+                { label: "Vetted Investors", val: "10,000+" },
                 { label: "Closing Days", val: "14-21" },
-                { label: "Texas Focus", val: "4 Major Cities" },
+                { label: "Availability", val: "All 50 States" },
                 { label: "AI Accuracy", val: "98.5%" }
               ].map((m, i) => (
                 <div key={i} className="space-y-1">
@@ -150,8 +150,8 @@ export default function Home() {
                     <div className="flex items-center gap-4">
                       <div className="h-12 w-12 rounded-full bg-slate-200"></div>
                       <div>
-                        <div className="font-bold">The Rodriguez Family</div>
-                        <div className="text-xs text-muted-foreground">San Antonio, TX</div>
+                        <div className="font-bold">The Miller Family</div>
+                        <div className="text-xs text-muted-foreground">Verified Homeowner</div>
                       </div>
                     </div>
                  </div>
@@ -168,7 +168,7 @@ export default function Home() {
           <div className="container mx-auto px-4 relative z-10 text-center max-w-3xl">
             <h2 className="text-4xl font-bold font-headline mb-8">Ready to secure your home's value?</h2>
             <p className="text-xl mb-12 opacity-90 leading-relaxed">
-              Don't let the clock run out. Join the Texas marketplace that puts speed and fairness first.
+              Don't let the clock run out. Join the marketplace that puts speed and fairness first, no matter where you are located.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <Button size="lg" asChild variant="secondary" className="h-16 px-12 rounded-full text-xl font-bold hover:scale-105 transition-transform">
@@ -193,7 +193,7 @@ export default function Home() {
                 <span className="text-2xl font-bold tracking-tight text-primary">HomeSolve</span>
               </Link>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Empowering Texas homeowners with AI technology and a verified investor network. We bridge the gap between financial distress and a fresh start.
+                Empowering homeowners with AI technology and a verified investor network. We bridge the gap between financial distress and a fresh start nationwide.
               </p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
@@ -216,16 +216,16 @@ export default function Home() {
               <div className="space-y-4">
                 <h4 className="font-bold text-sm uppercase tracking-widest text-primary">Coverage</h4>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>Austin</li>
-                  <li>Dallas</li>
-                  <li>Houston</li>
-                  <li>San Antonio</li>
+                  <li>Nationwide</li>
+                  <li>All 50 States</li>
+                  <li>Major Metros</li>
+                  <li>Rural Areas</li>
                 </ul>
               </div>
             </div>
           </div>
           <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
-            <p>© {new Date().getFullYear()} HomeSolve. All rights reserved. TREC License #123456789.</p>
+            <p>© {new Date().getFullYear()} HomeSolve. All rights reserved.</p>
             <div className="flex gap-6">
               <Link href="/privacy" className="hover:underline">Terms of Service</Link>
               <Link href="/privacy" className="hover:underline">Equal Housing Opportunity</Link>
