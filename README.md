@@ -21,15 +21,16 @@ Follow these steps to publish your AI-powered marketplace from your mobile devic
 2. Select project: `studio-4450623487-72853`.
 3. Go to **Build > App Hosting** in the left menu.
 4. Connect your new GitHub repository.
-5. Firebase will build your Next.js app and give you a live URL.
+5. Firebase will build your Next.js app.
+6. **Custom Domain**: Go to **Settings > Custom Domains** in App Hosting and add `lethomesolveit.com`.
 
 ---
 
 ## 📍 Your Production Outreach Links
-*   **Main Site:** `https://studio-4450623487-72853.web.app`
-*   **Homeowner Valuation:** `https://studio-4450623487-72853.web.app/list-property`
-*   **Investor Registration:** `https://studio-4450623487-72853.web.app/investor-join`
-*   **Public Listings:** `https://studio-4450623487-72853.web.app/properties`
+*   **Main Site:** `https://lethomesolveit.com`
+*   **Homeowner Valuation:** `https://lethomesolveit.com/list-property`
+*   **Investor Registration:** `https://lethomesolveit.com/investor-join`
+*   **Public Listings:** `https://lethomesolveit.com/properties`
 
 ## 📧 Marketing Support
 I've included outreach templates in `docs/marketing-templates.md` to help you find your first 10 prospects using Apollo.io or LinkedIn.

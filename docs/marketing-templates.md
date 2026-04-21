@@ -15,7 +15,7 @@ I'm excited to share **HomeSolve**, an AI-powered platform that bridges the gap 
 
 We are officially opening our Investor Network. Join the waitlist and get your "Buy Box" ready.
 
-👉 **YOUR ACTION:** Join the network here: https://homesolve.web.app/investor-join
+👉 **YOUR ACTION:** Join the network here: https://lethomesolveit.com/investor-join
 
 #RealEstate #PropTech #Investing #ForeclosureSolutions #HomeSolve
 
@@ -33,11 +33,11 @@ We built **HomeSolve** to give you back control.
 
 No upfront fees, no judgment, just solutions. 
 
-👉 **YOUR ACTION:** See what your home is worth today: https://homesolve.web.app/list-property
+👉 **YOUR ACTION:** See what your home is worth today: https://lethomesolveit.com/list-property
 
 #Homeowners #FinancialHelp #RealEstate #HomeSolve #ForeclosureHelp
 
 ---
 
 ## 📱 Short Version (Text/WhatsApp/DM)
-"Hey! I’m working on a new project called **HomeSolve**. It’s an AI platform that helps homeowners facing foreclosure get fast cash offers from verified investors. If you know anyone in the real estate space or someone who needs a quick exit strategy, send them my way or share the link: https://homesolve.web.app"
+"Hey! I’m working on a new project called **HomeSolve**. It’s an AI platform that helps homeowners facing foreclosure get fast cash offers from verified investors. If you know anyone in the real estate space or someone who needs a quick exit strategy, send them my way or share the link: https://lethomesolveit.com"

@@ -5,7 +5,8 @@ import { FirebaseClientProvider } from "@/firebase";
 
 export const metadata: Metadata = {
   title: 'HomeSolve - AI-Powered Foreclosure Solutions',
-  description: 'Connect with homeowners facing foreclosure and qualified real estate investors for quick, fair transactions nationwide.',
+  description: 'Connect with homeowners facing foreclosure and qualified real estate investors for quick, fair transactions nationwide at lethomesolveit.com.',
+  metadataBase: new URL('https://lethomesolveit.com'),
 };
 
 export default function RootLayout({
