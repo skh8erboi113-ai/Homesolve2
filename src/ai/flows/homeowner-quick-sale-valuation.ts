@@ -58,7 +58,7 @@ Bedrooms: {{{numberOfBedrooms}}}
 Bathrooms: {{{numberOfBathrooms}}}
 Condition: {{{condition}}}
 Year Built: {{{yearBuilt}}}
-Special Features: {{{specialFeatures}}}}
+Special Features: {{{specialFeatures}}}
 Foreclosure Status: {{{foreclosureStatus}}}
 Urgency for Sale: {{{urgency}}}
 

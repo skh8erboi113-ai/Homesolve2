@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview An AI agent that generates marketing outreach content for property listings.
@@ -38,7 +37,7 @@ Your task is to create a highly engaging outreach post for the following propert
 
 Property Details:
 - Address: {{{propertyAddress}}}
-- Price: ${{{askingPrice}}}
+- Price: \${{{askingPrice}}}
 - Specs: {{{bedrooms}}} beds, {{{bathrooms}}} baths
 - Status: {{{foreclosureStatus}}}
 
