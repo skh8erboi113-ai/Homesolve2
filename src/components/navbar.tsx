@@ -1,9 +1,8 @@
-
 "use client";
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Home, Search, PlusCircle, LayoutDashboard, DollarSign, LogOut, User, MessageSquare, Info } from "lucide-react";
+import { Search, PlusCircle, LayoutDashboard, LogOut, User, MessageSquare, Info, TrendingUp } from "lucide-react";
 import { useUser, useAuth } from "@/firebase";
 import { signOut } from "firebase/auth";
 
@@ -36,7 +35,7 @@ export function Navbar() {
             <PlusCircle className="h-4 w-4" /> Sell Your Home
           </Link>
           <Link href="/investor-join" className="hover:text-primary transition-colors flex items-center gap-1">
-            <TrendingUpIcon className="h-4 w-4" /> Investor Network
+            <TrendingUp className="h-4 w-4" /> Investor Network
           </Link>
           <Link href="/messages" className="hover:text-primary transition-colors flex items-center gap-1">
             <MessageSquare className="h-4 w-4" /> Messages
@@ -65,25 +64,5 @@ export function Navbar() {
         </div>
       </div>
     </nav>
-  );
-}
-
-function TrendingUpIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
-      <polyline points="16 7 22 7 22 13" />
-    </svg>
   );
 }

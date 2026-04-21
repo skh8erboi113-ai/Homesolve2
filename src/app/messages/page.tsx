@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, Suspense } from "react";
@@ -8,10 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useCollection, useFirestore, useMemoFirebase, useUser, useDoc } from "@/firebase";
 import { collection, query, where, orderBy, doc, serverTimestamp } from "firebase/firestore";
-import { Loader2, Send, User, Home, ArrowLeft } from "lucide-react";
+import { Loader2, Send, User, Home, ArrowLeft, MessageSquare } from "lucide-react";
 import { addDocumentNonBlocking, updateDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { formatDistanceToNow } from "date-fns";
 
@@ -126,7 +124,7 @@ function MessagesContent() {
       <Card className={`md:col-span-2 flex flex-col ${!activeConvId ? 'hidden md:flex' : 'flex'} border-none shadow-sm h-full overflow-hidden`}>
         {!activeConvId ? (
           <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground">
-            <MessageCircle className="h-12 w-12 mb-4 opacity-20" />
+            <MessageSquare className="h-12 w-12 mb-4 opacity-20" />
             <p>Select a conversation to start messaging</p>
           </div>
         ) : (
