@@ -1,3 +1,4 @@
+
 # 🚀 HomeSolve - Mobile Go-Live Manual
 
 Follow these steps to publish your AI-powered marketplace from your mobile device.
@@ -8,7 +9,7 @@ Follow these steps to publish your AI-powered marketplace from your mobile devic
 3. Extract the ZIP in your phone's "Files" or "Downloads" app.
 
 ## 🐙 Step 2: GitHub Upload (No Terminal Needed)
-1. Go to [github.com/new](https://github.com/new).
+1. Go to [github.com/new](https://github.com/new) in your browser.
 2. Name your repo `Homesolve`.
 3. **CRITICAL**: Do NOT check "Add a README" or "Add a License" (I've already created them for you).
 4. Tap **"Create repository"**.

@@ -1,3 +1,4 @@
+
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
@@ -7,6 +8,24 @@ export const metadata: Metadata = {
   title: 'HomeSolve - AI-Powered Foreclosure Solutions',
   description: 'Connect with homeowners facing foreclosure and qualified real estate investors for quick, fair transactions nationwide at lethomesolveit.com.',
   metadataBase: new URL('https://lethomesolveit.com'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'HomeSolve - Nationwide Foreclosure Solutions',
+    description: 'Protect your equity with AI valuations and verified cash buyers.',
+    url: 'https://lethomesolveit.com',
+    siteName: 'HomeSolve',
+    images: [
+      {
+        url: 'https://picsum.photos/seed/home1/1200/630',
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({
