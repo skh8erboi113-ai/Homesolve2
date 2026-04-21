@@ -1,10 +1,6 @@
 'use server';
 /**
  * @fileOverview An AI agent that provides an estimated quick-sale market value for a property.
- *
- * - homeownerQuickSaleValuation - A function that handles the property quick-sale valuation process.
- * - HomeownerQuickSaleValuationInput - The input type for the homeownerQuickSaleValuation function.
- * - HomeownerQuickSaleValuationOutput - The return type for the homeownerQuickSaleValuation function.
  */
 
 import {ai} from '@/ai/genkit';
@@ -16,25 +12,20 @@ const HomeownerQuickSaleValuationInputSchema = z.object({
   squareFootage: z.number().describe('The total square footage of the property.'),
   numberOfBedrooms: z.number().describe('The number of bedrooms.'),
   numberOfBathrooms: z.number().describe('The number of bathrooms.'),
-  condition: z.string().describe('The current condition of the property (e.g., excellent, good, fair, poor).'),
+  condition: z.string().describe('The current condition of the property.'),
   yearBuilt: z.number().describe('The year the property was built.'),
-  specialFeatures: z.string().optional().describe('Any special features or amenities (e.g., pool, large yard, recent renovations).'),
-  foreclosureStatus: z.string().describe('The current foreclosure status (e.g., pre-foreclosure, notice of default, auction scheduled).'),
-  urgency: z.string().describe('How quickly the homeowner needs to sell (e.g., very urgent, somewhat urgent, flexible).'),
-  photoDataUri: z
-    .string()
-    .optional()
-    .describe(
-      "An optional photo of the property, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
-    ),
+  specialFeatures: z.string().optional().describe('Any special features or amenities.'),
+  foreclosureStatus: z.string().describe('The current foreclosure status.'),
+  urgency: z.string().describe('How quickly the homeowner needs to sell.'),
+  photoDataUri: z.string().optional(),
 });
 export type HomeownerQuickSaleValuationInput = z.infer<typeof HomeownerQuickSaleValuationInputSchema>;
 
 const HomeownerQuickSaleValuationOutputSchema = z.object({
-  estimatedValue: z.number().describe('The estimated quick-sale market value of the property.'),
-  currency: z.string().describe('The currency of the estimated value (e.g., USD).'),
-  valuationExplanation: z.string().describe('A detailed explanation justifying the valuation, including market factors considered and quick-sale adjustments.'),
-  disclaimer: z.string().describe('A disclaimer stating that this is an estimate and not a formal appraisal.'),
+  estimatedValue: z.number().describe('The estimated quick-sale market value.'),
+  currency: z.string().default('USD'),
+  valuationExplanation: z.string().describe('Justification for the valuation.'),
+  disclaimer: z.string().describe('Standard appraisal disclaimer.'),
 });
 export type HomeownerQuickSaleValuationOutput = z.infer<typeof HomeownerQuickSaleValuationOutputSchema>;
 
@@ -46,26 +37,16 @@ const quickSaleValuationPrompt = ai.definePrompt({
   name: 'quickSaleValuationPrompt',
   input: { schema: HomeownerQuickSaleValuationInputSchema },
   output: { schema: HomeownerQuickSaleValuationOutputSchema },
-  prompt: `You are an expert real estate valuer specializing in quick sales and properties under foreclosure across all markets.
-Your task is to provide a realistic estimated quick-sale market value for the given property.
-Consider all provided property details, its current condition, special features, and the urgency of the sale due to its foreclosure status. Use your knowledge of local market trends for the provided address.
-
-Property Details:
-Address: {{{address}}}
-Property Type: {{{propertyType}}}
-Square Footage: {{{squareFootage}}} sq ft
-Bedrooms: {{{numberOfBedrooms}}}
-Bathrooms: {{{numberOfBathrooms}}}
-Condition: {{{condition}}}
-Year Built: {{{yearBuilt}}}
-Special Features: {{{specialFeatures}}}
-Foreclosure Status: {{{foreclosureStatus}}}
-Urgency for Sale: {{{urgency}}}
-
-{{#if photoDataUri}}Photo: {{media url=photoDataUri}}{{/if}}
-
-Provide the estimated quick-sale market value, the currency, a detailed explanation of your valuation taking into account national and local market conditions and foreclosure quick-sale factors, and a clear disclaimer.
-`,
+  prompt: `You are an expert real estate valuer. 
+  
+  Provide a quick-sale valuation for:
+  Address: {{{address}}}
+  Type: {{{propertyType}}}
+  Sq Ft: {{{squareFootage}}}
+  Beds/Baths: {{{numberOfBedrooms}}}/{{{numberOfBathrooms}}}
+  Foreclosure Status: {{{foreclosureStatus}}}
+  
+  Consider that quick sales usually require a 10-20% discount from retail price to attract cash investors.`,
 });
 
 const homeownerQuickSaleValuationFlow = ai.defineFlow(
