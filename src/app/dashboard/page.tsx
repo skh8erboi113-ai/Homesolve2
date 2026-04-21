@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Navbar } from "@/components/navbar";
@@ -79,7 +80,7 @@ export default function DashboardPage() {
         <header className="mb-10 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold font-headline text-primary">Nationwide Dashboard</h1>
-            <p className="text-muted-foreground">Managing your property portfolio at lethomesolveit.com.</p>
+            <p className="text-muted-foreground">Managing your property portfolio on HomeSolve.</p>
           </div>
           <div className="flex gap-3">
             <Button variant="outline" asChild className="rounded-full px-6">

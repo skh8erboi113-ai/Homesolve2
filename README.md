@@ -20,19 +20,18 @@ Follow these steps to publish your AI-powered marketplace from your mobile devic
 ## 🌐 Step 3: Publish to the Web (Firebase Console)
 1. Open the [Firebase Console](https://console.firebase.google.com/).
 2. Select project: `studio-4450623487-72853`.
-3. **Billing**: Go to Project Settings > Usage and Billing and ensure you are on the **Blaze (Pay-as-you-go) plan**. This is required for AI features and custom domains.
+3. **Billing**: Go to Project Settings > Usage and Billing and ensure you are on the **Blaze (Pay-as-you-go) plan**. This is required for AI features.
 4. Go to **Build > App Hosting** in the left menu.
 5. Connect your new GitHub repository.
 6. **AI Setup (CRITICAL)**: Under **Secrets**, add `GOOGLE_GENAI_API_KEY` with the value: `AIzaSyApG0RXgao7nyU_YHyAWWGMWGg1TNwW-eo`.
-7. **Custom Domain**: Go to **Settings > Custom Domains** in App Hosting and add `lethomesolveit.com`.
 
 ---
 
 ## 📍 Your Production Outreach Links
-*   **Main Site:** `https://lethomesolveit.com`
-*   **Homeowner Valuation:** `https://lethomesolveit.com/list-property`
-*   **Investor Registration:** `https://lethomesolveit.com/investor-join`
-*   **Public Listings:** `https://lethomesolveit.com/properties`
+*   **Main Site:** `https://studio-4450623487-72853.web.app`
+*   **Homeowner Valuation:** `https://studio-4450623487-72853.web.app/list-property`
+*   **Investor Registration:** `https://studio-4450623487-72853.web.app/investor-join`
+*   **Public Listings:** `https://studio-4450623487-72853.web.app/properties`
 
 ---
 
@@ -41,4 +40,3 @@ Follow these steps to publish your AI-powered marketplace from your mobile devic
 - [ ] Uploaded to GitHub (via browser)
 - [ ] Firebase project switched to **Blaze Plan**
 - [ ] `GOOGLE_GENAI_API_KEY` added to App Hosting Secrets
-- [ ] `lethomesolveit.com` verified in Firebase

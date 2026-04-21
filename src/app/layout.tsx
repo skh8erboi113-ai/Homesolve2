@@ -6,15 +6,15 @@ import { FirebaseClientProvider } from "@/firebase";
 
 export const metadata: Metadata = {
   title: 'HomeSolve - AI-Powered Foreclosure Solutions',
-  description: 'Connect with homeowners facing foreclosure and qualified real estate investors for quick, fair transactions nationwide at lethomesolveit.com.',
-  metadataBase: new URL('https://lethomesolveit.com'),
+  description: 'Connect with homeowners facing foreclosure and qualified real estate investors for quick, fair transactions nationwide.',
+  metadataBase: new URL('https://studio-4450623487-72853.web.app'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'HomeSolve - Nationwide Foreclosure Solutions',
     description: 'Protect your equity with AI valuations and verified cash buyers.',
-    url: 'https://lethomesolveit.com',
+    url: 'https://studio-4450623487-72853.web.app',
     siteName: 'HomeSolve',
     images: [
       {
