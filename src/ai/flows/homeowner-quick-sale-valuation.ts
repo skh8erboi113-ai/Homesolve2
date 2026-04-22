@@ -37,16 +37,7 @@ const quickSaleValuationPrompt = ai.definePrompt({
   name: 'quickSaleValuationPrompt',
   input: { schema: HomeownerQuickSaleValuationInputSchema },
   output: { schema: HomeownerQuickSaleValuationOutputSchema },
-  prompt: `You are an expert real estate valuer. 
-  
-  Provide a quick-sale valuation for:
-  Address: {{{address}}}
-  Type: {{{propertyType}}}
-  Sq Ft: {{{squareFootage}}}
-  Beds/Baths: {{{numberOfBedrooms}}}/{{{numberOfBathrooms}}}
-  Foreclosure Status: {{{foreclosureStatus}}}
-  
-  Consider that quick sales usually require a 10-20% discount from retail price to attract cash investors.`,
+  prompt: "You are an expert real estate valuer. Provide a quick-sale valuation for: Address: {{{address}}}, Type: {{{propertyType}}}, Sq Ft: {{{squareFootage}}}, Beds/Baths: {{{numberOfBedrooms}}}/{{{numberOfBathrooms}}}, Foreclosure Status: {{{foreclosureStatus}}}. Consider that quick sales usually require a 10-20% discount from retail price to attract cash investors.",
 });
 
 const homeownerQuickSaleValuationFlow = ai.defineFlow(

@@ -37,7 +37,7 @@ Your task is to create a highly engaging outreach post for the following propert
 
 Property Details:
 - Address: {{{propertyAddress}}}
-- Price: \${{{askingPrice}}}
+- Price: USD {{{askingPrice}}}
 - Specs: {{{bedrooms}}} beds, {{{bathrooms}}} baths
 - Status: {{{foreclosureStatus}}}
 
