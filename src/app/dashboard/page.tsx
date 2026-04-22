@@ -1,6 +1,6 @@
-
 "use client";
 
+import { useState, useEffect } from "react";
 import { Navbar } from "@/components/navbar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -24,6 +24,11 @@ const COMMISSION_DATA = [
 export default function DashboardPage() {
   const { user, isUserLoading } = useUser();
   const db = useFirestore();
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   const userListingsQuery = useMemoFirebase(() => {
     if (!user || !db) return null;
@@ -123,19 +128,23 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="h-[300px] w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={COMMISSION_DATA}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-                    <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{fill: '#64748B', fontSize: 12}} dy={10} />
-                    <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748B', fontSize: 12}} tickFormatter={(value) => `$${value}`} />
-                    <Tooltip cursor={{fill: '#F1F5F9'}} contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} />
-                    <Bar dataKey="earnings" radius={[4, 4, 0, 0]} barSize={40}>
-                      {COMMISSION_DATA.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={index === COMMISSION_DATA.length - 1 ? '#2EE69D' : '#1F9BA6'} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
+                {hasMounted ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={COMMISSION_DATA}>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                      <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{fill: '#64748B', fontSize: 12}} dy={10} />
+                      <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748B', fontSize: 12}} tickFormatter={(value) => `$${value}`} />
+                      <Tooltip cursor={{fill: '#F1F5F9'}} contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} />
+                      <Bar dataKey="earnings" radius={[4, 4, 0, 0]} barSize={40}>
+                        {COMMISSION_DATA.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={index === COMMISSION_DATA.length - 1 ? '#2EE69D' : '#1F9BA6'} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="w-full h-full bg-muted animate-pulse rounded-md" />
+                )}
               </div>
             </CardContent>
           </Card>
