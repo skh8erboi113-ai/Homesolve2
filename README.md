@@ -1,29 +1,24 @@
-
 # 🚀 HomeSolve - Mobile Go-Live Manual
 
-Follow these steps to publish your AI-powered marketplace from your mobile device.
+Follow these steps to publish your AI-powered marketplace and start your outreach.
 
 ## 📱 Step 1: Download & Prepare
 1. Look at the **top right** of this workspace.
 2. Tap the **Cloud Icon with the Down Arrow** to download your project as a `.zip` file.
-3. Extract the ZIP in your phone's "Files" or "Downloads" app.
+3. Extract the ZIP in your phone's "Files" app.
 
-## 🐙 Step 2: GitHub Upload (No Terminal Needed)
-1. Go to [github.com/new](https://github.com/new) in your browser.
+## 🐙 Step 2: GitHub Upload
+1. Go to [github.com/new](https://github.com/new).
 2. Name your repo `Homesolve`.
-3. **CRITICAL**: Do NOT check "Add a README" or "Add a License".
-4. Tap **"Create repository"**.
-5. On the next screen, find and tap the link that says **"uploading an existing file"**.
-6. Select all files and folders from your extracted project (especially `src`, `public`, `package.json`, `.env`, etc.).
-7. Tap **"Commit changes"** at the bottom.
+3. Tap **"uploading an existing file"** and upload all extracted files.
+4. Tap **"Commit changes"**.
 
-## 🌐 Step 3: Publish to the Web (Firebase Console)
+## 🌐 Step 3: Publish (Firebase Console)
 1. Open the [Firebase Console](https://console.firebase.google.com/).
-2. Select project: `studio-4450623487-72853`.
-3. **Billing**: Go to Project Settings > Usage and Billing and ensure you are on the **Blaze (Pay-as-you-go) plan**. This is required for AI features.
-4. Go to **Build > App Hosting** in the left menu.
-5. Connect your new GitHub repository.
-6. **AI Setup (CRITICAL)**: Under **Secrets**, add `GOOGLE_GENAI_API_KEY` with the value: `AIzaSyApG0RXgao7nyU_YHyAWWGMWGg1TNwW-eo`.
+2. Go to **Build > App Hosting**.
+3. Connect your GitHub repository.
+4. **AI Setup**: Under **Secrets**, add `GOOGLE_GENAI_API_KEY` with value: `AIzaSyApG0RXgao7nyU_YHyAWWGMWGg1TNwW-eo`.
+5. **Billing**: Ensure you are on the **Blaze Plan** for AI features.
 
 ---
 
@@ -31,12 +26,6 @@ Follow these steps to publish your AI-powered marketplace from your mobile devic
 *   **Main Site:** `https://studio-4450623487-72853.web.app`
 *   **Homeowner Valuation:** `https://studio-4450623487-72853.web.app/list-property`
 *   **Investor Registration:** `https://studio-4450623487-72853.web.app/investor-join`
-*   **Public Listings:** `https://studio-4450623487-72853.web.app/properties`
 
----
-
-## ✅ Launch Checklist
-- [ ] Code downloaded as ZIP
-- [ ] Uploaded to GitHub (via browser)
-- [ ] Firebase project switched to **Blaze Plan**
-- [ ] `GOOGLE_GENAI_API_KEY` added to App Hosting Secrets
+## 📣 Outreach Guide
+Check `docs/marketing-templates.md` for copy-paste posts for LinkedIn and Facebook to start getting traffic for free.
