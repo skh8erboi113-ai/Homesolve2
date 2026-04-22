@@ -1,7 +1,6 @@
-
 'use client';
 
-import { firebaseConfig } from '@/firebase/config';
+import { firebaseConfig } from './config';
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore'
