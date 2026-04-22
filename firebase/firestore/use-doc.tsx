@@ -1,4 +1,3 @@
-
 'use client';
     
 import { useState, useEffect } from 'react';
@@ -66,7 +65,7 @@ export function useDoc<T = any>(
   }, [memoizedDocRef]);
 
   if (memoizedDocRef && !memoizedDocRef.__memo) {
-    throw new Error(memoizedDocRef + ' was not properly memoized using useMemoFirebase');
+    throw new Error('Reference was not properly memoized using useMemoFirebase');
   }
 
   return { data, isLoading, error };
