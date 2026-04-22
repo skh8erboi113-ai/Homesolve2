@@ -1,5 +1,4 @@
-
-import type {Config} from 'tailwindcss';
+import type { Config } from 'tailwindcss';
 
 export default {
   darkMode: ['class'],
@@ -8,6 +7,7 @@ export default {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './firebase/**/*.{js,ts,jsx,tsx,mdx}',
     './lib/**/*.{js,ts,jsx,tsx,mdx}',
+    './ai/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
