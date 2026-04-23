@@ -1,30 +1,67 @@
-# 🚀 HomeSolve - Mobile Go-Live Manual
+# 🚀 HomeSolve - Real Estate Foreclosure Solutions
 
-Follow these steps to confirm your launch and start your outreach.
+HomeSolve is an AI-powered platform designed to bridge the gap between motivated homeowners facing foreclosure and professional real estate investors.
 
-## 🏁 Step 1: Verification
-If you have already connected GitHub to Firebase App Hosting, your app is currently building.
-1. Open the [Firebase Console](https://console.firebase.google.com/).
-2. Go to your project and select **Build > App Hosting**.
-3. Check the **Status**. If it says "Success", click the **URL** provided to see your live site.
-4. If it failed, check the logs—usually, it's a missing API key.
+## 🌟 Features
 
-## 🔑 Step 2: Production Secrets (CRITICAL)
-Your AI Valuation tool requires an API key to work in the cloud.
-1. In the **App Hosting** dashboard, go to the **Settings** or **Secrets** tab.
-2. Add a new secret named `GOOGLE_GENAI_API_KEY`.
-3. Use the value: `AIzaSyApG0RXgao7nyU_YHyAWWGMWGg1TNwW-eo`.
-4. Trigger a new rollout to apply this change.
+- **AI Quick-Sale Valuation**: Instant, realistic market estimates tailored for distressed properties.
+- **Vetted Investor Network**: Secure marketplace connecting sellers with verified cash buyers.
+- **Anonymous Messaging**: Secure communication channel for negotiations.
+- **AI Outreach Kit**: Automated marketing content generation for social media.
+- **Nationwide Coverage**: Operating across all 50 U.S. states.
 
-## 🐙 Step 3: Refreshing Code
-If you have made changes in the editor:
-1. Tap the **Cloud Icon** (top right) to download the updated `.zip`.
-2. Upload these new files to your GitHub repo. This will automatically trigger a fresh build in Firebase.
+## 🛠️ Tech Stack
 
-## 📣 Outreach Guide
-Once the app is live, use the templates in `docs/marketing-templates.md` to drive free traffic from LinkedIn and Facebook groups.
+- **Framework**: Next.js 15 (App Router)
+- **Styling**: Tailwind CSS
+- **UI Components**: Shadcn UI
+- **Backend/Auth**: Firebase (Firestore & Authentication)
+- **AI Engine**: Genkit with Google Gemini
 
----
+## 🚀 Getting Started
 
-## 📍 Your Production Link
-*   **Main Site:** `https://studio-4450623487-72853.web.app`
+### Prerequisites
+
+- Node.js 20+
+- Firebase CLI
+- Google Gemini API Key
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <your-repo-url>
+   cd homesolve
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Set up environment variables:
+   Create a `.env` file in the root and add your keys:
+   ```env
+   GOOGLE_GENAI_API_KEY=your_api_key_here
+   ```
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+## 📦 Deployment to Firebase App Hosting
+
+1. **GitHub Bridge**: Upload your code to a GitHub repository.
+2. **Firebase Console**:
+   - Go to [Firebase Console](https://console.firebase.google.com/).
+   - Select **Build > App Hosting**.
+   - Connect your GitHub repository.
+3. **Secrets**: 
+   - Under the App Hosting settings, add a secret named `GOOGLE_GENAI_API_KEY`.
+   - Use your Gemini API key as the value.
+4. **Rollout**: Trigger a new rollout to deploy.
+
+## 📄 License
+
+This project is licensed under the MIT License.
