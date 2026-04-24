@@ -30,102 +30,60 @@ export default function PropertiesPage() {
 
   const filteredProperties = properties?.filter(p => 
     p.addressStreet?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.addressCity?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.status?.toLowerCase().includes(searchTerm.toLowerCase())
+    p.addressCity?.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
       <main className="container mx-auto px-4 py-8">
         <header className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-2">
+          <div>
             <h1 className="text-3xl font-bold font-headline text-primary">Opportunity Search</h1>
-            <p className="text-muted-foreground">Find properties nearing foreclosure for quick-sale investment opportunities.</p>
+            <p className="text-muted-foreground">Find quick-sale properties nationwide.</p>
           </div>
           <div className="flex w-full md:w-auto items-center gap-2">
              <div className="relative flex-1 md:w-80">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Search location..." 
-                  className="pl-10 h-11 rounded-full bg-white shadow-sm"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
+                <Input placeholder="Search location..." className="pl-10 h-11 rounded-full bg-white shadow-sm" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
              </div>
-             <Button variant="outline" className="h-11 px-5 rounded-full bg-white shadow-sm">
-                <Filter className="mr-2 h-4 w-4" /> Filters
-             </Button>
+             <Button variant="outline" className="h-11 px-5 rounded-full"><Filter className="h-4 w-4" /></Button>
           </div>
         </header>
 
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20">
             <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
-            <p className="text-muted-foreground">Fetching latest opportunities...</p>
+            <p className="text-muted-foreground">Fetching opportunities...</p>
           </div>
         ) : filteredProperties.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-3xl border border-dashed">
             <h3 className="text-xl font-bold mb-2">No active opportunities found</h3>
-            <p className="text-muted-foreground">Try adjusting your search or check back later.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProperties.map((property) => (
               <Link href={`/properties/${property.id}`} key={property.id}>
-                <Card className="overflow-hidden h-full group transition-all hover:shadow-xl border-2 hover:border-primary/20">
+                <Card className="overflow-hidden h-full group hover:shadow-xl border-2 transition-all">
                   <div className="relative h-60 w-full">
                     <Image 
                       src={PlaceHolderImages.find(img => img.id.includes("house-listing"))?.imageUrl || "https://picsum.photos/seed/home/600/400"} 
-                      alt={property.addressStreet} 
-                      fill 
-                      className="object-cover transition-transform group-hover:scale-105 duration-500"
-                      data-ai-hint="property house"
+                      alt={property.addressStreet} fill className="object-cover group-hover:scale-105 transition-transform"
                     />
-                    <div className="absolute top-4 left-4 flex gap-2">
-                      <Badge className="bg-primary shadow-lg border-none uppercase tracking-wider">{property.foreclosureStatus}</Badge>
-                    </div>
+                    <Badge className="absolute top-4 left-4 bg-primary shadow-lg uppercase">{property.foreclosureStatus}</Badge>
                   </div>
-                  
                   <CardContent className="p-6">
                     <div className="flex justify-between items-start mb-4">
-                      <h3 className="font-bold text-xl truncate pr-4">{property.addressStreet}</h3>
-                      <div className="text-right">
-                        <div className="text-primary font-bold text-lg">${property.askingPrice?.toLocaleString()}</div>
-                      </div>
+                      <h3 className="font-bold text-xl truncate">{property.addressStreet}</h3>
+                      <div className="text-primary font-bold text-lg">${property.askingPrice?.toLocaleString()}</div>
                     </div>
-                    
-                    <div className="flex items-center text-muted-foreground text-sm mb-6">
-                      <MapPin className="h-4 w-4 mr-1 text-accent" /> {property.addressCity}, {property.addressState}
-                    </div>
-                    
-                    <div className="grid grid-cols-3 gap-4 py-4 border-y border-dashed border-border/60 mb-6">
-                      <div className="flex items-center flex-col text-center">
-                        <BedDouble className="h-4 w-4 mb-1 text-primary/60" />
-                        <span className="text-sm font-semibold">{property.bedrooms} Beds</span>
-                      </div>
-                      <div className="flex items-center flex-col text-center border-x">
-                        <Bath className="h-4 w-4 mb-1 text-primary/60" />
-                        <span className="text-sm font-semibold">{property.bathrooms} Baths</span>
-                      </div>
-                      <div className="flex items-center flex-col text-center">
-                        <Square className="h-4 w-4 mb-1 text-primary/60" />
-                        <span className="text-sm font-semibold">{property.squareFootage} sqft</span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                       <div className="flex items-center gap-1.5 text-accent font-medium text-sm">
-                          <TrendingDown className="h-4 w-4" />
-                          AI Valued: ${property.aiQuickSaleValuation?.toLocaleString()}
-                       </div>
+                    <div className="flex items-center text-muted-foreground text-sm mb-4"><MapPin className="h-4 w-4 mr-1 text-accent" /> {property.addressCity}, {property.addressState}</div>
+                    <div className="flex items-center gap-2 text-accent font-medium text-sm">
+                      <TrendingDown className="h-4 w-4" /> AI Valued: ${property.aiQuickSaleValuation?.toLocaleString()}
                     </div>
                   </CardContent>
                   <CardFooter className="px-6 pb-6 pt-0">
-                    <Button className="w-full rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all">
-                      Analyze Opportunity
-                    </Button>
+                    <Button className="w-full rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white">Analyze Opportunity</Button>
                   </CardFooter>
                 </Card>
               </Link>

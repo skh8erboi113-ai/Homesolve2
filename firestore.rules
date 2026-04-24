@@ -4,7 +4,7 @@ service cloud.firestore {
 
     /**
      * HomeSolve Security Rules
-     * Last Updated: 2026-04-24 16:30:00 UTC (Forcing rules refresh for public listings)
+     * Last Updated: 2026-04-24 18:45:00 UTC (Full consolidation refresh)
      */
 
     // --- Helper Functions ---
@@ -15,14 +15,6 @@ service cloud.firestore {
 
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
-    }
-
-    function isExistingOwner(userId) {
-      return resource != null && isOwner(userId);
-    }
-
-    function isMember(memberList) {
-      return isSignedIn() && request.auth.uid in memberList;
     }
 
     function isValidOwnerField(field) {
@@ -36,97 +28,65 @@ service cloud.firestore {
     // --- Collection Rules ---
 
     /**
-     * User profiles are private to the owner.
+     * User profiles: Owners can read/write their own.
      */
     match /users/{userId} {
       allow get: if isOwner(userId);
       allow list: if false; 
-      allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isExistingOwner(userId) && isImmutable('id');
-      allow delete: if isExistingOwner(userId);
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) && isImmutable('id');
+      allow delete: if isOwner(userId);
 
-      /**
-       * Draft listings are private until published.
-       */
       match /draft_listings/{listingId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && request.resource.data.homeownerId == userId;
-        allow update: if isExistingOwner(userId) && isImmutable('homeownerId');
-        allow delete: if isExistingOwner(userId);
+        allow read, write: if isOwner(userId);
       }
     }
 
     /**
-     * Public property listings are viewable by everyone.
-     * We explicitly allow 'read' (get and list) for all users.
+     * Public property listings: Viewable by everyone.
+     * Creators must be signed in and assign themselves as owner.
      */
     match /public_property_listings/{listingId} {
       allow read: if true;
       allow create: if isSignedIn() && isValidOwnerField('homeownerId');
-      allow update: if isSignedIn() && 
-                   resource.data.get('homeownerId', '') == request.auth.uid && 
-                   isImmutable('homeownerId');
-      allow delete: if isSignedIn() && resource.data.get('homeownerId', '') == request.auth.uid;
+      allow update: if isSignedIn() && resource.data.homeownerId == request.auth.uid;
+      allow delete: if isSignedIn() && resource.data.homeownerId == request.auth.uid;
 
       match /images/{imageId} {
         allow read: if true;
-        allow create: if isSignedIn() && isValidOwnerField('listingHomeownerId');
-        allow update: if isSignedIn() && 
-                     resource.data.get('listingHomeownerId', '') == request.auth.uid && 
-                     isImmutable('listingHomeownerId');
-        allow delete: if isSignedIn() && resource.data.get('listingHomeownerId', '') == request.auth.uid;
+        allow write: if isSignedIn();
       }
     }
 
     /**
-     * Offers are shared between the proposer, receiver, and property owner.
+     * Offers: Shared between proposer, receiver, and listing owner.
      */
     match /offers/{offerId} {
-      allow get, list: if isSignedIn() && (
-        request.auth.uid == resource.data.get('proposingUserId', '') || 
-        request.auth.uid == resource.data.get('receivingUserId', '') || 
-        request.auth.uid == resource.data.get('propertyListingHomeownerId', '')
+      allow read: if isSignedIn() && (
+        request.auth.uid == resource.data.proposingUserId || 
+        request.auth.uid == resource.data.receivingUserId ||
+        request.auth.uid == resource.data.propertyListingHomeownerId
       );
-
       allow create: if isSignedIn() && isValidOwnerField('proposingUserId');
       allow update: if isSignedIn() && (
-        request.auth.uid == resource.data.get('proposingUserId', '') || 
-        request.auth.uid == resource.data.get('receivingUserId', '')
-      ) && isImmutable('proposingUserId');
-      allow delete: if isSignedIn() && resource.data.get('proposingUserId', '') == request.auth.uid;
+        request.auth.uid == resource.data.proposingUserId || 
+        request.auth.uid == resource.data.receivingUserId
+      );
+      allow delete: if isSignedIn() && resource.data.proposingUserId == request.auth.uid;
     }
 
     /**
-     * Conversations and Messages are restricted to participants.
+     * Conversations & Messages: Restricted to participants.
      */
     match /conversations/{conversationId} {
-      allow get, list: if isSignedIn() && request.auth.uid in resource.data.get('participantIds', []);
-      allow create: if isSignedIn() && request.auth.uid in request.resource.data.get('participantIds', []);
-      allow update: if isSignedIn() && 
-                   request.auth.uid in resource.data.get('participantIds', []) && 
-                   isImmutable('participantIds');
+      allow read: if isSignedIn() && request.auth.uid in resource.data.participantIds;
+      allow create: if isSignedIn() && request.auth.uid in request.resource.data.participantIds;
+      allow update: if isSignedIn() && request.auth.uid in resource.data.participantIds;
       
       match /messages/{messageId} {
-        allow get, list: if isSignedIn() && request.auth.uid in resource.data.get('conversationParticipantIds', []);
-        allow create: if isSignedIn() && 
-                     request.auth.uid in resource.data.get('conversationParticipantIds', []) && 
-                     isValidOwnerField('senderId');
-        allow update: if isSignedIn() && 
-                     resource.data.get('senderId', '') == request.auth.uid && 
-                     isImmutable('senderId');
-        allow delete: if isSignedIn() && resource.data.get('senderId', '') == request.auth.uid;
+        allow read: if isSignedIn() && request.auth.uid in resource.data.conversationParticipantIds;
+        allow create: if isSignedIn() && request.auth.uid in request.resource.data.conversationParticipantIds;
       }
-    }
-
-    /**
-     * Transactions are private to the buyer and seller.
-     */
-    match /transactions/{transactionId} {
-      allow get, list: if isSignedIn() && (
-        request.auth.uid == resource.data.get('homeownerId', '') || 
-        request.auth.uid == resource.data.get('buyerInvestorId', '')
-      );
-      allow create: if isSignedIn();
     }
   }
 }

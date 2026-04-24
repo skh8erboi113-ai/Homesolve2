@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -13,7 +12,7 @@ import { Progress } from "@/components/ui/progress";
 import { useCollection, useFirestore, useMemoFirebase, useUser } from "@/firebase";
 import { collection, query, where, orderBy, limit } from "firebase/firestore";
 
-const COMMISSION_DATA = [
+const CHART_DATA = [
   { month: "Jan", earnings: 2400 },
   { month: "Feb", earnings: 1800 },
   { month: "Mar", earnings: 3200 },
@@ -81,7 +80,6 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
       <main className="container mx-auto px-4 py-8">
         <header className="mb-10 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
@@ -92,7 +90,7 @@ export default function DashboardPage() {
             <Button variant="outline" asChild className="rounded-full px-6">
               <Link href="/messages">Messages</Link>
             </Button>
-            <Button asChild className="rounded-full px-6 bg-accent text-accent-foreground hover:bg-accent/90">
+            <Button asChild className="rounded-full px-6 bg-accent text-accent-foreground">
               <Link href="/list-property">
                 <Home className="mr-2 h-4 w-4" /> New Listing
               </Link>
@@ -118,27 +116,27 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <Card className="lg:col-span-2 shadow-sm">
-            <CardHeader className="flex flex-row items-center justify-between pb-8">
+            <CardHeader className="flex flex-row items-center justify-between">
               <div>
                 <CardTitle>Market Activity</CardTitle>
-                <CardDescription>Estimated equity preservation trends across all markets.</CardDescription>
+                <CardDescription>Equity preservation trends across the platform.</CardDescription>
               </div>
-              <Badge variant="outline" className="h-8 px-3 rounded-full border-accent text-accent">
-                <TrendingUp className="h-3 w-3 mr-1" /> AI Insights Active
+              <Badge variant="outline" className="border-accent text-accent">
+                <TrendingUp className="h-3 w-3 mr-1" /> AI Active
               </Badge>
             </CardHeader>
             <CardContent>
               <div className="h-[300px] w-full">
                 {hasMounted ? (
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={COMMISSION_DATA}>
+                    <BarChart data={CHART_DATA}>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
-                      <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{fill: '#64748B', fontSize: 12}} dy={10} />
-                      <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748B', fontSize: 12}} tickFormatter={(value) => `$${value}`} />
-                      <Tooltip cursor={{fill: '#F1F5F9'}} contentStyle={{borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'}} />
+                      <XAxis dataKey="month" axisLine={false} tickLine={false} />
+                      <YAxis axisLine={false} tickLine={false} tickFormatter={(v) => `$${v}`} />
+                      <Tooltip />
                       <Bar dataKey="earnings" radius={[4, 4, 0, 0]} barSize={40}>
-                        {COMMISSION_DATA.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={index === COMMISSION_DATA.length - 1 ? '#2EE69D' : '#1F9BA6'} />
+                        {CHART_DATA.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={index === CHART_DATA.length - 1 ? '#2EE69D' : '#1F9BA6'} />
                         ))}
                       </Bar>
                     </BarChart>
@@ -150,40 +148,30 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          <div className="space-y-6">
-            <Card className="shadow-sm border-primary/20 bg-primary/5">
-              <CardHeader className="pb-4">
-                <div className="flex justify-between items-center mb-1">
-                  <CardTitle className="text-lg">AI Power User</CardTitle>
-                  <Badge className="bg-primary text-primary-foreground">Verified</Badge>
+          <Card className="shadow-sm bg-primary/5">
+            <CardHeader>
+              <CardTitle className="text-lg">AI Power User</CardTitle>
+              <CardDescription>Nationwide access enabled</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <div className="flex justify-between text-xs font-medium">
+                  <span>Valuation Usage</span>
+                  <span>{activeListingsCount} / 50</span>
                 </div>
-                <CardDescription>Nationwide access enabled</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <div className="flex justify-between text-xs font-medium">
-                    <span>Valuation Usage</span>
-                    <span>{activeListingsCount} / 50</span>
-                  </div>
-                  <Progress value={(activeListingsCount / 50) * 100} className="h-1.5" />
-                </div>
-              </CardContent>
-              <CardFooter className="pt-2">
-                <Button variant="outline" className="w-full text-xs h-9 rounded-full bg-white" asChild>
-                  <Link href="/pricing">
-                    <CreditCard className="mr-2 h-3.5 w-3.5" /> Plan Details
-                  </Link>
-                </Button>
-              </CardFooter>
-            </Card>
-          </div>
+                <Progress value={(activeListingsCount / 50) * 100} className="h-1.5" />
+              </div>
+              <Button variant="outline" className="w-full h-9 rounded-full bg-white" asChild>
+                <Link href="/pricing">Plan Details</Link>
+              </Button>
+            </CardContent>
+          </Card>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
            <Card className="lg:col-span-2 shadow-sm">
             <CardHeader>
               <CardTitle>Recent Activity</CardTitle>
-              <CardDescription>Real-time updates on your listings and offers.</CardDescription>
             </CardHeader>
             <CardContent className="p-0">
               <div className="divide-y">
@@ -195,13 +183,9 @@ export default function DashboardPage() {
                   <>
                     {recentOffers?.map((offer) => (
                       <div key={offer.id} className="p-4 flex gap-4 hover:bg-gray-50 transition-colors">
-                        <div className="h-10 w-10 rounded-full shrink-0 flex items-center justify-center bg-accent/10 text-accent">
-                          <DollarSign className="h-5 w-5" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm leading-tight font-bold text-primary">
-                            New offer of ${offer.offerAmount?.toLocaleString()} received!
-                          </p>
+                        <DollarSign className="h-5 w-5 text-accent" />
+                        <div className="flex-1">
+                          <p className="text-sm font-bold">New offer of ${offer.offerAmount?.toLocaleString()} received!</p>
                           <p className="text-xs text-muted-foreground mt-1">Status: {offer.status}</p>
                         </div>
                         <Button size="sm" variant="ghost" asChild><Link href={`/properties/${offer.propertyListingId}`}>View</Link></Button>
@@ -209,13 +193,9 @@ export default function DashboardPage() {
                     ))}
                     {listings?.map((listing) => (
                       <div key={listing.id} className="p-4 flex gap-4 hover:bg-gray-50 transition-colors">
-                        <div className="h-10 w-10 rounded-full shrink-0 flex items-center justify-center bg-primary/10 text-primary">
-                          <Home className="h-5 w-5" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm leading-tight text-muted-foreground">
-                            Listing "{listing.addressStreet}" is {listing.status}.
-                          </p>
+                        <Home className="h-5 w-5 text-primary" />
+                        <div className="flex-1">
+                          <p className="text-sm">Listing "{listing.addressStreet}" is {listing.status}.</p>
                         </div>
                         <Button size="sm" variant="ghost" asChild><Link href={`/properties/${listing.id}`}>Manage</Link></Button>
                       </div>
@@ -226,17 +206,12 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          <section>
-            <h2 className="text-xl font-bold font-headline mb-6 text-primary flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5" /> Closing Status
-            </h2>
-            <Card className="border-l-4 border-l-primary shadow-sm">
-              <CardContent className="p-6">
-                <h4 className="font-bold text-lg mb-1">{activeListingsCount} Total Listings</h4>
-                <p className="text-sm text-muted-foreground">Properties currently active nationwide.</p>
-              </CardContent>
-            </Card>
-          </section>
+          <Card className="border-l-4 border-l-primary shadow-sm h-fit">
+            <CardContent className="p-6">
+              <h4 className="font-bold text-lg mb-1">{activeListingsCount} Total Listings</h4>
+              <p className="text-sm text-muted-foreground">Active nationwide opportunities.</p>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>

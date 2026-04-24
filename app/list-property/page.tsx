@@ -43,7 +43,12 @@ export default function ListPropertyPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: name === "squareFootage" || name === "numberOfBedrooms" || name === "numberOfBathrooms" || name === "yearBuilt" ? Number(value) : value }));
+    setFormData(prev => ({ 
+      ...prev, 
+      [name]: ["squareFootage", "numberOfBedrooms", "numberOfBathrooms", "yearBuilt"].includes(name) 
+        ? Number(value) 
+        : value 
+    }));
   };
 
   const handleValuation = async () => {
@@ -77,11 +82,7 @@ export default function ListPropertyPage() {
 
   const handlePublish = async () => {
     if (!user) {
-      toast({
-        title: "Sign In Required",
-        description: "Please sign in to publish your listing.",
-        variant: "destructive"
-      });
+      toast({ title: "Sign In Required", description: "Please sign in to publish.", variant: "destructive" });
       router.push("/auth");
       return;
     }
@@ -90,11 +91,10 @@ export default function ListPropertyPage() {
 
     setPublishing(true);
     try {
-      const publicListingsRef = collection(db, "public_property_listings");
       const listingData = {
         homeownerId: user.uid,
         title: `${formData.numberOfBedrooms} Bed ${formData.propertyType} in ${formData.address.split(',')[1]?.trim() || 'Your Area'}`,
-        description: `Motivated sale. AI Estimated value is based on current condition and foreclosure status. ${formData.specialFeatures}`,
+        description: `Motivated sale. AI Estimated value is based on condition and status. ${formData.specialFeatures}`,
         addressStreet: formData.address.split(',')[0]?.trim() || formData.address,
         addressCity: formData.address.split(',')[1]?.trim() || "Unknown City",
         addressState: formData.address.split(',')[2]?.trim()?.split(' ')[0] || "ST",
@@ -113,19 +113,12 @@ export default function ListPropertyPage() {
         updatedAt: serverTimestamp(),
       };
 
-      addDocumentNonBlocking(publicListingsRef, listingData);
+      addDocumentNonBlocking(collection(db, "public_property_listings"), listingData);
       
-      toast({
-        title: "Listing Published!",
-        description: "Your property is now visible to our investor network.",
-      });
+      toast({ title: "Listing Published!", description: "Your property is now live." });
       router.push("/properties");
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Could not publish listing. Please try again.",
-        variant: "destructive"
-      });
+      toast({ title: "Error", description: "Could not publish listing.", variant: "destructive" });
     } finally {
       setPublishing(false);
     }
@@ -136,12 +129,11 @@ export default function ListPropertyPage() {
   return (
     <div className="min-h-screen bg-background pb-20">
       <Navbar />
-      
       <div className="container mx-auto px-4 pt-12">
         <div className="max-w-4xl mx-auto">
           <header className="mb-10 text-center">
             <h1 className="text-3xl font-bold font-headline mb-3 text-primary">List Your Property</h1>
-            <p className="text-muted-foreground">Provide details about your home to get an AI valuation and connect with investors.</p>
+            <p className="text-muted-foreground">Get an AI valuation and connect with investors instantly.</p>
           </header>
 
           <Tabs defaultValue="details" className="w-full">
@@ -154,146 +146,70 @@ export default function ListPropertyPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>Basic Information</CardTitle>
-                  <CardDescription>All fields are required for an accurate AI estimate.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-2">
                     <Label htmlFor="address">Full Property Address</Label>
-                    <Input 
-                      id="address" 
-                      name="address" 
-                      placeholder="123 Main St, Anytown, ST 12345" 
-                      value={formData.address}
-                      onChange={handleInputChange}
-                    />
+                    <Input id="address" name="address" placeholder="123 Main St, Anytown, ST 12345" value={formData.address} onChange={handleInputChange} />
                   </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="propertyType">Property Type</Label>
-                      <Select 
-                        value={formData.propertyType} 
-                        onValueChange={(val) => setFormData(prev => ({...prev, propertyType: val}))}
-                      >
-                        <SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger>
+                      <Label>Property Type</Label>
+                      <Select value={formData.propertyType} onValueChange={(val) => setFormData(prev => ({...prev, propertyType: val}))}>
+                        <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>
                           <SelectItem value="house">Single Family House</SelectItem>
                           <SelectItem value="condo">Condo / Apartment</SelectItem>
                           <SelectItem value="townhouse">Townhouse</SelectItem>
-                          <SelectItem value="multi-family">Multi-family Home</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="yearBuilt">Year Built</Label>
-                      <Input 
-                        id="yearBuilt" 
-                        name="yearBuilt" 
-                        type="number" 
-                        value={formData.yearBuilt}
-                        onChange={handleInputChange}
-                      />
+                      <Label>Year Built</Label>
+                      <Input name="yearBuilt" type="number" value={formData.yearBuilt} onChange={handleInputChange} />
                     </div>
                   </div>
-
                   <div className="grid grid-cols-3 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="squareFootage">Sq. Footage</Label>
-                      <Input 
-                        id="squareFootage" 
-                        name="squareFootage" 
-                        type="number" 
-                        value={formData.squareFootage}
-                        onChange={handleInputChange}
-                      />
+                      <Label>Sq. Footage</Label>
+                      <Input name="squareFootage" type="number" value={formData.squareFootage} onChange={handleInputChange} />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="numberOfBedrooms">Bedrooms</Label>
-                      <Input 
-                        id="numberOfBedrooms" 
-                        name="numberOfBedrooms" 
-                        type="number" 
-                        value={formData.numberOfBedrooms}
-                        onChange={handleInputChange}
-                      />
+                      <Label>Bedrooms</Label>
+                      <Input name="numberOfBedrooms" type="number" value={formData.numberOfBedrooms} onChange={handleInputChange} />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="numberOfBathrooms">Bathrooms</Label>
-                      <Input 
-                        id="numberOfBathrooms" 
-                        name="numberOfBathrooms" 
-                        type="number" 
-                        value={formData.numberOfBathrooms}
-                        onChange={handleInputChange}
-                      />
+                      <Label>Bathrooms</Label>
+                      <Input name="numberOfBathrooms" type="number" value={formData.numberOfBathrooms} onChange={handleInputChange} />
                     </div>
                   </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="condition">Property Condition</Label>
-                      <Select 
-                        value={formData.condition} 
-                        onValueChange={(val) => setFormData(prev => ({...prev, condition: val}))}
-                      >
-                        <SelectTrigger><SelectValue placeholder="Select condition" /></SelectTrigger>
+                      <Label>Condition</Label>
+                      <Select value={formData.condition} onValueChange={(val) => setFormData(prev => ({...prev, condition: val}))}>
+                        <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="excellent">Excellent - Recently renovated</SelectItem>
-                          <SelectItem value="good">Good - Well maintained</SelectItem>
-                          <SelectItem value="fair">Fair - Needs minor repairs</SelectItem>
-                          <SelectItem value="poor">Poor - Needs major work</SelectItem>
+                          <SelectItem value="excellent">Excellent</SelectItem>
+                          <SelectItem value="good">Good</SelectItem>
+                          <SelectItem value="fair">Fair</SelectItem>
+                          <SelectItem value="poor">Poor</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="foreclosureStatus">Foreclosure Status</Label>
-                      <Select 
-                        value={formData.foreclosureStatus} 
-                        onValueChange={(val) => setFormData(prev => ({...prev, foreclosureStatus: val}))}
-                      >
-                        <SelectTrigger><SelectValue placeholder="Select status" /></SelectTrigger>
+                      <Label>Foreclosure Status</Label>
+                      <Select value={formData.foreclosureStatus} onValueChange={(val) => setFormData(prev => ({...prev, foreclosureStatus: val}))}>
+                        <SelectTrigger><SelectValue /></SelectTrigger>
                         <SelectContent>
                           <SelectItem value="pre-foreclosure">Pre-foreclosure</SelectItem>
                           <SelectItem value="notice-of-default">Notice of Default</SelectItem>
                           <SelectItem value="auction-scheduled">Auction Scheduled</SelectItem>
-                          <SelectItem value="late-payments">Behind on Payments</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                   </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="urgency">Urgency level</Label>
-                    <Select 
-                      value={formData.urgency} 
-                      onValueChange={(val) => setFormData(prev => ({...prev, urgency: val}))}
-                    >
-                      <SelectTrigger><SelectValue placeholder="Select urgency" /></SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="very urgent">Very Urgent - Needed sale yesterday</SelectItem>
-                        <SelectItem value="somewhat urgent">Somewhat Urgent - Within 30 days</SelectItem>
-                        <SelectItem value="flexible">Flexible - Just exploring options</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="specialFeatures">Special Features / Additional Notes</Label>
-                    <Textarea 
-                      id="specialFeatures" 
-                      name="specialFeatures" 
-                      placeholder="e.g., New roof 2023, finished basement, large backyard pool..."
-                      className="min-h-[100px]"
-                      value={formData.specialFeatures}
-                      onChange={handleInputChange}
-                    />
-                  </div>
                 </CardContent>
-                <CardFooter className="flex justify-between items-center border-t pt-6">
-                   <p className="text-xs text-muted-foreground max-w-sm flex items-start gap-2">
-                    <Info className="h-4 w-4 shrink-0 mt-0.5" />
-                    All property listings on HomeSolve are shared with our verified buyer network only.
-                   </p>
+                <CardFooter className="flex justify-end border-t pt-6">
                    <Button size="lg" className="rounded-full px-8" onClick={handleValuation} disabled={loading}>
                     {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <TrendingUp className="mr-2 h-4 w-4" />}
                     Get AI Valuation
@@ -304,85 +220,28 @@ export default function ListPropertyPage() {
 
             <TabsContent value="ai-valuation">
               {!valuation ? (
-                <Card className="flex flex-col items-center justify-center p-12 text-center">
-                  <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-6">
-                    <TrendingUp className="h-8 w-8" />
-                  </div>
+                <Card className="p-12 text-center">
+                  <TrendingUp className="h-12 w-12 mx-auto mb-4 text-primary/40" />
                   <h3 className="text-xl font-bold mb-2">No Valuation Generated</h3>
-                  <p className="text-muted-foreground mb-6 max-w-sm">Please fill out your property details and click "Get AI Valuation" to see your estimate.</p>
-                  <Button variant="outline" asChild><Link href="#details">Return to Details</Link></Button>
+                  <Button variant="outline" asChild><Link href="#details">Fill Details First</Link></Button>
                 </Card>
               ) : (
-                <div className="space-y-6 animate-in fade-in zoom-in-95 duration-500">
-                  <Card className="border-accent/40 bg-accent/5 overflow-hidden">
-                    <div className="p-6 md:p-10 text-center relative">
-                      <div className="absolute top-4 right-4">
-                        <Badge variant="outline" className="bg-white border-accent">AI Estimate</Badge>
-                      </div>
-                      <h3 className="text-muted-foreground font-medium mb-2 uppercase tracking-wider text-sm">Estimated Quick-Sale Value</h3>
-                      <div className="text-5xl md:text-7xl font-bold text-primary flex items-center justify-center">
-                        <DollarSign className="h-10 w-10 md:h-16 md:w-16 -mr-2" />
-                        {valuation.estimatedValue.toLocaleString()}
-                      </div>
-                      <p className="text-muted-foreground mt-4 max-w-md mx-auto italic text-sm">
-                        Calculated based on current market trends for {formData.propertyType}s in similar condition.
-                      </p>
+                <div className="space-y-6">
+                  <Card className="border-accent/40 bg-accent/5 p-10 text-center">
+                    <h3 className="text-muted-foreground font-medium mb-2 uppercase tracking-wider text-sm">Estimated Quick-Sale Value</h3>
+                    <div className="text-6xl font-bold text-primary flex items-center justify-center">
+                      <DollarSign className="h-12 w-12" />
+                      {valuation.estimatedValue.toLocaleString()}
                     </div>
                   </Card>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <Card className="md:col-span-2">
-                      <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                          <CheckCircle2 className="h-5 w-5 text-accent" />
-                          Valuation Analysis
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
-                          {valuation.valuationExplanation}
-                        </p>
-                      </CardContent>
-                    </Card>
-
-                    <Card className="bg-primary/5 border-primary/20">
-                      <CardHeader>
-                        <CardTitle className="text-sm font-semibold uppercase tracking-wider">Next Steps</CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div className="flex gap-3">
-                          <div className="h-6 w-6 rounded-full bg-primary text-white flex items-center justify-center text-xs shrink-0">1</div>
-                          <p className="text-sm">Finalize listing details</p>
-                        </div>
-                        <div className="flex gap-3">
-                          <div className="h-6 w-6 rounded-full bg-primary text-white flex items-center justify-center text-xs shrink-0">2</div>
-                          <p className="text-sm">Publish to investor network</p>
-                        </div>
-                        <div className="flex gap-3">
-                          <div className="h-6 w-6 rounded-full bg-primary text-white flex items-center justify-center text-xs shrink-0">3</div>
-                          <p className="text-sm">Receive cash offers</p>
-                        </div>
-                        <Button 
-                          className="w-full mt-6 bg-primary rounded-full" 
-                          onClick={handlePublish} 
-                          disabled={publishing}
-                        >
-                          {publishing ? <Loader2 className="animate-spin h-4 w-4 mr-2" /> : "Publish Listing"}
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  </div>
-
-                  <Card className="border-destructive/20 bg-destructive/5">
-                    <CardContent className="pt-6 flex items-start gap-4">
-                      <AlertCircle className="h-5 w-5 text-destructive mt-0.5 shrink-0" />
-                      <div className="space-y-1">
-                        <h4 className="text-sm font-semibold text-destructive">Valuation Disclaimer</h4>
-                        <p className="text-xs text-muted-foreground leading-relaxed">
-                          {valuation.disclaimer}
-                        </p>
-                      </div>
-                    </CardContent>
+                  <Card>
+                    <CardHeader><CardTitle>Valuation Analysis</CardTitle></CardHeader>
+                    <CardContent><p className="text-sm leading-relaxed text-muted-foreground">{valuation.valuationExplanation}</p></CardContent>
+                    <CardFooter>
+                      <Button className="w-full h-12 rounded-full" onClick={handlePublish} disabled={publishing}>
+                        {publishing ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : "Publish to Investor Network"}
+                      </Button>
+                    </CardFooter>
                   </Card>
                 </div>
               )}
