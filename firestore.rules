@@ -4,7 +4,7 @@ service cloud.firestore {
 
     /**
      * HomeSolve Security Rules
-     * Last Updated: 2026-04-24 (Forcing rule deployment)
+     * Last Updated: 2026-04-24 10:45:00 UTC (Forcing rule deployment)
      */
 
     // --- Helper Functions ---
@@ -58,10 +58,12 @@ service cloud.firestore {
 
     /**
      * Public property listings are viewable by everyone.
-     * We use 'read' to explicitly cover 'get' and 'list' for guest users.
      */
     match /public_property_listings/{listingId} {
-      allow read: if true; 
+      // Explicitly split read into get and list for maximum clarity in deployment
+      allow get: if true;
+      allow list: if true;
+      
       allow create: if isSignedIn() && isValidOwnerField('homeownerId');
       allow update: if isExistingOwner(resource.data.homeownerId) && isImmutable('homeownerId');
       allow delete: if isExistingOwner(resource.data.homeownerId);
