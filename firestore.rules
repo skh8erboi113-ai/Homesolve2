@@ -4,7 +4,7 @@ service cloud.firestore {
 
     /**
      * HomeSolve Security Rules
-     * Last Updated: 2026-04-24 10:45:00 UTC (Forcing rule deployment)
+     * Last Updated: 2026-04-24 11:45:00 UTC (Forcing rule deployment)
      */
 
     // --- Helper Functions ---
@@ -60,10 +60,7 @@ service cloud.firestore {
      * Public property listings are viewable by everyone.
      */
     match /public_property_listings/{listingId} {
-      // Explicitly split read into get and list for maximum clarity in deployment
-      allow get: if true;
-      allow list: if true;
-      
+      allow read: if true;
       allow create: if isSignedIn() && isValidOwnerField('homeownerId');
       allow update: if isExistingOwner(resource.data.homeownerId) && isImmutable('homeownerId');
       allow delete: if isExistingOwner(resource.data.homeownerId);
@@ -80,15 +77,16 @@ service cloud.firestore {
      * Offers are shared between the proposer, receiver, and property owner.
      */
     match /offers/{offerId} {
-      allow get, list: if isSignedIn() && (
-        request.auth.uid == resource.data.proposingUserId || 
-        request.auth.uid == resource.data.receivingUserId || 
-        request.auth.uid == resource.data.propertyListingHomeownerId
+      // Use get() with default to prevent evaluation errors if fields are missing
+      allow read: if isSignedIn() && (
+        request.auth.uid == resource.data.get('proposingUserId', '') || 
+        request.auth.uid == resource.data.get('receivingUserId', '') || 
+        request.auth.uid == resource.data.get('propertyListingHomeownerId', '')
       );
       allow create: if isSignedIn() && isValidOwnerField('proposingUserId');
       allow update: if isSignedIn() && (
-        request.auth.uid == resource.data.proposingUserId || 
-        request.auth.uid == resource.data.receivingUserId
+        request.auth.uid == resource.data.get('proposingUserId', '') || 
+        request.auth.uid == resource.data.get('receivingUserId', '')
       ) && isImmutable('proposingUserId');
       allow delete: if isExistingOwner(resource.data.proposingUserId);
     }
@@ -97,13 +95,13 @@ service cloud.firestore {
      * Conversations and Messages are restricted to participants.
      */
     match /conversations/{conversationId} {
-      allow get, list: if isSignedIn() && isMember(resource.data.participantIds);
-      allow create: if isSignedIn() && isMember(request.resource.data.participantIds);
-      allow update: if isSignedIn() && isMember(resource.data.participantIds) && isImmutable('participantIds');
+      allow get, list: if isSignedIn() && isMember(resource.data.get('participantIds', []));
+      allow create: if isSignedIn() && isMember(request.resource.data.get('participantIds', []));
+      allow update: if isSignedIn() && isMember(resource.data.get('participantIds', [])) && isImmutable('participantIds');
       
       match /messages/{messageId} {
-        allow get, list: if isSignedIn() && isMember(resource.data.conversationParticipantIds);
-        allow create: if isSignedIn() && isMember(request.resource.data.conversationParticipantIds) && isValidOwnerField('senderId');
+        allow get, list: if isSignedIn() && isMember(resource.data.get('conversationParticipantIds', []));
+        allow create: if isSignedIn() && isMember(request.resource.data.get('conversationParticipantIds', [])) && isValidOwnerField('senderId');
         allow update: if isSignedIn() && isExistingOwner(resource.data.senderId) && isImmutable('senderId');
         allow delete: if isSignedIn() && isExistingOwner(resource.data.senderId);
       }
@@ -114,8 +112,8 @@ service cloud.firestore {
      */
     match /transactions/{transactionId} {
       allow get, list: if isSignedIn() && (
-        request.auth.uid == resource.data.homeownerId || 
-        request.auth.uid == resource.data.buyerInvestorId
+        request.auth.uid == resource.data.get('homeownerId', '') || 
+        request.auth.uid == resource.data.get('buyerInvestorId', '')
       );
       allow create: if isSignedIn();
     }
