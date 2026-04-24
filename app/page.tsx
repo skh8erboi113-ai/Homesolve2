@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
@@ -115,16 +114,68 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Core Value Props */}
+        <section className="py-24">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col lg:flex-row items-center gap-20">
+              <div className="flex-1 space-y-8">
+                <h2 className="text-4xl font-bold font-headline leading-tight">Built for Speed. <br/>Backed by <span className="text-accent underline decoration-primary underline-offset-4">AI Intelligence</span>.</h2>
+                <div className="space-y-6">
+                  {[
+                    { title: "Equity Preservation", text: "Avoid the total loss of a bank auction. Sell quickly and walk away with your remaining equity.", icon: CheckCircle2 },
+                    { title: "Verified Cash Buyers", text: "Every investor on HomeSolve is vetted for proof of funds and closing history.", icon: ShieldCheck },
+                    { title: "Anonymous Messaging", text: "Communicate securely with potential buyers without disclosing private contact details until you're ready.", icon: Sparkles }
+                  ].map((item, i) => (
+                    <div key={i} className="flex gap-4">
+                      <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center text-primary mt-1 shrink-0">
+                        <item.icon className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-lg">{item.title}</h4>
+                        <p className="text-muted-foreground">{item.text}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="flex-1 w-full max-w-lg aspect-square bg-primary/5 rounded-[4rem] flex items-center justify-center border p-8 relative">
+                 <div className="absolute -top-4 -right-4 bg-white p-6 rounded-3xl shadow-xl border animate-bounce duration-[3000ms]">
+                    <TrendingUp className="h-10 w-10 text-accent mb-2" />
+                    <div className="font-bold text-xl">$12.4k</div>
+                    <div className="text-[10px] text-muted-foreground uppercase font-bold">Equity Saved This Week</div>
+                 </div>
+                 <div className="bg-white w-full h-full rounded-[3rem] shadow-inner p-10 flex flex-col justify-center">
+                    <h3 className="text-3xl font-bold mb-6 text-primary">Your Quick-Sale Partner</h3>
+                    <p className="text-muted-foreground text-lg mb-8 italic">"HomeSolve helped us settle our debt and walk away with $24,000 in equity just 12 days before the scheduled auction. They literally saved our credit."</p>
+                    <div className="flex items-center gap-4">
+                      <div className="h-12 w-12 rounded-full bg-slate-200"></div>
+                      <div>
+                        <div className="font-bold">The Miller Family</div>
+                        <div className="text-xs text-muted-foreground">Verified Homeowner</div>
+                      </div>
+                    </div>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section className="py-24 bg-primary text-primary-foreground relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-20 opacity-10">
+            <Sparkles className="h-96 w-96 rotate-12" />
+          </div>
           <div className="container mx-auto px-4 relative z-10 text-center max-w-3xl">
             <h2 className="text-4xl font-bold font-headline mb-8">Ready to secure your home's value?</h2>
             <p className="text-xl mb-12 opacity-90 leading-relaxed">
-              Don't let the clock run out. Join the marketplace that puts speed and fairness first.
+              Don't let the clock run out. Join the marketplace that puts speed and fairness first, no matter where you are located.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <Button size="lg" asChild variant="secondary" className="h-16 px-12 rounded-full text-xl font-bold hover:scale-105 transition-transform">
                 <Link href="/list-property">Start Free Valuation</Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild className="h-16 px-12 rounded-full text-xl bg-transparent border-white text-white hover:bg-white hover:text-primary">
+                <Link href="/contact">Speak with a Specialist</Link>
               </Button>
             </div>
           </div>
@@ -132,8 +183,54 @@ export default function Home() {
       </main>
 
       <footer className="border-t bg-white py-16">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} HomeSolve. All rights reserved.</p>
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-12">
+            <div className="max-w-sm space-y-6">
+              <Link href="/" className="flex items-center space-x-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-xl">
+                  H
+                </div>
+                <span className="text-2xl font-bold tracking-tight text-primary">HomeSolve</span>
+              </Link>
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                Empowering homeowners with AI technology and a verified investor network. We bridge the gap between financial distress and a fresh start nationwide.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
+              <div className="space-y-4">
+                <h4 className="font-bold text-sm uppercase tracking-widest text-primary">Product</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li><Link href="/list-property" className="hover:text-primary">Free Valuation</Link></li>
+                  <li><Link href="/properties" className="hover:text-primary">Browse Deals</Link></li>
+                  <li><Link href="/investor-join" className="hover:text-primary">Investor Network</Link></li>
+                </ul>
+              </div>
+              <div className="space-y-4">
+                <h4 className="font-bold text-sm uppercase tracking-widest text-primary">Company</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li><Link href="/about" className="hover:text-primary">How it Works</Link></li>
+                  <li><Link href="/contact" className="hover:text-primary">Support</Link></li>
+                  <li><Link href="/privacy" className="hover:text-primary">Privacy Policy</Link></li>
+                </ul>
+              </div>
+              <div className="space-y-4">
+                <h4 className="font-bold text-sm uppercase tracking-widest text-primary">Coverage</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li>Nationwide</li>
+                  <li>All 50 States</li>
+                  <li>Major Metros</li>
+                  <li>Rural Areas</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
+            <p>© {new Date().getFullYear()} HomeSolve. All rights reserved.</p>
+            <div className="flex gap-6">
+              <Link href="/privacy" className="hover:underline">Terms of Service</Link>
+              <Link href="/privacy" className="hover:underline">Equal Housing Opportunity</Link>
+            </div>
+          </div>
         </div>
       </footer>
     </div>
