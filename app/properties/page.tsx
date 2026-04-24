@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -19,6 +18,7 @@ export default function PropertiesPage() {
   const db = useFirestore();
 
   const propertiesQuery = useMemoFirebase(() => {
+    if (!db) return null;
     return query(
       collection(db, "public_property_listings"),
       where("status", "==", "active"),

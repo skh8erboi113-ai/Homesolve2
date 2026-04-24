@@ -4,9 +4,7 @@ service cloud.firestore {
 
     /**
      * HomeSolve Security Rules
-     * 
-     * Refreshed to ensure consistent public access to active listings and 
-     * synchronized with a consolidated root-level project structure.
+     * Last Updated: 2026-04-24 (Forcing rule deployment)
      */
 
     // --- Helper Functions ---
@@ -60,16 +58,16 @@ service cloud.firestore {
 
     /**
      * Public property listings are viewable by everyone.
-     * This rule explicitly allows unauthenticated 'list' and 'get' operations.
+     * We use 'read' to explicitly cover 'get' and 'list' for guest users.
      */
     match /public_property_listings/{listingId} {
-      allow get, list: if true; 
+      allow read: if true; 
       allow create: if isSignedIn() && isValidOwnerField('homeownerId');
       allow update: if isExistingOwner(resource.data.homeownerId) && isImmutable('homeownerId');
       allow delete: if isExistingOwner(resource.data.homeownerId);
 
       match /images/{imageId} {
-        allow get, list: if true;
+        allow read: if true;
         allow create: if isSignedIn() && isValidOwnerField('listingHomeownerId');
         allow update: if isExistingOwner(resource.data.listingHomeownerId) && isImmutable('listingHomeownerId');
         allow delete: if isExistingOwner(resource.data.listingHomeownerId);
@@ -97,15 +95,15 @@ service cloud.firestore {
      * Conversations and Messages are restricted to participants.
      */
     match /conversations/{conversationId} {
-      allow get, list: if isMember(resource.data.participantIds);
+      allow get, list: if isSignedIn() && isMember(resource.data.participantIds);
       allow create: if isSignedIn() && isMember(request.resource.data.participantIds);
-      allow update: if isMember(resource.data.participantIds) && isImmutable('participantIds');
+      allow update: if isSignedIn() && isMember(resource.data.participantIds) && isImmutable('participantIds');
       
       match /messages/{messageId} {
-        allow get, list: if isMember(resource.data.conversationParticipantIds);
-        allow create: if isMember(request.resource.data.conversationParticipantIds) && isValidOwnerField('senderId');
-        allow update: if isExistingOwner(resource.data.senderId) && isImmutable('senderId');
-        allow delete: if isExistingOwner(resource.data.senderId);
+        allow get, list: if isSignedIn() && isMember(resource.data.conversationParticipantIds);
+        allow create: if isSignedIn() && isMember(request.resource.data.conversationParticipantIds) && isValidOwnerField('senderId');
+        allow update: if isSignedIn() && isExistingOwner(resource.data.senderId) && isImmutable('senderId');
+        allow delete: if isSignedIn() && isExistingOwner(resource.data.senderId);
       }
     }
 
