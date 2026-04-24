@@ -1,6 +1,6 @@
-
 import { config } from 'dotenv';
 config();
 
-import '@/ai/flows/homeowner-quick-sale-valuation.ts';
-import '@/ai/flows/generate-outreach-flow.ts';
+// Consolidated imports for root-level flows
+import '@/ai/flows/homeowner-quick-sale-valuation';
+import '@/ai/flows/generate-outreach-flow';
