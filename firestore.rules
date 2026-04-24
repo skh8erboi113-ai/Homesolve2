@@ -4,7 +4,7 @@ service cloud.firestore {
 
     /**
      * HomeSolve Security Rules
-     * Last Updated: 2026-04-24 15:15:00 UTC (Fixing public listings permission error)
+     * Last Updated: 2026-04-24 16:30:00 UTC (Forcing rules refresh for public listings)
      */
 
     // --- Helper Functions ---
@@ -58,10 +58,10 @@ service cloud.firestore {
 
     /**
      * Public property listings are viewable by everyone.
-     * We explicitly allow 'get' and 'list' to ensure queries are valid for all users.
+     * We explicitly allow 'read' (get and list) for all users.
      */
     match /public_property_listings/{listingId} {
-      allow get, list: if true;
+      allow read: if true;
       allow create: if isSignedIn() && isValidOwnerField('homeownerId');
       allow update: if isSignedIn() && 
                    resource.data.get('homeownerId', '') == request.auth.uid && 
@@ -109,7 +109,7 @@ service cloud.firestore {
       match /messages/{messageId} {
         allow get, list: if isSignedIn() && request.auth.uid in resource.data.get('conversationParticipantIds', []);
         allow create: if isSignedIn() && 
-                     request.auth.uid in request.resource.data.get('conversationParticipantIds', []) && 
+                     request.auth.uid in resource.data.get('conversationParticipantIds', []) && 
                      isValidOwnerField('senderId');
         allow update: if isSignedIn() && 
                      resource.data.get('senderId', '') == request.auth.uid && 
