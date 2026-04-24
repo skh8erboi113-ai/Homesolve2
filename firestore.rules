@@ -4,7 +4,7 @@ service cloud.firestore {
 
     /**
      * HomeSolve Security Rules
-     * Last Updated: 2026-04-24 14:10:00 UTC (Forcing rule deployment for public listings)
+     * Last Updated: 2026-04-24 14:45:00 UTC (Forcing rule deployment for offers)
      */
 
     // --- Helper Functions ---
@@ -60,9 +60,7 @@ service cloud.firestore {
      * Public property listings are viewable by everyone.
      */
     match /public_property_listings/{listingId} {
-      // Explicitly allow both single document reads and collection listings
-      allow get, list: if true;
-      
+      allow read: if true;
       allow create: if isSignedIn() && isValidOwnerField('homeownerId');
       allow update: if isSignedIn() && 
                    resource.data.get('homeownerId', '') == request.auth.uid && 
@@ -83,11 +81,19 @@ service cloud.firestore {
      * Offers are shared between the proposer, receiver, and property owner.
      */
     match /offers/{offerId} {
-      allow read: if isSignedIn() && (
+      allow get: if isSignedIn() && (
         request.auth.uid == resource.data.get('proposingUserId', '') || 
         request.auth.uid == resource.data.get('receivingUserId', '') || 
         request.auth.uid == resource.data.get('propertyListingHomeownerId', '')
       );
+      
+      // Separate list permission to ensure the query is correctly validated
+      allow list: if isSignedIn() && (
+        request.auth.uid == resource.data.get('proposingUserId', '') || 
+        request.auth.uid == resource.data.get('receivingUserId', '') || 
+        request.auth.uid == resource.data.get('propertyListingHomeownerId', '')
+      );
+
       allow create: if isSignedIn() && isValidOwnerField('proposingUserId');
       allow update: if isSignedIn() && (
         request.auth.uid == resource.data.get('proposingUserId', '') || 
