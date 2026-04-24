@@ -9,8 +9,8 @@ import {
   QuerySnapshot,
   CollectionReference,
 } from 'firebase/firestore';
-import { errorEmitter } from '../error-emitter';
-import { FirestorePermissionError } from '../errors';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
 
 export type WithId<T> = T & { id: string };
 
@@ -29,6 +29,10 @@ export interface InternalQuery extends Query<DocumentData> {
   }
 }
 
+/**
+ * Hook to subscribe to a Firestore collection or query.
+ * Requires memoized reference using useMemoFirebase.
+ */
 export function useCollection<T = any>(
   memoizedTargetRefOrQuery: ((CollectionReference<DocumentData> | Query<DocumentData>) & {__memo?: boolean}) | null | undefined,
 ): UseCollectionResult<T> {
