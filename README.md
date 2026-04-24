@@ -1,5 +1,5 @@
 
-# 🚀 HomeSolve - Real Estate Foreclosure Solutions
+# 🚀 HomeSolve - AI-Powered Foreclosure Solutions
 
 HomeSolve is an AI-powered platform designed to bridge the gap between motivated homeowners facing foreclosure and professional real estate investors nationwide.
 
@@ -14,9 +14,9 @@ Once you download the ZIP file from Firebase Studio, follow these steps to make 
 
 ### 2. Create a GitHub Repository
 - Go to [GitHub.com/new](https://github.com/new).
-- Name your repository `HomeSolve` (or your preferred name).
-- **DO NOT** initialize with a README or .gitignore (the ZIP already provides these).
-- Follow the instructions on GitHub to "push an existing repository from the command line":
+- Name your repository `HomeSolve`.
+- **DO NOT** initialize with a README or .gitignore.
+- Follow the instructions on GitHub to push your local code:
   ```bash
   git init
   git add .
@@ -28,15 +28,11 @@ Once you download the ZIP file from Firebase Studio, follow these steps to make 
 
 ### 3. Deploy to Firebase App Hosting
 - Open the [Firebase Console](https://console.firebase.google.com/).
+- **CRITICAL**: Upgrade your project to the **Blaze Plan** (pay-as-you-go).
 - Navigate to **Build > App Hosting**.
 - Click **"Get Started"** and connect your GitHub account.
-- Select the `HomeSolve` repository you just created.
-- Follow the prompts to set up the backend.
-
-### 4. Secure Your AI Secret
-- In the Firebase Console, go to your App Hosting backend settings.
-- Under **Environment Variables / Secrets**, add a secret named `GOOGLE_GENAI_API_KEY`.
-- Paste your Gemini API key there. This ensures your AI valuations and outreach tools work in production.
+- Select the repository you just created.
+- In the configuration step, ensure you add an **Environment Variable/Secret** named `GOOGLE_GENAI_API_KEY` with your Gemini API key value.
 
 ## 🛠️ Tech Stack
 - **Framework**: Next.js 15 (App Router)
@@ -46,6 +42,3 @@ Once you download the ZIP file from Firebase Studio, follow these steps to make 
 
 ## 📈 Post-Launch Growth
 Use the templates located in `docs/marketing-templates.md` to start driving traffic from LinkedIn and Facebook groups.
-
-## 📄 License
-This project is licensed under the MIT License.

@@ -1,10 +1,11 @@
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
      * HomeSolve Security Rules
-     * Last Updated: 2026-04-24 19:15:00 UTC (Manual Permission Refresh)
+     * FINAL PRODUCTION BUILD - Deployment Timestamp: 2026-04-24 19:45:00 UTC
      */
 
     // --- Helper Functions ---
@@ -40,15 +41,16 @@ service cloud.firestore {
 
     /**
      * Public property listings: Viewable by everyone.
-     * Splitting read into get and list for better rule synchronization.
+     * Separated get and list for maximum compatibility with all query types.
      */
     match /public_property_listings/{listingId} {
-      allow get, list: if true;
+      allow get: if true;
+      allow list: if true;
       allow create: if isSignedIn() && isValidOwnerField('homeownerId');
       allow update, delete: if isSignedIn() && resource.data.homeownerId == request.auth.uid;
 
       match /images/{imageId} {
-        allow get, list: if true;
+        allow read: if true;
         allow write: if isSignedIn();
       }
     }
@@ -92,7 +94,7 @@ service cloud.firestore {
         request.auth.uid == resource.data.homeownerId || 
         request.auth.uid == resource.data.buyerInvestorId
       );
-      allow create: if false; // Only created via hypothetical server process
+      allow create: if false; 
       allow update, delete: if false;
     }
   }
