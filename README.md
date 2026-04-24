@@ -12,7 +12,13 @@ Once you download the ZIP file from Firebase Studio, follow these steps to make 
 - Open your terminal in the project folder.
 - Run `npm install` to ensure all dependencies are perfectly synced.
 
-### 2. Create a GitHub Repository
+### 2. Get Your Gemini API Key
+- Go to [Google AI Studio](https://aistudio.google.com/).
+- Click on **"Get API key"** in the sidebar.
+- Click **"Create API key in new project"** and copy the key.
+- For local development, create a `.env` file in the root and add: `GOOGLE_GENAI_API_KEY=your_key_here`
+
+### 3. Create a GitHub Repository
 - Go to [GitHub.com/new](https://github.com/new).
 - Name your repository `HomeSolve`.
 - **DO NOT** initialize with a README or .gitignore.
@@ -26,7 +32,7 @@ Once you download the ZIP file from Firebase Studio, follow these steps to make 
   git push -u origin main
   ```
 
-### 3. Deploy to Firebase App Hosting
+### 4. Deploy to Firebase App Hosting
 - Open the [Firebase Console](https://console.firebase.google.com/).
 - **CRITICAL**: Upgrade your project to the **Blaze Plan** (pay-as-you-go).
 - Navigate to **Build > App Hosting**.
