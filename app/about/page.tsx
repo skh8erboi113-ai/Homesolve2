@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Navbar } from "@/components/navbar";
@@ -15,7 +14,6 @@ import {
   Sparkles,
   BarChart3,
   MapPin,
-  TrendingUp,
   Target
 } from "lucide-react";
 import Link from "next/link";
@@ -105,7 +103,6 @@ export default function HowItWorksPage() {
           </p>
         </header>
 
-        {/* Benefits Section */}
         <section className="mb-24">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Why Choose HomeSolve?</h2>
@@ -124,7 +121,6 @@ export default function HowItWorksPage() {
           </div>
         </section>
 
-        {/* Pain Points Section */}
         <section className="mb-24">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">The Problems We Solve</h2>
@@ -143,7 +139,6 @@ export default function HowItWorksPage() {
           </div>
         </section>
 
-        {/* Geographical Focus */}
         <section className="mb-24 p-8 bg-primary/5 rounded-2xl border border-primary/20 flex flex-col md:flex-row items-center gap-8">
            <div className="h-16 w-16 rounded-full bg-primary flex items-center justify-center text-white shrink-0">
              <MapPin className="h-8 w-8" />
@@ -156,7 +151,6 @@ export default function HowItWorksPage() {
            </div>
         </section>
 
-        {/* Homeowner Section */}
         <section className="mb-24">
           <div className="flex items-center gap-3 mb-10">
             <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">1</div>
@@ -183,7 +177,6 @@ export default function HowItWorksPage() {
           </div>
         </section>
 
-        {/* Investor Section */}
         <section className="mb-24 bg-accent/5 rounded-3xl p-8 md:p-12 border border-accent/20">
           <div className="flex items-center gap-3 mb-10">
             <div className="h-10 w-10 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold">2</div>
@@ -205,50 +198,6 @@ export default function HowItWorksPage() {
             <Button variant="outline" size="lg" className="rounded-full border-accent text-accent hover:bg-accent hover:text-white h-12" asChild>
               <Link href="/investor-join">Apply for Investor Access</Link>
             </Button>
-          </div>
-        </section>
-
-        {/* Trust & Comparison */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-24">
-          <div className="space-y-6">
-            <h2 className="text-3xl font-bold font-headline text-primary leading-tight">Built on Transparency and Speed</h2>
-            <p className="text-muted-foreground text-lg">
-              Facing foreclosure is stressful. We remove the uncertainty of the traditional retail market by providing immediate liquidity through verified channels across the country.
-            </p>
-            <ul className="space-y-4">
-              {[
-                { icon: Clock, text: "Closing as fast as 14-21 business days" },
-                { icon: ShieldCheck, text: "Vetted and verified buyer network" },
-                { icon: Users, text: "Direct communication with stakeholders" }
-              ].map((item, i) => (
-                <li key={i} className="flex items-center gap-3 font-medium">
-                  <item.icon className="h-5 w-5 text-accent" />
-                  {item.text}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="bg-white p-8 rounded-2xl border shadow-xl relative overflow-hidden">
-             <div className="absolute top-0 right-0 p-4">
-               <ShieldCheck className="h-20 w-20 text-accent/10 -mr-4 -mt-4 rotate-12" />
-             </div>
-             <div className="space-y-8 relative z-10">
-                <div className="flex justify-between items-end border-b pb-4">
-                  <span className="text-muted-foreground text-sm uppercase tracking-wider font-semibold">Typical Sale</span>
-                  <span className="text-xl font-bold">60-90 Days</span>
-                </div>
-                <div className="flex justify-between items-end border-b pb-4">
-                  <span className="text-muted-foreground text-sm uppercase tracking-wider font-semibold">HomeSolve Sale</span>
-                  <span className="text-xl font-bold text-accent">14-21 Days</span>
-                </div>
-                <div className="pt-4">
-                  <Button className="w-full rounded-full h-14 text-lg bg-primary hover:bg-primary/90" asChild>
-                    <Link href="/list-property">
-                      Claim Your Equity Now <ArrowRight className="ml-2 h-5 w-5" />
-                    </Link>
-                  </Button>
-                </div>
-             </div>
           </div>
         </section>
       </main>
