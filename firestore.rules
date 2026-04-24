@@ -4,7 +4,7 @@ service cloud.firestore {
 
     /**
      * HomeSolve Security Rules
-     * Last Updated: 2026-04-24 14:45:00 UTC (Forcing rule deployment for offers)
+     * Last Updated: 2026-04-24 15:15:00 UTC (Fixing public listings permission error)
      */
 
     // --- Helper Functions ---
@@ -58,9 +58,10 @@ service cloud.firestore {
 
     /**
      * Public property listings are viewable by everyone.
+     * We explicitly allow 'get' and 'list' to ensure queries are valid for all users.
      */
     match /public_property_listings/{listingId} {
-      allow read: if true;
+      allow get, list: if true;
       allow create: if isSignedIn() && isValidOwnerField('homeownerId');
       allow update: if isSignedIn() && 
                    resource.data.get('homeownerId', '') == request.auth.uid && 
@@ -81,14 +82,7 @@ service cloud.firestore {
      * Offers are shared between the proposer, receiver, and property owner.
      */
     match /offers/{offerId} {
-      allow get: if isSignedIn() && (
-        request.auth.uid == resource.data.get('proposingUserId', '') || 
-        request.auth.uid == resource.data.get('receivingUserId', '') || 
-        request.auth.uid == resource.data.get('propertyListingHomeownerId', '')
-      );
-      
-      // Separate list permission to ensure the query is correctly validated
-      allow list: if isSignedIn() && (
+      allow get, list: if isSignedIn() && (
         request.auth.uid == resource.data.get('proposingUserId', '') || 
         request.auth.uid == resource.data.get('receivingUserId', '') || 
         request.auth.uid == resource.data.get('propertyListingHomeownerId', '')
