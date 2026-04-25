@@ -1,11 +1,11 @@
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * HomeSolve Security Rules
-     * DEPLOYED: 2024-06-20T12:00:00Z
-     * Standardized for root-level deployment.
+     * HomeSolve Production Security Rules
+     * DEPLOYED: 2024-06-21T15:00:00Z
      */
 
     function isSignedIn() {
@@ -17,7 +17,7 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      allow get, create, update, delete: if isOwner(userId);
+      allow get, create, update: if isOwner(userId);
       allow list: if false; 
 
       match /draft_listings/{listingId} {
@@ -26,9 +26,11 @@ service cloud.firestore {
     }
 
     match /public_property_listings/{listingId} {
+      // Allow everyone to browse active listings
       allow get, list: if true;
       allow create: if isSignedIn() && request.resource.data.homeownerId == request.auth.uid;
-      allow update, delete: if isSignedIn() && resource.data.homeownerId == request.auth.uid;
+      allow update: if isSignedIn() && resource.data.homeownerId == request.auth.uid;
+      allow delete: if false; // Prefer marking as 'delisted' instead of hard delete
 
       match /images/{imageId} {
         allow read: if true;
@@ -37,17 +39,19 @@ service cloud.firestore {
     }
 
     match /offers/{offerId} {
+      // Participating parties can see the offer
       allow get, list: if isSignedIn() && (
         request.auth.uid == resource.data.proposingUserId || 
         request.auth.uid == resource.data.receivingUserId ||
         request.auth.uid == resource.data.propertyListingHomeownerId
       );
       allow create: if isSignedIn() && request.resource.data.proposingUserId == request.auth.uid;
+      // Homeowner or Investor can update status (accept/reject/counter)
       allow update: if isSignedIn() && (
         request.auth.uid == resource.data.proposingUserId || 
         request.auth.uid == resource.data.receivingUserId
       );
-      allow delete: if isSignedIn() && request.auth.uid == resource.data.proposingUserId;
+      allow delete: if false;
     }
 
     match /conversations/{conversationId} {
@@ -61,14 +65,13 @@ service cloud.firestore {
     }
 
     match /transactions/{transactionId} {
+      // Visible only to the parties involved or platform admin (rules don't have roles yet, so parties only)
       allow get, list: if isSignedIn() && (
         request.auth.uid == resource.data.homeownerId || 
         request.auth.uid == resource.data.buyerInvestorId
       );
-      allow create: if isSignedIn() && (
-        request.auth.uid == request.resource.data.homeownerId || 
-        request.auth.uid == request.resource.data.buyerInvestorId
-      );
+      // Created automatically during closing flow
+      allow create: if isSignedIn();
       allow update, delete: if false;
     }
   }

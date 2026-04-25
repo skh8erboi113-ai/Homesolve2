@@ -23,14 +23,13 @@ Follow these steps to make your application live on the web.
 - Key: `AIzaSyCCezm3Led09tcGvZo_R987kQwS-v2D_VE`
 
 ### 3. Create a GitHub Repository
-- Go to [GitHub.com/new](https://github.com/new) and create a repo named `HomeSolve`.
-- Follow the instructions to push your code:
+- You have already designated your repository. Run these commands in your project folder:
   ```bash
   git init
   git add .
   git commit -m "Initial launch"
   git branch -M main
-  git remote add origin https://github.com/YOUR_USERNAME/HomeSolve.git
+  git remote add origin https://github.com/skh8erboi113-ai/Homesolve2.git
   git push -u origin main
   ```
 
@@ -40,7 +39,7 @@ Follow these steps to make your application live on the web.
 - **CRITICAL**: Upgrade your project to the **Blaze Plan**.
 - Navigate to **Build > App Hosting**.
 - Click **"Get Started"** and connect your GitHub account.
-- Select the `HomeSolve` repository.
+- Select the `Homesolve2` repository.
 - **SECRET**: Under the "Environment Variables" section of the setup, add a secret named `GOOGLE_GENAI_API_KEY` with the value `AIzaSyCCezm3Led09tcGvZo_R987kQwS-v2D_VE`.
 
 ## 🛠️ Tech Stack
