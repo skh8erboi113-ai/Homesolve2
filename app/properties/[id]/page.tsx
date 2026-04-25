@@ -6,14 +6,14 @@ import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useDoc, useFirestore, useMemoFirebase, useUser } from "@/firebase";
-import { doc, collection, query, where, getDocs, serverTimestamp } from "firebase/firestore";
-import { Loader2, MapPin, BedDouble, Bath, Square, TrendingDown, DollarSign, Calendar, ShieldCheck, MessageCircle, Share2, Sparkles, Copy, Gavel } from "lucide-react";
+import { useDoc, useFirestore, useMemoFirebase, useUser, useCollection } from "@/firebase";
+import { doc, collection, query, where, getDocs, serverTimestamp, orderBy } from "firebase/firestore";
+import { Loader2, MapPin, BedDouble, Bath, Square, TrendingDown, DollarSign, Calendar, ShieldCheck, MessageCircle, Share2, Sparkles, Copy, Gavel, CheckCircle2, XCircle } from "lucide-react";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
+import { addDocumentNonBlocking, updateDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { generateOutreach, OutreachOutput } from "@/ai/flows/generate-outreach-flow";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -35,12 +35,27 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
   const [offerAmount, setOfferAmount] = useState<string>("");
   const [isSubmittingOffer, setIsSubmittingOffer] = useState(false);
   const [isOfferDialogOpen, setIsOfferDialogOpen] = useState(false);
+  const [isClosingDeal, setIsClosingDeal] = useState(false);
 
   const propertyRef = useMemoFirebase(() => {
     return doc(db, "public_property_listings", id);
   }, [db, id]);
 
   const { data: property, isLoading } = useDoc(propertyRef);
+
+  const isOwner = user?.uid === property?.homeownerId;
+
+  // Fetch offers for the property (visible to owner only)
+  const offersQuery = useMemoFirebase(() => {
+    if (!isOwner || !db) return null;
+    return query(
+      collection(db, "offers"),
+      where("propertyListingId", "==", id),
+      orderBy("createdAt", "desc")
+    );
+  }, [db, id, isOwner]);
+
+  const { data: receivedOffers, isLoading: loadingOffers } = useCollection(offersQuery);
 
   const handleStartConversation = async () => {
     if (!user) {
@@ -132,6 +147,54 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
     }
   };
 
+  const handleAcceptOffer = async (offer: any) => {
+    if (!user || !property) return;
+    setIsClosingDeal(true);
+
+    try {
+      // 1. Update Property Status
+      updateDocumentNonBlocking(doc(db, "public_property_listings", id), {
+        status: "sold",
+        updatedAt: serverTimestamp()
+      });
+
+      // 2. Update Offer Status
+      updateDocumentNonBlocking(doc(db, "offers", offer.id), {
+        status: "accepted",
+        updatedAt: serverTimestamp()
+      });
+
+      // 3. Create Transaction Record (1.5% commission logic)
+      const commissionRate = 0.015;
+      const commissionAmount = offer.offerAmount * commissionRate;
+
+      const transactionData = {
+        propertyListingId: id,
+        acceptedOfferId: offer.id,
+        homeownerId: property.homeownerId,
+        buyerInvestorId: offer.proposingUserId,
+        finalSalePrice: offer.offerAmount,
+        platformCommissionRate: commissionRate,
+        platformCommissionAmount: commissionAmount,
+        saleDate: serverTimestamp(),
+        status: "completed",
+        createdAt: serverTimestamp()
+      };
+
+      addDocumentNonBlocking(collection(db, "transactions"), transactionData);
+
+      toast({
+        title: "Deal Closed!",
+        description: `Transaction of $${offer.offerAmount.toLocaleString()} completed. 1.5% commission recorded.`,
+      });
+      router.push("/dashboard");
+    } catch (error) {
+      toast({ title: "Closing Error", description: "Failed to finalize the transaction.", variant: "destructive" });
+    } finally {
+      setIsClosingDeal(false);
+    }
+  };
+
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
@@ -168,15 +231,13 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
   if (isLoading) return <div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin h-12 w-12 text-primary" /></div>;
   if (!property) return <div className="min-h-screen flex items-center justify-center">Property not found.</div>;
 
-  const isOwner = user?.uid === property.homeownerId;
-
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
       
       <main className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-8">
             <div className="relative aspect-video rounded-3xl overflow-hidden border shadow-lg">
               <Image 
                 src={PlaceHolderImages.find(img => img.id.includes("house-listing"))?.imageUrl || "https://picsum.photos/seed/details/1200/800"} 
@@ -186,7 +247,9 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
               />
               <div className="absolute top-6 left-6 flex gap-3">
                 <Badge className="bg-primary text-white text-md px-4 py-1 uppercase tracking-wide">{property.foreclosureStatus}</Badge>
-                <Badge variant="secondary" className="bg-white/90 backdrop-blur-sm text-md px-4 py-1">Active</Badge>
+                <Badge variant={property.status === 'sold' ? 'destructive' : 'secondary'} className="bg-white/90 backdrop-blur-sm text-md px-4 py-1 uppercase font-bold">
+                  {property.status}
+                </Badge>
               </div>
             </div>
 
@@ -293,6 +356,53 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
               </p>
             </section>
 
+            {isOwner && (
+              <section className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-bold font-headline">Offers Received</h2>
+                  <Badge variant="outline" className="bg-accent/10 text-accent border-accent">{receivedOffers?.length || 0} Total</Badge>
+                </div>
+                
+                {loadingOffers ? (
+                  <div className="flex justify-center p-12"><Loader2 className="animate-spin text-primary" /></div>
+                ) : receivedOffers?.length === 0 ? (
+                  <Card className="border-dashed p-12 text-center text-muted-foreground">
+                    <DollarSign className="h-10 w-10 mx-auto mb-2 opacity-20" />
+                    No offers received yet.
+                  </Card>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {receivedOffers?.map((offer) => (
+                      <Card key={offer.id} className={`border-2 ${offer.status === 'accepted' ? 'border-green-500' : 'border-border'}`}>
+                        <CardHeader className="pb-2">
+                          <div className="flex justify-between items-start">
+                            <div className="text-2xl font-bold text-primary">${offer.offerAmount?.toLocaleString()}</div>
+                            <Badge variant={offer.status === 'accepted' ? 'default' : 'outline'}>{offer.status}</Badge>
+                          </div>
+                          <CardDescription>Submitted by Investor ID: {offer.proposingUserId.substring(0,6)}</CardDescription>
+                        </CardHeader>
+                        <CardFooter className="pt-4 flex gap-2">
+                          {offer.status === 'pending' && property.status === 'active' && (
+                            <Button 
+                              className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90" 
+                              disabled={isClosingDeal}
+                              onClick={() => handleAcceptOffer(offer)}
+                            >
+                              {isClosingDeal ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : <CheckCircle2 className="mr-2 h-4 w-4" />}
+                              Accept & Close
+                            </Button>
+                          )}
+                          <Button variant="outline" className="flex-1" asChild>
+                            <a href={`/messages?id=new`}>Message Buyer</a>
+                          </Button>
+                        </CardFooter>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </section>
+            )}
+
             <Card className="border-accent/30 bg-accent/5">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-primary">
@@ -329,60 +439,72 @@ export default function PropertyDetailsPage({ params }: { params: Promise<{ id: 
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Status</span>
-                    <Badge variant="outline" className="text-accent border-accent bg-accent/5">{property.status}</Badge>
+                    <Badge variant={property.status === 'sold' ? 'destructive' : 'outline'} className="text-accent border-accent bg-accent/5">
+                      {property.status}
+                    </Badge>
                   </div>
                 </div>
 
                 <div className="pt-6 border-t space-y-3">
-                  <Dialog open={isOfferDialogOpen} onOpenChange={setIsOfferDialogOpen}>
-                    <DialogTrigger asChild>
-                      <Button className="w-full h-12 rounded-full text-lg shadow-lg" disabled={isOwner}>
-                        {isOwner ? "Your Listing" : "Submit Cash Offer"}
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Submit a Cash Offer</DialogTitle>
-                        <DialogDescription>
-                          Make a direct offer for {property.addressStreet}. The homeowner will be notified immediately.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="space-y-4 py-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="offerAmount">Offer Amount (USD)</Label>
-                          <div className="relative">
-                            <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input 
-                              id="offerAmount" 
-                              type="number" 
-                              className="pl-9 h-12 text-lg font-bold" 
-                              placeholder="e.g. 250000"
-                              value={offerAmount}
-                              onChange={(e) => setOfferAmount(e.target.value)}
-                            />
+                  {property.status === 'active' ? (
+                    <>
+                      <Dialog open={isOfferDialogOpen} onOpenChange={setIsOfferDialogOpen}>
+                        <DialogTrigger asChild>
+                          <Button className="w-full h-12 rounded-full text-lg shadow-lg" disabled={isOwner}>
+                            {isOwner ? "Your Listing" : "Submit Cash Offer"}
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Submit a Cash Offer</DialogTitle>
+                            <DialogDescription>
+                              Make a direct offer for {property.addressStreet}. The homeowner will be notified immediately.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="space-y-4 py-4">
+                            <div className="space-y-2">
+                              <Label htmlFor="offerAmount">Offer Amount (USD)</Label>
+                              <div className="relative">
+                                <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input 
+                                  id="offerAmount" 
+                                  type="number" 
+                                  className="pl-9 h-12 text-lg font-bold" 
+                                  placeholder="e.g. 250000"
+                                  value={offerAmount}
+                                  onChange={(e) => setOfferAmount(e.target.value)}
+                                />
+                              </div>
+                            </div>
+                            <div className="p-4 bg-muted rounded-xl flex items-start gap-3">
+                              <Gavel className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                              <p className="text-xs text-muted-foreground leading-relaxed">
+                                By submitting this offer, you represent that you have the proof of funds necessary for a cash transaction. Closing is targeted for 14-21 business days.
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                        <div className="p-4 bg-muted rounded-xl flex items-start gap-3">
-                          <Gavel className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                          <p className="text-xs text-muted-foreground leading-relaxed">
-                            By submitting this offer, you represent that you have the proof of funds necessary for a cash transaction. Closing is targeted for 14-21 business days.
-                          </p>
-                        </div>
-                      </div>
-                      <DialogFooter>
-                        <Button variant="outline" onClick={() => setIsOfferDialogOpen(false)}>Cancel</Button>
-                        <Button onClick={handleSubmitOffer} disabled={isSubmittingOffer}>
-                          {isSubmittingOffer ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : null}
-                          Send Final Offer
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                  
-                  <Button variant="outline" className="w-full h-12 rounded-full" onClick={handleStartConversation} disabled={isStartingChat || isOwner}>
-                    {isStartingChat ? <Loader2 className="animate-spin h-4 w-4 mr-2" /> : <MessageCircle className="mr-2 h-4 w-4" />}
-                    Message Homeowner
-                  </Button>
+                          <DialogFooter>
+                            <Button variant="outline" onClick={() => setIsOfferDialogOpen(false)}>Cancel</Button>
+                            <Button onClick={handleSubmitOffer} disabled={isSubmittingOffer}>
+                              {isSubmittingOffer ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : null}
+                              Send Final Offer
+                            </Button>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
+                      
+                      <Button variant="outline" className="w-full h-12 rounded-full" onClick={handleStartConversation} disabled={isStartingChat || isOwner}>
+                        {isStartingChat ? <Loader2 className="animate-spin h-4 w-4 mr-2" /> : <MessageCircle className="mr-2 h-4 w-4" />}
+                        Message Homeowner
+                      </Button>
+                    </>
+                  ) : (
+                    <div className="p-6 text-center space-y-4 bg-muted/50 rounded-2xl border border-dashed">
+                      <CheckCircle2 className="h-12 w-12 text-green-500 mx-auto" />
+                      <h3 className="font-bold text-xl uppercase">SOLD</h3>
+                      <p className="text-xs text-muted-foreground">This transaction is finalized and closed on the HomeSolve platform.</p>
+                    </div>
+                  )}
                 </div>
               </CardContent>
               <CardFooter className="bg-muted/30 p-4 border-t">

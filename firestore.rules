@@ -4,10 +4,9 @@ service cloud.firestore {
 
     /**
      * HomeSolve Security Rules
-     * UPDATED: Enabled Transaction Creation for Participants
+     * DEPLOYED: 2024-06-20T12:00:00Z
+     * Standardized for root-level deployment.
      */
-
-    // --- Helper Functions ---
 
     function isSignedIn() {
       return request.auth != null;
@@ -17,11 +16,6 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    // --- Collection Rules ---
-
-    /**
-     * User profiles: Owners can read/write their own.
-     */
     match /users/{userId} {
       allow get, create, update, delete: if isOwner(userId);
       allow list: if false; 
@@ -31,9 +25,6 @@ service cloud.firestore {
       }
     }
 
-    /**
-     * Public property listings: Viewable by everyone.
-     */
     match /public_property_listings/{listingId} {
       allow get, list: if true;
       allow create: if isSignedIn() && request.resource.data.homeownerId == request.auth.uid;
@@ -45,9 +36,6 @@ service cloud.firestore {
       }
     }
 
-    /**
-     * Offers: Shared between proposer, receiver, and listing owner.
-     */
     match /offers/{offerId} {
       allow get, list: if isSignedIn() && (
         request.auth.uid == resource.data.proposingUserId || 
@@ -62,9 +50,6 @@ service cloud.firestore {
       allow delete: if isSignedIn() && request.auth.uid == resource.data.proposingUserId;
     }
 
-    /**
-     * Conversations & Messages: Restricted to participants.
-     */
     match /conversations/{conversationId} {
       allow get, list, update: if isSignedIn() && request.auth.uid in resource.data.participantIds;
       allow create: if isSignedIn() && request.auth.uid in request.resource.data.participantIds;
@@ -75,9 +60,6 @@ service cloud.firestore {
       }
     }
 
-    /**
-     * Transactions: Involved parties can read and create records.
-     */
     match /transactions/{transactionId} {
       allow get, list: if isSignedIn() && (
         request.auth.uid == resource.data.homeownerId || 

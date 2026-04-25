@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { DependencyList, createContext, useContext, ReactNode, useMemo, useState, useEffect } from 'react';
 import { FirebaseApp } from 'firebase/app';
@@ -58,7 +58,6 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
     userError: null,
   });
 
-  // Sync user profile to Firestore
   useEffect(() => {
     if (!auth || !firestore) return;
 
@@ -70,14 +69,17 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
           const userSnap = await getDoc(userRef);
           
           if (!userSnap.exists()) {
-            // Create profile if it doesn't exist
-            setDoc(userRef, {
-              id: firebaseUser.uid,
-              email: firebaseUser.email,
-              displayName: firebaseUser.displayName || 'HomeSolve User',
-              createdAt: serverTimestamp(),
-              updatedAt: serverTimestamp(),
-            }, { merge: true });
+            try {
+              await setDoc(userRef, {
+                id: firebaseUser.uid,
+                email: firebaseUser.email,
+                displayName: firebaseUser.displayName || 'HomeSolve User',
+                createdAt: serverTimestamp(),
+                updatedAt: serverTimestamp(),
+              }, { merge: true });
+            } catch (err) {
+              console.error("Failed to sync user profile:", err);
+            }
           }
         }
         setUserAuthState({ user: firebaseUser, isUserLoading: false, userError: null });
