@@ -18,11 +18,9 @@ Follow these steps to make your application live on the web.
 - Open your terminal in the project folder.
 - Run `npm install` to sync all dependencies.
 
-### 2. Get Your Gemini API Key
-- Go to [Google AI Studio](https://aistudio.google.com/).
-- Click **"Get API key"** in the sidebar.
-- Click **"Create API key in new project"** and copy the key.
-- For local development, create a `.env` file in the root and add: `GOOGLE_GENAI_API_KEY=your_key_here`
+### 2. Gemini API Key
+- Your API key is already configured in the `.env` file for local development.
+- Key: `AIzaSyCCezm3Led09tcGvZo_R987kQwS-v2D_VE`
 
 ### 3. Create a GitHub Repository
 - Go to [GitHub.com/new](https://github.com/new) and create a repo named `HomeSolve`.
@@ -43,13 +41,10 @@ Follow these steps to make your application live on the web.
 - Navigate to **Build > App Hosting**.
 - Click **"Get Started"** and connect your GitHub account.
 - Select the `HomeSolve` repository.
-- **SECRET**: Under the "Environment Variables" section of the setup, add a secret named `GOOGLE_GENAI_API_KEY` with your Gemini API key value.
+- **SECRET**: Under the "Environment Variables" section of the setup, add a secret named `GOOGLE_GENAI_API_KEY` with the value `AIzaSyCCezm3Led09tcGvZo_R987kQwS-v2D_VE`.
 
 ## 🛠️ Tech Stack
 - **Framework**: Next.js 15 (App Router)
 - **AI Engine**: Genkit + Google Gemini
 - **Backend**: Firebase Firestore & Auth
 - **UI**: Shadcn UI + Tailwind CSS
-
-## 📈 Post-Launch Growth
-Use the templates in `docs/marketing-templates.md` to drive traffic from LinkedIn and Facebook groups.
