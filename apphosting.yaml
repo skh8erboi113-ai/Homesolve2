@@ -4,4 +4,10 @@
 runConfig:
   # Increase this value if you'd like to automatically spin up
   # more instances in response to increased traffic.
-  maxInstances: 1
+  maxInstances: 2
+  # Genkit AI operations can take longer, so we increase the timeout.
+  timeoutSeconds: 60
+
+env:
+  - variable: NEXT_PUBLIC_PROJECT_ID
+    value: studio-4450623487-72853
