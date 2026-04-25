@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { Home, ArrowUpRight, MessageSquare, List, DollarSign, TrendingUp, Loader2, CheckCircle2, CreditCard, History, Building2 } from "lucide-react";
+import { Home, ArrowUpRight, MessageSquare, List, DollarSign, TrendingUp, Loader2, CheckCircle2, CreditCard, History, Building2, PieChart } from "lucide-react";
 import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
 import { useCollection, useFirestore, useMemoFirebase, useUser } from "@/firebase";
@@ -83,11 +83,12 @@ export default function DashboardPage() {
   const activeListingsCount = listings?.length || 0;
   const pendingOffersCount = recentOffers?.length || 0;
   const transactionTotal = transactions?.reduce((acc, curr) => acc + (curr.finalSalePrice || 0), 0) || 0;
+  const projectedCommission = transactionTotal * 0.015; // 1.5% platform fee
 
   const STATS = [
     { label: "Your Listings", value: activeListingsCount.toString(), icon: List, color: "text-blue-500" },
     { label: "New Offers", value: pendingOffersCount.toString(), icon: ArrowUpRight, color: "text-accent" },
-    { label: "Conversations", value: "Real-time", icon: MessageSquare, color: "text-primary" },
+    { label: "Platform Earnings", value: `$${projectedCommission.toLocaleString()}`, icon: PieChart, color: "text-primary" },
     { label: "Closed Equity", value: `$${transactionTotal.toLocaleString()}`, icon: DollarSign, color: "text-green-600" },
   ];
 
@@ -98,7 +99,7 @@ export default function DashboardPage() {
         <header className="mb-10 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold font-headline text-primary">Nationwide Dashboard</h1>
-            <p className="text-muted-foreground">Managing your property portfolio on HomeSolve.</p>
+            <p className="text-muted-foreground">Managing your property portfolio and transaction settlements.</p>
           </div>
           <div className="flex gap-3">
             <Button variant="outline" asChild className="rounded-full px-6">
@@ -185,12 +186,12 @@ export default function DashboardPage() {
             <Card className="shadow-sm border-l-4 border-l-accent">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm flex items-center gap-2">
-                  <History className="h-4 w-4 text-accent" /> Cash Settlements
+                  <History className="h-4 w-4 text-accent" /> Platform Fees (1.5%)
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">${transactionTotal.toLocaleString()}</div>
-                <p className="text-xs text-muted-foreground">Total equity salvaged to date.</p>
+                <div className="text-2xl font-bold">${projectedCommission.toLocaleString()}</div>
+                <p className="text-xs text-muted-foreground">Projected revenue from successful settlements.</p>
               </CardContent>
             </Card>
           </div>

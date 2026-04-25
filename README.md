@@ -2,6 +2,12 @@
 
 HomeSolve is an AI-powered platform designed to bridge the gap between motivated homeowners facing foreclosure and professional real estate investors nationwide.
 
+## 💰 How You Make Money
+This platform uses a high-margin business model combining SaaS subscriptions and performance-based commissions:
+- **1.5% Performance Fee**: Collected automatically on the final sale price of every property closed through the platform. (e.g., A $400k sale = $6,000 revenue).
+- **Investor Subscriptions**: Pro investors pay **$199/month** for priority lead access and AI analytics.
+- **Institutional API**: Custom licensing for high-volume hedge funds.
+
 ## 🏁 Post-Download Checklist
 
 Follow these steps to make your application live on the web.
