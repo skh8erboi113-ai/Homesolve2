@@ -4,7 +4,7 @@ service cloud.firestore {
 
     /**
      * HomeSolve Security Rules
-     * FINAL PRODUCTION BUILD - Deployment Timestamp: 2026-05-01 12:00:00 UTC
+     * UPDATED: Enabled Transaction Creation for Participants
      */
 
     // --- Helper Functions ---
@@ -33,7 +33,6 @@ service cloud.firestore {
 
     /**
      * Public property listings: Viewable by everyone.
-     * Open list/get to ensure browse and search functions work for all users.
      */
     match /public_property_listings/{listingId} {
       allow get, list: if true;
@@ -60,7 +59,7 @@ service cloud.firestore {
         request.auth.uid == resource.data.proposingUserId || 
         request.auth.uid == resource.data.receivingUserId
       );
-      allow delete: if isSignedIn() && resource.data.proposingUserId == request.auth.uid;
+      allow delete: if isSignedIn() && request.auth.uid == resource.data.proposingUserId;
     }
 
     /**
@@ -77,14 +76,17 @@ service cloud.firestore {
     }
 
     /**
-     * Transactions: Only involved parties can read.
+     * Transactions: Involved parties can read and create records.
      */
     match /transactions/{transactionId} {
       allow get, list: if isSignedIn() && (
         request.auth.uid == resource.data.homeownerId || 
         request.auth.uid == resource.data.buyerInvestorId
       );
-      allow create: if false; 
+      allow create: if isSignedIn() && (
+        request.auth.uid == request.resource.data.homeownerId || 
+        request.auth.uid == request.resource.data.buyerInvestorId
+      );
       allow update, delete: if false;
     }
   }

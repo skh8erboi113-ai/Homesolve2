@@ -6,11 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { Home, ArrowUpRight, MessageSquare, List, DollarSign, TrendingUp, Loader2, CheckCircle2, CreditCard } from "lucide-react";
+import { Home, ArrowUpRight, MessageSquare, List, DollarSign, TrendingUp, Loader2, CheckCircle2, CreditCard, History, Building2 } from "lucide-react";
 import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
 import { useCollection, useFirestore, useMemoFirebase, useUser } from "@/firebase";
 import { collection, query, where, orderBy, limit } from "firebase/firestore";
+import { format } from "date-fns";
 
 const CHART_DATA = [
   { month: "Jan", earnings: 2400 },
@@ -53,6 +54,18 @@ export default function DashboardPage() {
 
   const { data: recentOffers, isLoading: loadingOffers } = useCollection(receivedOffersQuery);
 
+  const transactionsQuery = useMemoFirebase(() => {
+    if (!user || !db) return null;
+    return query(
+      collection(db, "transactions"),
+      where("homeownerId", "==", user.uid),
+      orderBy("saleDate", "desc"),
+      limit(10)
+    );
+  }, [db, user]);
+
+  const { data: transactions, isLoading: loadingTransactions } = useCollection(transactionsQuery);
+
   if (isUserLoading) return <div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin" /></div>;
 
   if (!user) {
@@ -69,12 +82,13 @@ export default function DashboardPage() {
 
   const activeListingsCount = listings?.length || 0;
   const pendingOffersCount = recentOffers?.length || 0;
+  const transactionTotal = transactions?.reduce((acc, curr) => acc + (curr.finalSalePrice || 0), 0) || 0;
 
   const STATS = [
     { label: "Your Listings", value: activeListingsCount.toString(), icon: List, color: "text-blue-500" },
     { label: "New Offers", value: pendingOffersCount.toString(), icon: ArrowUpRight, color: "text-accent" },
     { label: "Conversations", value: "Real-time", icon: MessageSquare, color: "text-primary" },
-    { label: "Est. Savings", value: "$4,250", icon: DollarSign, color: "text-green-600" },
+    { label: "Closed Equity", value: `$${transactionTotal.toLocaleString()}`, icon: DollarSign, color: "text-green-600" },
   ];
 
   return (
@@ -148,24 +162,38 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="shadow-sm bg-primary/5">
-            <CardHeader>
-              <CardTitle className="text-lg">AI Power User</CardTitle>
-              <CardDescription>Nationwide access enabled</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs font-medium">
-                  <span>Valuation Usage</span>
-                  <span>{activeListingsCount} / 50</span>
+          <div className="space-y-6">
+            <Card className="shadow-sm bg-primary/5">
+              <CardHeader>
+                <CardTitle className="text-lg">AI Power User</CardTitle>
+                <CardDescription>Nationwide access enabled</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <div className="flex justify-between text-xs font-medium">
+                    <span>Valuation Usage</span>
+                    <span>{activeListingsCount} / 50</span>
+                  </div>
+                  <Progress value={(activeListingsCount / 50) * 100} className="h-1.5" />
                 </div>
-                <Progress value={(activeListingsCount / 50) * 100} className="h-1.5" />
-              </div>
-              <Button variant="outline" className="w-full h-9 rounded-full bg-white" asChild>
-                <Link href="/pricing">Plan Details</Link>
-              </Button>
-            </CardContent>
-          </Card>
+                <Button variant="outline" className="w-full h-9 rounded-full bg-white" asChild>
+                  <Link href="/pricing">Plan Details</Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-sm border-l-4 border-l-accent">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm flex items-center gap-2">
+                  <History className="h-4 w-4 text-accent" /> Cash Settlements
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">${transactionTotal.toLocaleString()}</div>
+                <p className="text-xs text-muted-foreground">Total equity salvaged to date.</p>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
@@ -184,8 +212,8 @@ export default function DashboardPage() {
                     {recentOffers?.map((offer) => (
                       <div key={offer.id} className="p-4 flex gap-4 hover:bg-gray-50 transition-colors">
                         <DollarSign className="h-5 w-5 text-accent" />
-                        <div className="flex-1">
-                          <p className="text-sm font-bold">New offer of ${offer.offerAmount?.toLocaleString()} received!</p>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-bold truncate">New offer of ${offer.offerAmount?.toLocaleString()} received!</p>
                           <p className="text-xs text-muted-foreground mt-1">Status: {offer.status}</p>
                         </div>
                         <Button size="sm" variant="ghost" asChild><Link href={`/properties/${offer.propertyListingId}`}>View</Link></Button>
@@ -194,8 +222,8 @@ export default function DashboardPage() {
                     {listings?.map((listing) => (
                       <div key={listing.id} className="p-4 flex gap-4 hover:bg-gray-50 transition-colors">
                         <Home className="h-5 w-5 text-primary" />
-                        <div className="flex-1">
-                          <p className="text-sm">Listing "{listing.addressStreet}" is {listing.status}.</p>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm truncate">Listing "{listing.addressStreet}" is {listing.status}.</p>
                         </div>
                         <Button size="sm" variant="ghost" asChild><Link href={`/properties/${listing.id}`}>Manage</Link></Button>
                       </div>
@@ -206,10 +234,33 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="border-l-4 border-l-primary shadow-sm h-fit">
-            <CardContent className="p-6">
-              <h4 className="font-bold text-lg mb-1">{activeListingsCount} Total Listings</h4>
-              <p className="text-sm text-muted-foreground">Active nationwide opportunities.</p>
+          <Card className="shadow-sm border-t-4 border-t-primary">
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Building2 className="h-5 w-5 text-primary" /> Transaction History
+              </CardTitle>
+              <CardDescription>Verified cash transactions.</CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="divide-y">
+                {loadingTransactions ? (
+                  <div className="p-4 text-center"><Loader2 className="animate-spin h-4 w-4 mx-auto" /></div>
+                ) : transactions?.length === 0 ? (
+                  <div className="p-6 text-center text-xs text-muted-foreground">No transactions recorded yet.</div>
+                ) : (
+                  transactions?.map((tx) => (
+                    <div key={tx.id} className="p-4">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="font-bold text-sm text-green-600">+${tx.finalSalePrice?.toLocaleString()}</span>
+                        <Badge variant="outline" className="text-[10px] h-4">SOLD</Badge>
+                      </div>
+                      <p className="text-[10px] text-muted-foreground">
+                        {tx.saleDate ? format(new Date(tx.saleDate.seconds * 1000), "MMM d, yyyy") : "Processing..."}
+                      </p>
+                    </div>
+                  ))
+                )}
+              </div>
             </CardContent>
           </Card>
         </div>
