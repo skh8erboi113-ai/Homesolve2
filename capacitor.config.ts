@@ -5,7 +5,8 @@ const config: CapacitorConfig = {
   appName: 'HomeSolve',
   webDir: 'out',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'https',
+    hostname: 'studio-4450623487-72853.web.app'
   }
 };
 

@@ -325,12 +325,25 @@ export default function PropertyDetailsClient({ params }: { params: Promise<{ id
                                   <Badge key={tag} variant="secondary" className="text-[10px]">{tag}</Badge>
                                 ))}
                               </div>
-                              <Button className="w-full mt-4" variant="outline" onClick={() => {
-                                navigator.clipboard.writeText(`${outreachResult.headline}\n\n${outreachResult.body}\n\n${outreachResult.hashtags.join(' ')}`);
-                                toast({ title: "Copied!", description: "Content ready to paste." });
-                              }}>
-                                <Copy className="mr-2 h-4 w-4" /> Copy Content
-                              </Button>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                                <Button variant="outline" onClick={() => {
+                                  navigator.clipboard.writeText(`${outreachResult.headline}\n\n${outreachResult.body}\n\n${outreachResult.hashtags.join(' ')}`);
+                                  toast({ title: "Copied!", description: "Content ready to paste." });
+                                }}>
+                                  <Copy className="mr-2 h-4 w-4" /> Copy Text
+                                </Button>
+                                <Button className="bg-accent text-accent-foreground hover:bg-accent/90" onClick={() => {
+                                  const viralMsg = `🔥 ${outreachResult.headline}\n\n${outreachResult.body}\n\n📍 ${property.addressStreet}\n💰 AI Valued: $${property.aiQuickSaleValuation.toLocaleString()}\n\n👉 View details: ${window.location.href}`;
+                                  if (navigator.share) {
+                                    navigator.share({ title: outreachResult.headline, text: viralMsg, url: window.location.href });
+                                  } else {
+                                    navigator.clipboard.writeText(viralMsg);
+                                    toast({ title: "Viral Summary Copied!", description: "Ready to go viral!" });
+                                  }
+                                }}>
+                                  <Sparkles className="mr-2 h-4 w-4" /> Viral Share
+                                </Button>
+                              </div>
                             </CardContent>
                           </Card>
                         )}

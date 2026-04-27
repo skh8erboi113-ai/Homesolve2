@@ -70,13 +70,18 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
           
           if (!userSnap.exists()) {
             try {
+              const referralCode = typeof window !== 'undefined' ? localStorage.getItem("pending_referral") : null;
+
               await setDoc(userRef, {
                 id: firebaseUser.uid,
                 email: firebaseUser.email,
                 displayName: firebaseUser.displayName || 'HomeSolve User',
+                referredBy: referralCode || null,
                 createdAt: serverTimestamp(),
                 updatedAt: serverTimestamp(),
               }, { merge: true });
+
+              if (referralCode) localStorage.removeItem("pending_referral");
             } catch (err) {
               console.error("Failed to sync user profile:", err);
             }

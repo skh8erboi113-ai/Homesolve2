@@ -2,6 +2,7 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { FirebaseClientProvider } from "@/firebase";
+import AppUrlListener from "./AppUrlListener";
 
 export const metadata: Metadata = {
   title: 'HomeSolve - AI-Powered Foreclosure Solutions',
@@ -80,6 +81,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </noscript>
         {/* End Google Tag Manager (noscript) */}
         <FirebaseClientProvider>
+          <AppUrlListener />
           {children}
           <Toaster />
         </FirebaseClientProvider>

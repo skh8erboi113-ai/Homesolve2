@@ -39,7 +39,18 @@ npx cap sync
 - **Android**: \`npx cap open android\` (Requires Android Studio)
 - **iOS**: \`npx cap open ios\` (Requires macOS and Xcode)
 
-## 5. App Store Requirements
+## 5. Viral Deep Linking (App-to-App)
+To enable deep links (shared property links opening the native app), you must:
+1. **iOS**: Host the `apple-app-site-association` file in `public/.well-known/`.
+2. **Android**: Host the `assetlinks.json` file in `public/.well-known/`.
+3. Add the associated domains to your Xcode and Android Studio projects.
+
+## 6. Referral Program Tracking
+The app is configured to track referrals via the URL parameter `?ref=YOUR_USER_ID`.
+- When a user shares their invite from the dashboard, this parameter is added.
+- New users will have a `referredBy` field automatically populated in their Firestore `/users` document.
+
+## 7. App Store Requirements
 - **Account Deletion**: Already implemented in the Dashboard "Danger Zone".
 - **Privacy Policy**: Available at \`/privacy\`.
 - **Terms of Service**: Available at \`/terms\`.
