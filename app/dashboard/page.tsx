@@ -146,6 +146,12 @@ export default function DashboardPage() {
             <p className="text-muted-foreground">Managing your property portfolio and transaction settlements.</p>
           </div>
           <div className="flex gap-3">
+            <Button variant="outline" asChild className="rounded-full px-6 border-[#1F9BA6] text-[#1F9BA6]">
+              <Link href="/dashboard/probate">Probate Wholesaling</Link>
+            </Button>
+            <Button variant="outline" asChild className="rounded-full px-6 border-[#1F9BA6] text-[#1F9BA6]">
+              <Link href="/dashboard/probate">Probate Wholesaling</Link>
+            </Button>
             <Button variant="outline" asChild className="rounded-full px-6">
               <Link href="/messages">Messages</Link>
             </Button>
