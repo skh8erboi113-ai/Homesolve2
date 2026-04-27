@@ -227,7 +227,8 @@ export default function Home() {
           <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
             <p>© {new Date().getFullYear()} HomeSolve. All rights reserved.</p>
             <div className="flex gap-6">
-              <Link href="/privacy" className="hover:underline">Terms of Service</Link>
+              <Link href="/terms" className="hover:underline">Terms of Service</Link>
+              <Link href="/privacy" className="hover:underline">Privacy Policy</Link>
               <Link href="/privacy" className="hover:underline">Equal Housing Opportunity</Link>
             </div>
           </div>
