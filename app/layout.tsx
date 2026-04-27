@@ -12,8 +12,8 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'HomeSolve - Nationwide Foreclosure Solutions',
-    description: 'Protect your equity with AI valuations and verified cash buyers.',
+    title: 'HomeSolve - AI-Powered Foreclosure Solutions',
+    description: 'The smarter way out of foreclosure. Protect your equity with AI valuations and verified cash buyers nationwide.',
     url: 'https://studio-4450623487-72853.web.app',
     siteName: 'HomeSolve',
     images: [
@@ -21,10 +21,18 @@ export const metadata: Metadata = {
         url: 'https://picsum.photos/seed/home1/1200/630',
         width: 1200,
         height: 630,
+        alt: 'HomeSolve - Smarter Foreclosure Solutions',
       },
     ],
     locale: 'en_US',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'HomeSolve | Nationwide Foreclosure Solutions',
+    description: 'Protect your equity with AI valuations and verified cash buyers. Fast, fair, and secure.',
+    images: ['https://picsum.photos/seed/home1/1200/630'],
+    creator: '@HomeSolve',
   },
   manifest: '/manifest.json',
   appleWebApp: {
