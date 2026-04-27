@@ -1,0 +1,21 @@
+{
+  "name": "HomeSolve",
+  "short_name": "HomeSolve",
+  "description": "AI-Powered Foreclosure Solutions",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#EEF4F5",
+  "theme_color": "#1F9BA6",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
