@@ -63,7 +63,9 @@ function buildRequestObject(context: SecurityRuleContext): SecurityRuleRequest {
     if (firebaseAuth.currentUser) {
       authObject = buildAuthObject(firebaseAuth.currentUser);
     }
-  } catch (_error) {}
+  } catch (_error) {
+    // Expected
+  }
   return {
     auth: authObject,
     method: context.operation,

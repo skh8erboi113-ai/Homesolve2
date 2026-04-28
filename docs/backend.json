@@ -7,7 +7,7 @@
         "displayName": { "type": "string" },
         "email": { "type": "string" },
         "phoneNumber": { "type": "string" },
-        "role": { "type": "string", "enum": ["HOMEOWNER", "INVESTOR", "WHOLESALER"] }
+        "role": { "type": "string", "enum": ["HOMEOWNER", "INVESTOR"] }
       },
       "required": ["id", "email", "role"]
     },
@@ -19,29 +19,6 @@
         "addressStreet": { "type": "string" },
         "status": { "type": "string" }
       }
-    },
-    "ProbateLead": {
-      "type": "object",
-      "properties": {
-        "id": { "type": "string" },
-        "deceasedName": { "type": "string" },
-        "propertyAddress": { "type": "string" },
-        "representativeName": { "type": "string" },
-        "representativePhone": { "type": "string" },
-        "representativeEmail": { "type": "string" },
-        "status": {
-          "type": "string",
-          "enum": ["NEW", "SKIP_TRACED", "CONTACTED", "UNDER_CONTRACT", "SOLD"]
-        },
-        "estimatedARV": { "type": "number" },
-        "estimatedRepairs": { "type": "number" },
-        "wholesaleOfferPrice": { "type": "number" },
-        "notes": { "type": "string" },
-        "wholesalerId": { "type": "string" },
-        "createdAt": { "type": "string", "format": "date-time" },
-        "updatedAt": { "type": "string", "format": "date-time" }
-      },
-      "required": ["id", "deceasedName", "propertyAddress", "status", "wholesalerId", "createdAt"]
     }
   },
   "firestore": {
@@ -50,22 +27,14 @@
         "path": "/users/{userId}",
         "definition": {
           "entityName": "UserProfile",
-          "schema": { "": "#/entities/UserProfile" }
+          "schema": { "$ref": "#/entities/UserProfile" }
         }
       },
       {
         "path": "/public_property_listings/{listingId}",
         "definition": {
           "entityName": "PropertyListing",
-          "schema": { "": "#/entities/PropertyListing" }
-        }
-      },
-      {
-        "path": "/probate_leads/{leadId}",
-        "definition": {
-          "entityName": "ProbateLead",
-          "schema": { "": "#/entities/ProbateLead" },
-          "description": "Stores probate leads for virtual wholesaling."
+          "schema": { "$ref": "#/entities/PropertyListing" }
         }
       }
     ]
