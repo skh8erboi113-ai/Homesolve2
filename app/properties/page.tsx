@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Search, MapPin, Filter, TrendingDown, Loader2 } from "lucide-react";
+import { Search, MapPin, BedDouble, Bath, Square, Filter, TrendingDown, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";

@@ -8,7 +8,7 @@ import {
   ShieldCheck, 
   Clock, 
   Users, 
-  ArrowRight as _ArrowRight,
+  ArrowRight,
   DollarSign,
   Zap,
   Sparkles,

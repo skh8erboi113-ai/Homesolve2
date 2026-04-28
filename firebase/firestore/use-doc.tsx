@@ -19,7 +19,6 @@ export interface UseDocResult<T> {
   error: FirestoreError | Error | null;
 }
 
-// deno-lint-ignore no-explicit-any
 export function useDoc<T = any>(
   memoizedDocRef: (DocumentReference<DocumentData> & {__memo?: boolean}) | null | undefined,
 ): UseDocResult<T> {
@@ -49,7 +48,7 @@ export function useDoc<T = any>(
         setError(null);
         setIsLoading(false);
       },
-      (_err: FirestoreError) => {
+      (err: FirestoreError) => {
         const contextualError = new FirestorePermissionError({
           operation: 'get',
           path: memoizedDocRef.path,
