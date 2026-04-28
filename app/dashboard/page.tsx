@@ -3,11 +3,11 @@
 
 import { useState, useEffect } from "react";
 import { Navbar } from "@/components/navbar";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { Home, ArrowUpRight, MessageSquare, List, DollarSign, TrendingUp, Loader2, CheckCircle2, CreditCard, History, Building2, PieChart } from "lucide-react";
+import { Home, ArrowUpRight, List, DollarSign, TrendingUp, Loader2, History, Building2, PieChart } from "lucide-react";
 import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
 import { useCollection, useFirestore, useMemoFirebase, useUser, useAuth } from "@/firebase";
@@ -200,7 +200,7 @@ export default function DashboardPage() {
                       <YAxis axisLine={false} tickLine={false} tickFormatter={(v) => `$${v}`} />
                       <Tooltip />
                       <Bar dataKey="earnings" radius={[4, 4, 0, 0]} barSize={40}>
-                        {CHART_DATA.map((entry, index) => (
+                        {CHART_DATA.map((_entry, index) => (
                           <Cell key={`cell-${index}`} fill={index === CHART_DATA.length - 1 ? '#2EE69D' : '#1F9BA6'} />
                         ))}
                       </Bar>

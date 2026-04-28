@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -27,19 +27,16 @@ import {
   Users,
   Search,
   Plus,
-  Phone,
   Mail,
-  MapPin,
   Calculator,
   FileText,
   TrendingUp,
   History,
-  Home,
   MessageSquare,
   ClipboardCheck,
   ChevronRight
 } from "lucide-react";
-import { generateProbateOutreach } from "@/ai/flows/probate-outreach-flow";
+import { generateProbateOutreach, ProbateOutreachOutput } from "@/ai/flows/probate-outreach-flow";
 import { calculateWholesaleValuation } from "@/ai/flows/wholesale-valuation-flow";
 import { useToast } from "@/hooks/use-toast";
 import Link from 'next/link';
@@ -84,8 +81,8 @@ const INITIAL_LEADS: ProbateLead[] = [
 export default function ProbateDashboard() {
   const [leads, setLeads] = useState<ProbateLead[]>(INITIAL_LEADS);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [selectedLead, setSelectedLead] = useState<ProbateLead | null>(null);
-  const [outreachResult, setOutreachResult] = useState<any>(null);
+  const [_selectedLead, setSelectedLead] = useState<ProbateLead | null>(null);
+  const [outreachResult, setOutreachResult] = useState<ProbateOutreachOutput | null>(null);
   const [newLead, setNewLead] = useState<Partial<ProbateLead>>({
     deceasedName: '',
     propertyAddress: '',
@@ -124,7 +121,7 @@ export default function ProbateDashboard() {
         });
         setOutreachResult(result);
         setSelectedLead(lead);
-    } catch (e) {
+    } catch (_e) {
         toast({ title: "Error", description: "Failed to generate outreach.", variant: "destructive" });
     }
   };
@@ -153,7 +150,7 @@ export default function ProbateDashboard() {
               title: "Valuation Complete",
               description: `Offer: ${result.wholesaleOffer.toLocaleString()} | Spread: ${result.potentialAssignmentFee.toLocaleString()}`
           });
-      } catch (e) {
+      } catch (_e) {
           toast({ title: "Error", description: "Valuation failed.", variant: "destructive" });
       }
   };

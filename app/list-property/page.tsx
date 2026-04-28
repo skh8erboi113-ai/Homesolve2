@@ -5,13 +5,11 @@ import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
 import { homeownerQuickSaleValuation, HomeownerQuickSaleValuationOutput } from "@/ai/flows/homeowner-quick-sale-valuation";
-import { Loader2, TrendingUp, Info, DollarSign, CheckCircle2, AlertCircle } from "lucide-react";
+import { Loader2, TrendingUp, DollarSign } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useFirestore, useUser } from "@/firebase";
 import { collection, serverTimestamp } from "firebase/firestore";
@@ -69,7 +67,7 @@ export default function ListPropertyPage() {
         title: "Valuation Complete",
         description: "AI has estimated your property's quick-sale value.",
       });
-    } catch (error) {
+    } catch (_error) {
       toast({
         title: "Error",
         description: "Failed to generate valuation. Please try again.",
@@ -117,7 +115,7 @@ export default function ListPropertyPage() {
       
       toast({ title: "Listing Published!", description: "Your property is now live." });
       router.push("/properties");
-    } catch (error) {
+    } catch (_error) {
       toast({ title: "Error", description: "Could not publish listing.", variant: "destructive" });
     } finally {
       setPublishing(false);

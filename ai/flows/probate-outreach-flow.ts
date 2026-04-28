@@ -22,7 +22,7 @@ const ProbateOutreachOutputSchema = z.object({
 export type ProbateOutreachInput = z.infer<typeof ProbateOutreachInputSchema>;
 export type ProbateOutreachOutput = z.infer<typeof ProbateOutreachOutputSchema>;
 
-export async function generateProbateOutreach(input: ProbateOutreachInput): Promise<ProbateOutreachOutput> {
+export function generateProbateOutreach(input: ProbateOutreachInput): Promise<ProbateOutreachOutput> {
   return probateOutreachFlow(input);
 }
 

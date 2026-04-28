@@ -29,7 +29,7 @@ const HomeownerQuickSaleValuationOutputSchema = z.object({
 });
 export type HomeownerQuickSaleValuationOutput = z.infer<typeof HomeownerQuickSaleValuationOutputSchema>;
 
-export async function homeownerQuickSaleValuation(input: HomeownerQuickSaleValuationInput): Promise<HomeownerQuickSaleValuationOutput> {
+export function homeownerQuickSaleValuation(input: HomeownerQuickSaleValuationInput): Promise<HomeownerQuickSaleValuationOutput> {
   return homeownerQuickSaleValuationFlow(input);
 }
 

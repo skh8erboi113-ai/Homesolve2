@@ -4,7 +4,7 @@ import { getAuth, type User } from 'firebase/auth';
 export type SecurityRuleContext = {
   path: string;
   operation: 'get' | 'list' | 'create' | 'update' | 'delete' | 'write';
-  requestResourceData?: any;
+  requestResourceData?: unknown;
 };
 
 interface FirebaseAuthToken {
@@ -30,7 +30,7 @@ interface SecurityRuleRequest {
   method: string;
   path: string;
   resource?: {
-    data: any;
+    data: unknown;
   };
 }
 
@@ -63,7 +63,7 @@ function buildRequestObject(context: SecurityRuleContext): SecurityRuleRequest {
     if (firebaseAuth.currentUser) {
       authObject = buildAuthObject(firebaseAuth.currentUser);
     }
-  } catch {}
+  } catch (_error) {}
   return {
     auth: authObject,
     method: context.operation,

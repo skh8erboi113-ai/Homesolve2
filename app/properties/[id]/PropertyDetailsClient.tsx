@@ -1,7 +1,7 @@
 // PropertyDetailsClient.tsx
 import React from 'react';
 
-const PropertyDetailsClient: React.FC<{ params: Promise<{ id: string }> }> = ({ params }) => {
+const PropertyDetailsClient: React.FC<{ params: Promise<{ id: string }> }> = ({ params: _params }) => {
     try {
         // Your logic here...
     } catch (_error) { // Updated here

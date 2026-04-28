@@ -23,7 +23,7 @@ const WholesaleValuationOutputSchema = z.object({
 export type WholesaleValuationInput = z.infer<typeof WholesaleValuationInputSchema>;
 export type WholesaleValuationOutput = z.infer<typeof WholesaleValuationOutputSchema>;
 
-export async function calculateWholesaleValuation(input: WholesaleValuationInput): Promise<WholesaleValuationOutput> {
+export function calculateWholesaleValuation(input: WholesaleValuationInput): Promise<WholesaleValuationOutput> {
   return wholesaleValuationFlow(input);
 }
 
@@ -33,7 +33,7 @@ const wholesaleValuationFlow = ai.defineFlow(
     inputSchema: WholesaleValuationInputSchema,
     outputSchema: WholesaleValuationOutputSchema,
   },
-  async (input) => {
+  (input) => {
     // Formula: (ARV * 0.9) - (repairs * 2)
     // He emphasizes this rule for hedge funds.
     const wholesaleOffer = (input.estimatedARV * 0.9) - (input.estimatedRepairs * 2);

@@ -24,7 +24,7 @@ const OutreachOutputSchema = z.object({
 export type OutreachInput = z.infer<typeof OutreachInputSchema>;
 export type OutreachOutput = z.infer<typeof OutreachOutputSchema>;
 
-export async function generateOutreach(input: OutreachInput): Promise<OutreachOutput> {
+export function generateOutreach(input: OutreachInput): Promise<OutreachOutput> {
   return generateOutreachFlow(input);
 }
 

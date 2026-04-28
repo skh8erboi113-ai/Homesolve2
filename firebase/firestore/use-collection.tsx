@@ -62,7 +62,7 @@ export function useCollection<T = any>(
         setError(null);
         setIsLoading(false);
       },
-      (err: FirestoreError) => {
+      (_err: FirestoreError) => {
         const path: string =
           memoizedTargetRefOrQuery.type === 'collection'
             ? (memoizedTargetRefOrQuery as CollectionReference).path

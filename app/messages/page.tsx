@@ -96,7 +96,7 @@ function MessagesContent() {
                 {conversations?.map((conv) => (
                   <button
                     key={conv.id}
-                    onClick={() => window.history.pushState({}, '', `/messages?id=${conv.id}`)}
+                    onClick={() => globalThis.history.pushState({}, '', `/messages?id=${conv.id}`)}
                     className={`w-full p-4 flex items-start gap-3 hover:bg-accent transition-colors text-left ${activeConvId === conv.id ? 'bg-accent/50' : ''}`}
                   >
                     <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
@@ -131,7 +131,7 @@ function MessagesContent() {
         ) : (
           <>
             <CardHeader className="border-b p-4 flex flex-row items-center gap-4">
-              <Button variant="ghost" size="icon" className="md:hidden" onClick={() => window.history.pushState({}, '', '/messages')}>
+              <Button variant="ghost" size="icon" className="md:hidden" onClick={() => globalThis.history.pushState({}, '', '/messages')}>
                 <ArrowLeft className="h-5 w-5" />
               </Button>
               <div className="flex-1">

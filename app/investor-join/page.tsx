@@ -16,7 +16,7 @@ import { useUser } from "@/firebase";
 export default function InvestorJoinPage() {
   const { toast } = useToast();
   const router = useRouter();
-  const { user } = useUser();
+  const { user: _user } = useUser();
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
