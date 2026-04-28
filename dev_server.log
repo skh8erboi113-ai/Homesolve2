@@ -2,14 +2,19 @@
 > homesolve@0.1.0 dev
 > next dev -p 9002
 
- ⨯ Failed to start server
-Error: listen EADDRINUSE: address already in use :::9002
-    at <unknown> (Error: listen EADDRINUSE: address already in use :::9002)
-    at new Promise (<anonymous>) {
-  code: 'EADDRINUSE',
-  errno: -98,
-  syscall: 'listen',
-  address: '::',
-  port: 9002
-}
-[?25h
+   ▲ Next.js 15.5.9
+   - Local:        http://localhost:9002
+   - Network:      http://192.168.0.2:9002
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 2.4s
+ ○ Compiling / ...
+
+warn - The class `duration-[3000ms]` is ambiguous and matches multiple utilities.
+warn - If this is content and not a class, replace it with `duration-&lsqb;3000ms&rsqb;` to silence this warning.
+ ✓ Compiled / in 8.4s (1012 modules)
+ GET / 200 in 11172ms
+ ○ Compiling /dashboard ...
+ ✓ Compiled /dashboard in 6.2s (2249 modules)
+ GET /dashboard 200 in 8581ms
