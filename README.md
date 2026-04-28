@@ -42,6 +42,14 @@ Follow these steps to make your application live on the web.
 - Select the `Homesolve2` repository.
 - **SECRET**: Under the "Environment Variables" section of the setup, add a secret named `GOOGLE_GENAI_API_KEY` with the value `AIzaSyCCezm3Led09tcGvZo_R987kQwS-v2D_VE`.
 
+## 🌐 Production Launch URL
+The app is currently deployed and live at:
+**[https://homesolve-production.onrender.com](https://homesolve-production.onrender.com)**
+
+## 📱 Mobile Native Setup
+For details on running this app as a native Android or iOS application, see:
+**[docs/MOBILE_SETUP.md](docs/MOBILE_SETUP.md)**
+
 ## 🛠️ Tech Stack
 - **Framework**: Next.js 15 (App Router)
 - **AI Engine**: Genkit + Google Gemini
