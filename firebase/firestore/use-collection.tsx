@@ -33,6 +33,7 @@ export interface InternalQuery extends Query<DocumentData> {
  * Hook to subscribe to a Firestore collection or query.
  * Requires memoized reference using useMemoFirebase.
  */
+// deno-lint-ignore no-explicit-any
 export function useCollection<T = any>(
   memoizedTargetRefOrQuery: ((CollectionReference<DocumentData> | Query<DocumentData>) & {__memo?: boolean}) | null | undefined,
 ): UseCollectionResult<T> {

@@ -19,6 +19,7 @@ export interface UseDocResult<T> {
   error: FirestoreError | Error | null;
 }
 
+// deno-lint-ignore no-explicit-any
 export function useDoc<T = any>(
   memoizedDocRef: (DocumentReference<DocumentData> & {__memo?: boolean}) | null | undefined,
 ): UseDocResult<T> {

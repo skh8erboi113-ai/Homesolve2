@@ -1,0 +1,17 @@
+<<<<<<< SEARCH
+    } catch (error: unknown) {
+      console.error(error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete account. You may need to re-authenticate.",
+        variant: "destructive",
+      });
+=======
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete account. You may need to re-authenticate.",
+        variant: "destructive",
+      });
+>>>>>>> REPLACE

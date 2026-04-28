@@ -12,6 +12,7 @@ import {
 import { errorEmitter } from './error-emitter';
 import { FirestorePermissionError } from './errors';
 
+// deno-lint-ignore no-explicit-any
 export function setDocumentNonBlocking(docRef: DocumentReference, data: any, options: SetOptions) {
   setDoc(docRef, data, options).catch((_error) => {
     errorEmitter.emit(
@@ -25,6 +26,7 @@ export function setDocumentNonBlocking(docRef: DocumentReference, data: any, opt
   })
 }
 
+// deno-lint-ignore no-explicit-any
 export function addDocumentNonBlocking(colRef: CollectionReference, data: any) {
   const promise = addDoc(colRef, data)
     .catch((_error) => {
@@ -40,6 +42,7 @@ export function addDocumentNonBlocking(colRef: CollectionReference, data: any) {
   return promise;
 }
 
+// deno-lint-ignore no-explicit-any
 export function updateDocumentNonBlocking(docRef: DocumentReference, data: any) {
   updateDoc(docRef, data)
     .catch((_error) => {

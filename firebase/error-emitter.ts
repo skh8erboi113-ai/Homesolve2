@@ -7,6 +7,7 @@ export interface AppEvents {
 
 type Callback<T> = (data: T) => void;
 
+// deno-lint-ignore no-explicit-any
 function createEventEmitter<T extends Record<string, any>>() {
   const events: { [K in keyof T]?: Array<Callback<T[K]>> } = {};
 

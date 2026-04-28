@@ -1,0 +1,46 @@
+<<<<<<< SEARCH
+export function setDocumentNonBlocking(docRef: DocumentReference, data: any, options: SetOptions) {
+  setDoc(docRef, data, options).catch((_error) => {
+=======
+// deno-lint-ignore no-explicit-any
+export function setDocumentNonBlocking(docRef: DocumentReference, data: any, options: SetOptions) {
+  setDoc(docRef, data, options).catch((_error) => {
+>>>>>>> REPLACE
+<<<<<<< SEARCH
+export function addDocumentNonBlocking(colRef: CollectionReference, data: any) {
+  const promise = addDoc(colRef, data)
+    .catch((_error) => {
+=======
+// deno-lint-ignore no-explicit-any
+export function addDocumentNonBlocking(colRef: CollectionReference, data: any) {
+  const promise = addDoc(colRef, data)
+    .catch((_error) => {
+>>>>>>> REPLACE
+<<<<<<< SEARCH
+export function updateDocumentNonBlocking(docRef: DocumentReference, data: any) {
+  updateDoc(docRef, data)
+    .catch((_error) => {
+=======
+// deno-lint-ignore no-explicit-any
+export function updateDocumentNonBlocking(docRef: DocumentReference, data: any) {
+  updateDoc(docRef, data)
+    .catch((_error) => {
+>>>>>>> REPLACE
+<<<<<<< SEARCH
+export function useDoc<T = any>(
+=======
+// deno-lint-ignore no-explicit-any
+export function useDoc<T = any>(
+>>>>>>> REPLACE
+<<<<<<< SEARCH
+export function useCollection<T = any>(
+=======
+// deno-lint-ignore no-explicit-any
+export function useCollection<T = any>(
+>>>>>>> REPLACE
+<<<<<<< SEARCH
+function createEventEmitter<T extends Record<string, any>>() {
+=======
+// deno-lint-ignore no-explicit-any
+function createEventEmitter<T extends Record<string, any>>() {
+>>>>>>> REPLACE
