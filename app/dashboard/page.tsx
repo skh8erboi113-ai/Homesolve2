@@ -258,38 +258,6 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="shadow-sm border-2 border-accent bg-accent/5 overflow-hidden">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg flex items-center gap-2 text-primary font-headline">
-              <Sparkles className="h-5 w-5 text-accent" /> Go Viral & Save Equity
-            </CardTitle>
-            <CardDescription>Share HomeSolve with your network.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Help other homeowners preserve their equity or connect investors with deals. The more we grow, the faster everyone closes.
-            </p>
-            <Button
-              className="w-full rounded-full bg-primary hover:bg-primary/90"
-              onClick={() => {
-                const shareData = {
-                  title: "HomeSolve - Smarter Way Out of Foreclosure",
-                  text: "I'm using HomeSolve to navigate real estate transitions with AI valuations and verified buyers. Check it out!",
-                  url: window.location.origin
-                };
-                if (navigator.share) {
-                  navigator.share(shareData);
-                } else {
-                  navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
-                  toast({ title: "Invite Copied!", description: "Share it with your network." });
-                }
-              }}
-            >
-              <Share2 className="mr-2 h-4 w-4" /> Invite a Friend
-            </Button>
-          </CardContent>
-        </Card>
-
             <Card className="shadow-sm border-l-4 border-l-accent">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm flex items-center gap-2">
