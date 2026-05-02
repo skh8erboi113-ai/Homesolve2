@@ -30,3 +30,12 @@ yarn-error.log*
 
 # firebase
 .firebase/
+tsconfig.tsbuildinfo
+
+# Mobile build artifacts
+android/.gradle
+android/app/build
+android/local.properties
+ios/App/Pods
+ios/App/App.xcworkspace
+*.log

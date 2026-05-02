@@ -7,12 +7,17 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { Home, ArrowUpRight, MessageSquare, List, DollarSign, TrendingUp, Loader2, CheckCircle2, CreditCard, History, Building2, PieChart } from "lucide-react";
+import { Home, ArrowUpRight, MessageSquare, List, DollarSign, TrendingUp, Loader2, CheckCircle2, CreditCard, History, Building2, PieChart, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
-import { useCollection, useFirestore, useMemoFirebase, useUser } from "@/firebase";
-import { collection, query, where, orderBy, limit } from "firebase/firestore";
+import { useCollection, useFirestore, useMemoFirebase, useUser, useAuth } from "@/firebase";
+import { collection, query, where, orderBy, limit, doc, deleteDoc, getDocs } from "firebase/firestore";
 import { format } from "date-fns";
+import { deleteUser } from "firebase/auth";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { Share2 } from "lucide-react";
 
 const CHART_DATA = [
   { month: "Jan", earnings: 2400 },
@@ -26,11 +31,50 @@ const CHART_DATA = [
 export default function DashboardPage() {
   const { user, isUserLoading } = useUser();
   const db = useFirestore();
+  const auth = useAuth();
+  const { toast } = useToast();
+  const router = useRouter();
   const [hasMounted, setHasMounted] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     setHasMounted(true);
   }, []);
+
+  const handleDeleteAccount = async () => {
+    if (!user || !auth.currentUser) return;
+    setIsDeleting(true);
+
+    try {
+      // 1. Delete user document from Firestore
+      await deleteDoc(doc(db, "users", user.uid));
+
+      // 2. Optional: Delete user's listings (or mark as deleted)
+      const listingsQuery = query(collection(db, "public_property_listings"), where("homeownerId", "==", user.uid));
+      const listingsSnap = await getDocs(listingsQuery);
+      for (const d of listingsSnap.docs) {
+        await deleteDoc(doc(db, "public_property_listings", d.id));
+      }
+
+      // 3. Delete Auth account
+      await deleteUser(auth.currentUser);
+
+      toast({
+        title: "Account Deleted",
+        description: "Your account and data have been removed.",
+      });
+      router.push("/");
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete account. You may need to re-authenticate.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   const userListingsQuery = useMemoFirebase(() => {
     if (!user || !db) return null;
@@ -183,6 +227,68 @@ export default function DashboardPage() {
                 </Button>
               </CardContent>
             </Card>
+
+        <Card className="shadow-sm border-l-4 border-l-destructive">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-bold text-destructive">Danger Zone</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive" size="sm" className="w-full rounded-full h-9" disabled={isDeleting}>
+                  {isDeleting ? <Loader2 className="animate-spin h-4 w-4" /> : "Delete Account"}
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete your account
+                    and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleDeleteAccount} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                    Delete Permanently
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-sm border-2 border-accent bg-accent/5 overflow-hidden">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg flex items-center gap-2 text-primary font-headline">
+              <Sparkles className="h-5 w-5 text-accent" /> Go Viral & Save Equity
+            </CardTitle>
+            <CardDescription>Share HomeSolve with your network.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Help other homeowners preserve their equity or connect investors with deals. The more we grow, the faster everyone closes.
+            </p>
+            <Button
+              className="w-full rounded-full bg-primary hover:bg-primary/90"
+              onClick={() => {
+                const shareData = {
+                  title: "HomeSolve - Smarter Way Out of Foreclosure",
+                  text: "I'm using HomeSolve to navigate real estate transitions with AI valuations and verified buyers. Check it out!",
+                  url: window.location.origin
+                };
+                if (navigator.share) {
+                  navigator.share(shareData);
+                } else {
+                  navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+                  toast({ title: "Invite Copied!", description: "Share it with your network." });
+                }
+              }}
+            >
+              <Share2 className="mr-2 h-4 w-4" /> Invite a Friend
+            </Button>
+          </CardContent>
+        </Card>
 
             <Card className="shadow-sm border-l-4 border-l-accent">
               <CardHeader className="pb-2">

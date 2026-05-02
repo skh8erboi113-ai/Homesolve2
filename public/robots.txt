@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://studio-4450623487-72853.web.app/sitemap.xml
