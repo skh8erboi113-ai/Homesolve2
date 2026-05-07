@@ -7,14 +7,14 @@ import AppUrlListener from "./AppUrlListener";
 export const metadata: Metadata = {
   title: 'HomeSolve - AI-Powered Foreclosure Solutions',
   description: 'Connect with homeowners facing foreclosure and qualified real estate investors for quick, fair transactions nationwide.',
-  metadataBase: new URL('https://studio-4450623487-72853.web.app'),
+  metadataBase: new URL('https://homesolve-production.onrender.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'HomeSolve - AI-Powered Foreclosure Solutions',
     description: 'The smarter way out of foreclosure. Protect your equity with AI valuations and verified cash buyers nationwide.',
-    url: 'https://studio-4450623487-72853.web.app',
+    url: 'https://homesolve-production.onrender.com',
     siteName: 'HomeSolve',
     images: [
       {
