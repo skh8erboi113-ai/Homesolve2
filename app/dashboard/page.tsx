@@ -263,7 +263,7 @@ export default function DashboardPage() {
             <CardTitle className="text-lg flex items-center gap-2 text-primary font-headline">
               <Sparkles className="h-5 w-5 text-accent" /> Go Viral & Save Equity
             </CardTitle>
-            <CardDescription>Share HomeSolve with your network.</CardDescription>
+            <CardDescription>Share EquityArc with your network.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-xs text-muted-foreground leading-relaxed">
@@ -273,8 +273,8 @@ export default function DashboardPage() {
               className="w-full rounded-full bg-primary hover:bg-primary/90"
               onClick={() => {
                 const shareData = {
-                  title: "HomeSolve - Smarter Way Out of Foreclosure",
-                  text: "I'm using HomeSolve to navigate real estate transitions with AI valuations and verified buyers. Check it out!",
+                  title: "EquityArc - Smarter Way Out of Foreclosure",
+                  text: "I'm using EquityArc to navigate real estate transitions with AI valuations and verified buyers. Check it out!",
                   url: window.location.origin
                 };
                 if (navigator.share) {

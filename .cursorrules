@@ -1,7 +1,7 @@
-# HomeSolve Cursor Rules
+# EquityArc Cursor Rules
 
 ## Project Overview
-HomeSolve is a Next.js 15 (App Router) application powered by Genkit AI and Firebase. It is integrated with Capacitor for mobile (Android/iOS).
+EquityArc is a Next.js 15 (App Router) application powered by Genkit AI and Firebase. It is integrated with Capacitor for mobile (Android/iOS).
 
 ## Tech Stack
 - **Framework**: Next.js 15

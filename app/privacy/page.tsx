@@ -44,7 +44,7 @@ export default function PrivacyPage() {
         <div className="bg-white rounded-2xl border p-8 md:p-12 shadow-sm space-y-12">
           <section className="prose prose-slate max-w-none">
             <p className="text-lg leading-relaxed text-muted-foreground">
-              At HomeSolve, your privacy is our priority. This policy explains how we collect, use, and protect your data when you use our platform to navigate real estate transitions.
+              At EquityArc, your privacy is our priority. This policy explains how we collect, use, and protect your data when you use our platform to navigate real estate transitions.
             </p>
           </section>
 
@@ -64,7 +64,7 @@ export default function PrivacyPage() {
           <section className="bg-primary/5 p-6 rounded-xl border border-primary/10">
             <h2 className="text-xl font-bold text-primary mb-3">Questions?</h2>
             <p className="text-muted-foreground">
-              If you have any questions about this Privacy Policy or our data practices, please contact our privacy team at privacy@homesolve.com.
+              If you have any questions about this Privacy Policy or our data practices, please contact our privacy team at privacy@equityarc.com.
             </p>
           </section>
         </div>

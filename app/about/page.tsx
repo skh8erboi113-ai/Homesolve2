@@ -99,13 +99,13 @@ export default function HowItWorksPage() {
         <header className="text-center max-w-3xl mx-auto mb-20">
           <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary mb-6">Our Products & Services</h1>
           <p className="text-xl text-muted-foreground">
-            HomeSolve is more than a marketplace; it's an AI-powered toolkit designed to solve the complexity of distressed real estate nationwide.
+            EquityArc is more than a marketplace; it's an AI-powered toolkit designed to solve the complexity of distressed real estate nationwide.
           </p>
         </header>
 
         <section className="mb-24">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Why Choose HomeSolve?</h2>
+            <h2 className="text-3xl font-bold mb-4">Why Choose EquityArc?</h2>
             <p className="text-muted-foreground">We focus on speed, value, and data-driven results for everyone.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -146,7 +146,7 @@ export default function HowItWorksPage() {
            <div>
              <h2 className="text-2xl font-bold mb-2">Our Nationwide Focus</h2>
              <p className="text-muted-foreground leading-relaxed">
-               HomeSolve is currently operating across the **entire United States**. We focus on all markets where timing is critical for homeowners and opportunities are abundant for investors. No matter where you are, we've got you covered.
+               EquityArc is currently operating across the **entire United States**. We focus on all markets where timing is critical for homeowners and opportunities are abundant for investors. No matter where you are, we've got you covered.
              </p>
            </div>
         </section>

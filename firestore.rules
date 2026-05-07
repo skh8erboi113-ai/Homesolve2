@@ -4,7 +4,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * HomeSolve Production Security Rules
+     * EquityArc Production Security Rules
      * DEPLOYED: 2024-06-21T15:00:00Z
      */
 

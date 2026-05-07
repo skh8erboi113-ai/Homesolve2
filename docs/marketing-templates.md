@@ -1,4 +1,4 @@
-# HomeSolve Outreach & Growth Templates
+# EquityArc Outreach & Growth Templates
 
 Use these free templates to drive traffic to your platform. Focus on high-intent communities like real estate investing groups and local neighborhood forums.
 
@@ -7,7 +7,7 @@ Use these free templates to drive traffic to your platform. Focus on high-intent
 
 Real estate investing is often a race against the clock. Homeowners facing foreclosure don't have months to wait—they need liquidity *now*.
 
-I'm excited to share **HomeSolve**, an AI-powered platform that bridges the gap between motivated sellers and professional investors. 
+I'm excited to share **EquityArc**, an AI-powered platform that bridges the gap between motivated sellers and professional investors.
 
 ✅ **AI Quick-Sale Valuations**: Instant market analysis.
 ✅ **Verified Leads**: Early access to pre-foreclosure opportunities.
@@ -17,7 +17,7 @@ We are officially opening our Investor Network. Join the waitlist and get your "
 
 👉 **Join the network here:** https://studio-4450623487-72853.web.app/investor-join
 
-#RealEstate #PropTech #Investing #ForeclosureSolutions #HomeSolve
+#RealEstate #PropTech #Investing #ForeclosureSolutions #EquityArc
 
 ---
 
@@ -26,7 +26,7 @@ We are officially opening our Investor Network. Join the waitlist and get your "
 
 Foreclosure is heavy, but you don't have to face it alone. The traditional market is too slow when the bank is knocking.
 
-We built **HomeSolve** to give you back control.
+We built **EquityArc** to give you back control.
 💰 Get an instant AI valuation of your home.
 🤝 Connect directly with vetted cash buyers.
 ⏱️ Close in as little as 14-21 days.
@@ -35,12 +35,12 @@ No upfront fees, no judgment, just solutions.
 
 👉 **See what your home is worth today:** https://studio-4450623487-72853.web.app/list-property
 
-#Homeowners #FinancialHelp #RealEstate #HomeSolve #ForeclosureHelp
+#Homeowners #FinancialHelp #RealEstate #EquityArc #ForeclosureHelp
 
 ---
 
 ## 📱 Short Version (Text/WhatsApp/DM)
-"Hey! I’m working on a new project called **HomeSolve**. It’s an AI platform that helps homeowners facing foreclosure get fast cash offers from verified investors. If you know anyone in real estate or someone who needs a quick exit strategy, send them this link: https://studio-4450623487-72853.web.app"
+"Hey! I’m working on a new project called **EquityArc**. It’s an AI platform that helps homeowners facing foreclosure get fast cash offers from verified investors. If you know anyone in real estate or someone who needs a quick exit strategy, send them this link: https://studio-4450623487-72853.web.app"
 
 ---
 

@@ -9,7 +9,7 @@ const AppUrlListener: React.FC = () => {
 
   useEffect(() => {
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
-      // Example url: com.homesolve.app://studio-4450623487-72853.web.app/properties/123
+      // Example url: com.equityarc.app://studio-4450623487-72853.web.app/properties/123
       // We want to extract the path and navigate
       const slug = event.url.split('.web.app').pop();
       if (slug) {

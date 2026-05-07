@@ -1,4 +1,4 @@
-# **App Name**: HomeSolve
+# **App Name**: EquityArc
 
 ## Core Features:
 
