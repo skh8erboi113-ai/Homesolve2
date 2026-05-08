@@ -75,7 +75,7 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
               await setDoc(userRef, {
                 id: firebaseUser.uid,
                 email: firebaseUser.email,
-                displayName: firebaseUser.displayName || 'HomeSolve User',
+                displayName: firebaseUser.displayName || 'EquityArc User',
                 referredBy: referralCode || null,
                 createdAt: serverTimestamp(),
                 updatedAt: serverTimestamp(),

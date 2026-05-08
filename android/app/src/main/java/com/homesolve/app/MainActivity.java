@@ -1,4 +1,4 @@
-package com.homesolve.app;
+package com.equityarc.app;
 
 import com.getcapacitor.BridgeActivity;
 

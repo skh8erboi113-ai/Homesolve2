@@ -12,7 +12,7 @@ export function Footer() {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-xl">
                 H
               </div>
-              <span className="text-2xl font-bold tracking-tight text-primary">HomeSolve</span>
+              <span className="text-2xl font-bold tracking-tight text-primary">EquityArc</span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Empowering homeowners with AI technology and a verified investor network. We bridge the gap between financial distress and a fresh start nationwide.
@@ -46,7 +46,7 @@ export function Footer() {
           </div>
         </div>
         <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} HomeSolve. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} EquityArc. All rights reserved.</p>
           <div className="flex gap-6">
             <Link href="/terms" className="hover:underline">Terms of Service</Link>
             <Link href="/privacy" className="hover:underline">Privacy Policy</Link>

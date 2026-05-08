@@ -3,7 +3,7 @@
     "apps": [],
     "details": [
       {
-        "appID": "<TEAM_ID>.com.homesolve.app",
+        "appID": "<TEAM_ID>.com.equityarc.app",
         "paths": ["*", "/properties/*", "/dashboard/*"]
       }
     ]

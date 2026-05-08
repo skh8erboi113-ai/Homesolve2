@@ -64,7 +64,7 @@ function AuthContent() {
           <div className="mx-auto h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
             <ShieldCheck className="h-6 w-6" />
           </div>
-          <h1 className="text-2xl font-bold">{isLogin ? "Welcome Back" : "Join HomeSolve"}</h1>
+          <h1 className="text-2xl font-bold">{isLogin ? "Welcome Back" : "Join EquityArc"}</h1>
           <p className="text-sm text-muted-foreground mt-2">
             {isLogin ? "Sign in to manage your listings and offers." : "Create an account to start your AI valuation."}
           </p>

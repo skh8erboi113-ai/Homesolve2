@@ -5,23 +5,23 @@ import { FirebaseClientProvider } from "@/firebase";
 import AppUrlListener from "./AppUrlListener";
 
 export const metadata: Metadata = {
-  title: 'HomeSolve - AI-Powered Foreclosure Solutions',
+  title: 'EquityArc - AI-Powered Foreclosure Solutions',
   description: 'Connect with homeowners facing foreclosure and qualified real estate investors for quick, fair transactions nationwide.',
-  metadataBase: new URL('https://homesolve-production.onrender.com'),
+  metadataBase: new URL('https://equityarc-production.onrender.com'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'HomeSolve - AI-Powered Foreclosure Solutions',
+    title: 'EquityArc - AI-Powered Foreclosure Solutions',
     description: 'The smarter way out of foreclosure. Protect your equity with AI valuations and verified cash buyers nationwide.',
-    url: 'https://homesolve-production.onrender.com',
-    siteName: 'HomeSolve',
+    url: 'https://equityarc-production.onrender.com',
+    siteName: 'EquityArc',
     images: [
       {
         url: 'https://picsum.photos/seed/home1/1200/630',
         width: 1200,
         height: 630,
-        alt: 'HomeSolve - Smarter Foreclosure Solutions',
+        alt: 'EquityArc - Smarter Foreclosure Solutions',
       },
     ],
     locale: 'en_US',
@@ -29,16 +29,16 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'HomeSolve | Nationwide Foreclosure Solutions',
+    title: 'EquityArc | Nationwide Foreclosure Solutions',
     description: 'Protect your equity with AI valuations and verified cash buyers. Fast, fair, and secure.',
     images: ['https://picsum.photos/seed/home1/1200/630'],
-    creator: '@HomeSolve',
+    creator: '@EquityArc',
   },
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'HomeSolve',
+    title: 'EquityArc',
   },
   formatDetection: {
     telephone: false,

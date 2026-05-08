@@ -67,7 +67,7 @@ export default function PricingPage() {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h1 className="text-4xl md:text-5xl font-bold font-headline text-primary mb-6">Simple, Performance-Based Pricing</h1>
           <p className="text-xl text-muted-foreground">
-            We only profit when you succeed. HomeSolve is free for homeowners to start, with premium tools for high-volume investors.
+            We only profit when you succeed. EquityArc is free for homeowners to start, with premium tools for high-volume investors.
           </p>
         </div>
 
@@ -116,7 +116,7 @@ export default function PricingPage() {
         <div className="mt-20 p-8 rounded-3xl bg-accent/5 border border-accent/20 text-center max-w-4xl mx-auto">
           <h2 className="text-2xl font-bold mb-4">The Performance Fee Model</h2>
           <p className="text-muted-foreground">
-            *HomeSolve collects a 1.5% success fee from the final sales price of any property closed through our platform. 
+            *EquityArc collects a 1.5% success fee from the final sales price of any property closed through our platform.
             This ensures our AI and support teams are always incentivized to help sellers close the best possible deal in the shortest time.
           </p>
         </div>

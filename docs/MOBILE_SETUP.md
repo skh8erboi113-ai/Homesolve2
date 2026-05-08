@@ -1,6 +1,6 @@
-# HomeSolve Mobile Deployment Guide
+# EquityArc Mobile Deployment Guide
 
-To deploy HomeSolve to the Google Play Store and Apple App Store, follow these steps.
+To deploy EquityArc to the Google Play Store and Apple App Store, follow these steps.
 
 ## 1. Firebase Native Configuration
 You must add native Android and iOS apps to your Firebase project to enable Auth and Firestore.
@@ -8,14 +8,14 @@ You must add native Android and iOS apps to your Firebase project to enable Auth
 ### Android
 1. Go to **Firebase Console > Project Settings > General**.
 2. Click **Add App** and select **Android**.
-3. Use Package Name: `com.homesolve.app`.
+3. Use Package Name: `com.equityarc.app`.
 4. Download `google-services.json` and place it in:
    `/android/app/google-services.json`
 
 ### iOS
 1. Go to **Firebase Console > Project Settings > General**.
 2. Click **Add App** and select **iOS**.
-3. Use Bundle ID: `com.homesolve.app`.
+3. Use Bundle ID: `com.equityarc.app`.
 4. Download `GoogleService-Info.plist` and place it in:
    `/ios/App/App/GoogleService-Info.plist` (Use Xcode to drag and drop it into the project).
 
