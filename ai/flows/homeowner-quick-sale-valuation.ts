@@ -37,7 +37,26 @@ const quickSaleValuationPrompt = ai.definePrompt({
   name: 'quickSaleValuationPrompt',
   input: { schema: HomeownerQuickSaleValuationInputSchema },
   output: { schema: HomeownerQuickSaleValuationOutputSchema },
-  prompt: "You are an expert real estate valuer. Provide a quick-sale valuation for: Address: {{{address}}}, Type: {{{propertyType}}}, Sq Ft: {{{squareFootage}}}, Beds/Baths: {{{numberOfBedrooms}}}/{{{numberOfBathrooms}}}, Foreclosure Status: {{{foreclosureStatus}}}. Consider that quick sales usually require a 10-20% discount from retail price to attract cash investors.",
+  prompt: `You are an expert real estate valuer specializing in wholesale valuations and foreclosure situations.
+Provide a quick-sale valuation for the following property:
+- Address: {{{address}}}
+- Type: {{{propertyType}}}
+- Sq Ft: {{{squareFootage}}}
+- Beds/Baths: {{{numberOfBedrooms}}}/{{{numberOfBathrooms}}}
+- Condition: {{{condition}}}
+- Foreclosure Status: {{{foreclosureStatus}}}
+
+VALUATION METHODOLOGY (Mandatory):
+You MUST calculate the valuation using the "90% Rule" for wholesale acquisitions:
+Valuation = (ARV * 0.9) - (Estimated Repairs * 2)
+
+Where:
+1. ARV (After Repair Value): The estimated retail market value of the property if it were in excellent condition.
+2. Estimated Repairs: Your estimate of the repair costs needed based on the current condition ({{{condition}}}) and square footage ({{{squareFootage}}}).
+
+EXPLANATION:
+In your explanation, explicitly mention the ARV you estimated and the repair costs you calculated to show how you arrived at the final quick-sale value.
+Consider that quick sales in foreclosure require this significant discount to attract cash investors and provide immediate liquidity.`,
 });
 
 const homeownerQuickSaleValuationFlow = ai.defineFlow(

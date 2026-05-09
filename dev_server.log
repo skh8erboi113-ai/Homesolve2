@@ -2,14 +2,28 @@
 > equityarc@0.1.0 dev
 > next dev -p 9002
 
- ⨯ Failed to start server
-Error: listen EADDRINUSE: address already in use :::9002
-    at <unknown> (Error: listen EADDRINUSE: address already in use :::9002)
-    at new Promise (<anonymous>) {
-  code: 'EADDRINUSE',
-  errno: -98,
-  syscall: 'listen',
-  address: '::',
-  port: 9002
-}
-[?25h
+   ▲ Next.js 15.5.15
+   - Local:        http://localhost:9002
+   - Network:      http://192.168.0.2:9002
+   - Environments: .env
+
+ ✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+ ✓ Ready in 3.6s
+ ○ Compiling / ...
+
+warn - The class `duration-[3000ms]` is ambiguous and matches multiple utilities.
+warn - If this is content and not a class, replace it with `duration-&lsqb;3000ms&rsqb;` to silence this warning.
+ ✓ Compiled / in 15.4s (1012 modules)
+ GET / 200 in 18510ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 958ms (700 modules)
+ GET /favicon.ico 200 in 1428ms
+ ○ Compiling /messages ...
+ ✓ Compiled /messages in 1829ms (1118 modules)
+ GET / 200 in 765ms
+ GET /messages 200 in 2767ms
