@@ -435,6 +435,74 @@
         "status",
         "createdAt"
       ]
+    },
+    "ProbateLead": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the probate lead."
+        },
+        "deceasedName": {
+          "type": "string",
+          "description": "Name of the deceased individual."
+        },
+        "deceasedDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of death."
+        },
+        "propertyAddress": {
+          "type": "string",
+          "description": "Address of the probate property."
+        },
+        "heirs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "relationship": {
+                "type": "string"
+              },
+              "contactInfo": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "NEW",
+            "SKIP_TRACED",
+            "CONTACTED",
+            "UNDER_CONTRACT",
+            "SOLD"
+          ],
+          "description": "Current workflow status."
+        },
+        "notes": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "deceasedName",
+        "propertyAddress",
+        "status",
+        "createdAt"
+      ]
     }
   },
   "auth": {
@@ -575,6 +643,22 @@
             {
               "name": "transactionId",
               "description": "The unique identifier for the specific transaction."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/probate_leads/{leadId}",
+        "definition": {
+          "entityName": "ProbateLead",
+          "schema": {
+            "$ref": "#/entities/ProbateLead"
+          },
+          "description": "Tracks probate leads through the acquisition pipeline.",
+          "params": [
+            {
+              "name": "leadId",
+              "description": "The unique identifier for the probate lead."
             }
           ]
         }
