@@ -1,10 +1,9 @@
-
 "use client";
 
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Navbar }
-import { Footer } from "@/components/navbar";
+import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
