@@ -123,7 +123,7 @@ export default function Home() {
                 <div className="space-y-6">
                   {[
                     { title: "Equity Preservation", text: "Avoid the total loss of a bank auction. Sell quickly and walk away with your remaining equity.", icon: CheckCircle2 },
-                    { title: "Verified Cash Buyers", text: "Every investor on HomeSolve is vetted for proof of funds and closing history.", icon: ShieldCheck },
+                    { title: "Verified Cash Buyers", text: "Every investor on EquityArc is vetted for proof of funds and closing history.", icon: ShieldCheck },
                     { title: "Anonymous Messaging", text: "Communicate securely with potential buyers without disclosing private contact details until you're ready.", icon: Sparkles }
                   ].map((item, i) => (
                     <div key={i} className="flex gap-4">
@@ -146,7 +146,7 @@ export default function Home() {
                  </div>
                  <div className="bg-white w-full h-full rounded-[3rem] shadow-inner p-10 flex flex-col justify-center">
                     <h3 className="text-3xl font-bold mb-6 text-primary">Your Quick-Sale Partner</h3>
-                    <p className="text-muted-foreground text-lg mb-8 italic">"HomeSolve helped us settle our debt and walk away with $24,000 in equity just 12 days before the scheduled auction. They literally saved our credit."</p>
+                    <p className="text-muted-foreground text-lg mb-8 italic">"EquityArc helped us settle our debt and walk away with $24,000 in equity just 12 days before the scheduled auction. They literally saved our credit."</p>
                     <div className="flex items-center gap-4">
                       <div className="h-12 w-12 rounded-full bg-slate-200"></div>
                       <div>
@@ -190,7 +190,7 @@ export default function Home() {
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-xl">
                   H
                 </div>
-                <span className="text-2xl font-bold tracking-tight text-primary">HomeSolve</span>
+                <span className="text-2xl font-bold tracking-tight text-primary">EquityArc</span>
               </Link>
               <p className="text-muted-foreground text-sm leading-relaxed">
                 Empowering homeowners with AI technology and a verified investor network. We bridge the gap between financial distress and a fresh start nationwide.
@@ -225,9 +225,10 @@ export default function Home() {
             </div>
           </div>
           <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
-            <p>© {new Date().getFullYear()} HomeSolve. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} EquityArc. All rights reserved.</p>
             <div className="flex gap-6">
-              <Link href="/privacy" className="hover:underline">Terms of Service</Link>
+              <Link href="/terms" className="hover:underline">Terms of Service</Link>
+              <Link href="/privacy" className="hover:underline">Privacy Policy</Link>
               <Link href="/privacy" className="hover:underline">Equal Housing Opportunity</Link>
             </div>
           </div>

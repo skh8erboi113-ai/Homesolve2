@@ -1,5 +1,5 @@
 
-# 🚀 HomeSolve - Final Pre-Flight Dashboard
+# 🚀 EquityArc - Final Pre-Flight Dashboard
 
 Your app is **100% Code-Complete** and ready for the world.
 

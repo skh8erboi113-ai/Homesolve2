@@ -3,7 +3,8 @@
 
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { Navbar } from "@/components/navbar";
+import { Navbar }
+import { Footer } from "@/components/navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -193,6 +194,7 @@ export default function MessagesPage() {
           <MessagesContent />
         </Suspense>
       </main>
+      <Footer />
     </div>
   );
 }

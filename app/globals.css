@@ -59,5 +59,16 @@
   }
   body {
     @apply bg-background text-foreground;
+    -webkit-tap-highlight-color: transparent;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  /* Prevent text selection on UI elements for a more native feel */
+  button,
+  .btn,
+  nav,
+  .no-select {
+    user-select: none;
+    -webkit-user-select: none;
   }
 }

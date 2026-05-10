@@ -43,7 +43,7 @@ Property Details:
 
 Guidelines:
 1. Tone: Professional, empathetic, and highlights the urgency without being "spammy".
-2. Call to Action: Direct people to view the listing on HomeSolve.
+2. Call to Action: Direct people to view the listing on EquityArc.
 3. Structure: Clear headline, benefit-driven body, and a strong closing.
 4. Format: Tailor the length and style specifically for {{{targetPlatform}}}.
 

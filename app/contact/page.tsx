@@ -34,7 +34,7 @@ export default function ContactPage() {
       
       <main className="container mx-auto px-4 py-16">
         <header className="text-center max-w-3xl mx-auto mb-16">
-          <h1 className="text-4xl font-bold font-headline text-primary mb-4">Contact HomeSolve</h1>
+          <h1 className="text-4xl font-bold font-headline text-primary mb-4">Contact EquityArc</h1>
           <p className="text-xl text-muted-foreground">
             Have questions about a listing or our investor network? We're here to help.
           </p>
@@ -57,7 +57,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-sm font-medium opacity-70">Email Us</p>
-                    <p className="font-bold">support@homesolve.com</p>
+                    <p className="font-bold">support@equityarc.com</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">

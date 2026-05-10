@@ -21,7 +21,7 @@ export function Navbar() {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-xl">
             H
           </div>
-          <span className="text-xl font-bold tracking-tight font-headline text-primary">HomeSolve</span>
+          <span className="text-xl font-bold tracking-tight font-headline text-primary">EquityArc</span>
         </Link>
         
         <div className="hidden lg:flex items-center space-x-6 text-sm font-medium">

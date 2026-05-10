@@ -1,7 +1,7 @@
 
-# 🚀 HomeSolve - AI-Powered Foreclosure Solutions
+# 🚀 EquityArc - AI-Powered Foreclosure Solutions
 
-HomeSolve is an AI-powered platform designed to bridge the gap between motivated homeowners facing foreclosure and professional real estate investors nationwide.
+EquityArc is an AI-powered platform designed to bridge the gap between motivated homeowners facing foreclosure and professional real estate investors nationwide.
 
 ## 💰 How You Make Money
 This platform uses a high-margin business model combining SaaS subscriptions and performance-based commissions:
@@ -41,6 +41,14 @@ Follow these steps to make your application live on the web.
 - Click **"Get Started"** and connect your GitHub account.
 - Select the `Homesolve2` repository.
 - **SECRET**: Under the "Environment Variables" section of the setup, add a secret named `GOOGLE_GENAI_API_KEY` with the value `AIzaSyCCezm3Led09tcGvZo_R987kQwS-v2D_VE`.
+
+## 🌐 Production Launch URL
+The app is currently deployed and live at:
+**[https://equityarc-production.onrender.com](https://equityarc-production.onrender.com)**
+
+## 📱 Mobile Native Setup
+For details on running this app as a native Android or iOS application, see:
+**[docs/MOBILE_SETUP.md](docs/MOBILE_SETUP.md)**
 
 ## 🛠️ Tech Stack
 - **Framework**: Next.js 15 (App Router)
