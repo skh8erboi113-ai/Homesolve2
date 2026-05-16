@@ -1,4 +1,3 @@
-
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -34,7 +33,7 @@ service cloud.firestore {
 
       match /images/{imageId} {
         allow read: if true;
-        allow write: if isSignedIn();
+        allow write: if isSignedIn() && get(/databases/$(database)/documents/public_property_listings/$(listingId)).data.homeownerId == request.auth.uid;
       }
     }
 
@@ -70,8 +69,11 @@ service cloud.firestore {
         request.auth.uid == resource.data.homeownerId || 
         request.auth.uid == resource.data.buyerInvestorId
       );
-      // Created automatically during closing flow
-      allow create: if isSignedIn();
+      // Only the parties involved can create a transaction record
+      allow create: if isSignedIn() && (
+        request.auth.uid == request.resource.data.homeownerId ||
+        request.auth.uid == request.resource.data.buyerInvestorId
+      );
       allow update, delete: if false;
     }
   }
