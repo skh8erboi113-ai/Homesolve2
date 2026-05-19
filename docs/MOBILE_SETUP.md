@@ -22,7 +22,7 @@ You must add native Android and iOS apps to your Firebase project to enable Auth
 ## 2. Environment Variables
 Ensure your `.env` file or CI/CD secrets include:
 - `NEXT_PUBLIC_PROJECT_ID`: studio-4450623487-72853
-- `GOOGLE_GENAI_API_KEY`: (Your Gemini Key)
+- `GOOGLE_GENAI_API_KEY`: YOUR_GEMINI_API_KEY
 
 ## 3. Building for Mobile
 Run these commands to sync your web changes to the native projects:

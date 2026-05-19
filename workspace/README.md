@@ -40,7 +40,7 @@ git push -u origin main
 3. **CRITICAL**: Upgrade to the **Blaze Plan**.
 4. Go to **Build > App Hosting** and click "Get Started".
 5. Connect your GitHub account and select the `Homesolve2` repository.
-6. **SECRET**: Under **Environment Variables**, add a secret named `GOOGLE_GENAI_API_KEY` with your key: `AIzaSyCCezm3Led09tcGvZo_R987kQwS-v2D_VE`.
+6. **SECRET**: Under **Environment Variables**, add a secret named `GOOGLE_GENAI_API_KEY` with your key: `YOUR_GEMINI_API_KEY`.
 
 ---
 
