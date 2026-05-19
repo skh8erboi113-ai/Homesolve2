@@ -1,4 +1,5 @@
 'use server';
+
 /**
  * @fileOverview An AI agent that generates empathetic outreach content for probate real estate leads.
  */
@@ -41,9 +42,7 @@ Guidelines:
 1. Empathy First: Acknowledge the loss and offer genuine condolences.
 2. Value Proposition: Explain that you specialize in helping families settle estates quickly and without the stress of traditional listings.
 3. No Pressure: Ensure the message feels supportive, not predatory.
-4. Professionalism: Maintain high standards of respect and clarity.
-
-Generate a respectful subject line, a compassionate message body, and a gentle call to action.`,
+4. Professionalism: Maintain high standards of respect and clarity.`,
 });
 
 const probateOutreachFlow = ai.defineFlow(

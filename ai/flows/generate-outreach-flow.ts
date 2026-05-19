@@ -1,4 +1,5 @@
 'use server';
+
 /**
  * @fileOverview An AI agent that generates marketing outreach content for property listings.
  */
@@ -45,9 +46,7 @@ Guidelines:
 1. Tone: Professional, empathetic, and highlights the urgency without being "spammy".
 2. Call to Action: Direct people to view the listing on EquityArc.
 3. Structure: Clear headline, benefit-driven body, and a strong closing.
-4. Format: Tailor the length and style specifically for {{{targetPlatform}}}.
-
-Generate the headline, body text, and hashtags.`,
+4. Format: Tailor the length and style specifically for {{{targetPlatform}}}.`,
 });
 
 const generateOutreachFlow = ai.defineFlow(

@@ -1,217 +1,200 @@
-
 "use client";
 
-import { use, useState } from "react";
+import { useState } from "react";
 import { Navbar } from "@/components/navbar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useDoc, useFirestore, useMemoFirebase, useUser, useCollection } from "@/firebase";
-import { doc, collection, query, where, getDocs, serverTimestamp, orderBy } from "firebase/firestore";
-import { Loader2, MapPin, BedDouble, Bath, Square, TrendingDown, DollarSign, Calendar, ShieldCheck, MessageCircle, Share2, Sparkles, Copy, Gavel, CheckCircle2, XCircle } from "lucide-react";
-import Image from "next/image";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
-import { addDocumentNonBlocking, updateDocumentNonBlocking } from "@/firebase/non-blocking-updates";
-import { generateOutreach, OutreachOutput } from "@/ai/flows/generate-outreach-flow";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import {
+  Bed,
+  Bath,
+  Square,
+  Calendar,
+  MapPin,
+  Share2,
+  MessageCircle,
+  DollarSign,
+  TrendingUp,
+  ShieldCheck,
+  ChevronRight,
+  Loader2,
+  CheckCircle2,
+  Info,
+  Gavel,
+  Facebook,
+  Twitter,
+  Linkedin,
+  Copy,
+  Zap
+} from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import { useUser, useFirestore, db } from "@/firebase";
+import { collection, addDoc, serverTimestamp, doc, updateDoc } from "firebase/firestore";
+import { useRouter } from "next/navigation";
+import { useDoc } from "@/firebase/firestore/use-doc";
+import { useCollection } from "@/firebase/firestore/use-collection";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Share } from "@capacitor/share";
 
-export default function PropertyDetailsClient({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
-  const db = useFirestore();
+// Removed direct server action import to avoid client-side bundling issues in static export
+// import { generateOutreach, OutreachOutput } from "@/ai/flows/generate-outreach-flow";
+
+export default function PropertyDetailsClient({ id }: { id: string }) {
   const { user } = useUser();
   const { toast } = useToast();
   const router = useRouter();
-  
-  const [isStartingChat, setIsStartingChat] = useState(false);
-  const [isGeneratingOutreach, setIsGeneratingOutreach] = useState(false);
-  const [outreachResult, setOutreachResult] = useState<OutreachOutput | null>(null);
-  const [targetPlatform, setTargetPlatform] = useState<any>("LinkedIn");
-  
-  const [offerAmount, setOfferAmount] = useState<string>("");
-  const [isSubmittingOffer, setIsSubmittingOffer] = useState(false);
   const [isOfferDialogOpen, setIsOfferDialogOpen] = useState(false);
+  const [offerAmount, setOfferAmount] = useState("");
+  const [isSubmittingOffer, setIsSubmittingOffer] = useState(false);
+  const [isStartingChat, setIsStartingChat] = useState(false);
   const [isClosingDeal, setIsClosingDeal] = useState(false);
+  const [isGeneratingOutreach, setIsGeneratingOutreach] = useState(false);
+  const [outreachResult, setOutreachResult] = useState<any>(null);
+  const [targetPlatform, setTargetPlatform] = useState<string>("Facebook");
 
-  const propertyRef = useMemoFirebase(() => {
-    return doc(db, "public_property_listings", id);
-  }, [db, id]);
+  const { data: property, loading } = useDoc<any>("public_property_listings", id);
+  const { data: receivedOffers, loading: loadingOffers } = useCollection<any>(
+    "offers",
+    user?.uid ? { where: [["propertyId", "==", id]] } : null
+  );
 
-  const { data: property, isLoading } = useDoc(propertyRef);
-
-  const isOwner = user?.uid === property?.homeownerId;
-
-  // Fetch offers for the property (visible to owner only)
-  const offersQuery = useMemoFirebase(() => {
-    if (!isOwner || !db) return null;
-    return query(
-      collection(db, "offers"),
-      where("propertyListingId", "==", id),
-      orderBy("createdAt", "desc")
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="animate-spin h-8 w-8 text-primary" />
+      </div>
     );
-  }, [db, id, isOwner]);
+  }
 
-  const { data: receivedOffers, isLoading: loadingOffers } = useCollection(offersQuery);
+  if (!property) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center space-y-4">
+        <h1 className="text-2xl font-bold">Property Not Found</h1>
+        <Button onClick={() => router.push("/properties")}>Back to Listings</Button>
+      </div>
+    );
+  }
 
-  const handleStartConversation = async () => {
+  const isOwner = user?.uid === property.homeownerId;
+
+  const handleSubmitOffer = async () => {
     if (!user) {
-      toast({ title: "Login Required", description: "Please sign in to message the homeowner.", variant: "destructive" });
+      toast({ title: "Sign In Required", description: "You must be signed in to submit an offer.", variant: "destructive" });
       router.push("/auth");
       return;
     }
 
-    if (user.uid === property?.homeownerId) {
-      toast({ title: "Action Denied", description: "You cannot message yourself about your own listing.", variant: "destructive" });
+    if (!offerAmount || isNaN(Number(offerAmount))) {
+      toast({ title: "Invalid Amount", description: "Please enter a valid offer amount.", variant: "destructive" });
+      return;
+    }
+
+    setIsSubmittingOffer(true);
+    try {
+      await addDoc(collection(db, "offers"), {
+        propertyId: id,
+        homeownerId: property.homeownerId,
+        proposingUserId: user.uid,
+        offerAmount: Number(offerAmount),
+        status: "pending",
+        createdAt: serverTimestamp(),
+      });
+
+      toast({ title: "Offer Submitted!", description: "The homeowner has been notified." });
+      setIsOfferDialogOpen(false);
+      setOfferAmount("");
+    } catch (err) {
+      toast({ title: "Error", description: "Failed to submit offer. Please try again.", variant: "destructive" });
+    } finally {
+      setIsSubmittingOffer(false);
+    }
+  };
+
+  const handleStartConversation = async () => {
+    if (!user) {
+      router.push("/auth");
       return;
     }
 
     setIsStartingChat(true);
     try {
-      const convsRef = collection(db, "conversations");
-      const q = query(
-        convsRef, 
-        where("participantIds", "array-contains", user.uid),
-        where("propertyListingId", "==", id)
-      );
-      
-      const existing = await getDocs(q);
-      let conversationId = "";
+      // Find existing chat or create new one
+      const chatRef = collection(db, "chats");
+      const newChat = await addDoc(chatRef, {
+        participants: [user.uid, property.homeownerId],
+        propertyId: id,
+        lastMessage: "Interested in your property at " + property.addressStreet,
+        lastMessageAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
 
-      if (!existing.empty) {
-        conversationId = existing.docs[0].id;
-      } else {
-        const newConvData = {
-          propertyListingId: id,
-          participantIds: [user.uid, property?.homeownerId],
-          startedAt: serverTimestamp(),
-          lastMessageAt: serverTimestamp(),
-          subject: `Inquiry for ${property?.addressStreet}`,
-        };
-        const docRef = await addDocumentNonBlocking(convsRef, newConvData);
-        conversationId = docRef?.id || "";
-      }
-
-      if (conversationId) {
-        router.push(`/messages?id=${conversationId}`);
-      }
-    } catch (error) {
+      router.push(`/messages?id=${newChat.id}`);
+    } catch (err) {
       toast({ title: "Error", description: "Could not start conversation.", variant: "destructive" });
     } finally {
       setIsStartingChat(false);
     }
   };
 
-  const handleSubmitOffer = async () => {
-    if (!user) {
-      toast({ title: "Login Required", description: "Sign in to submit an offer.", variant: "destructive" });
-      router.push("/auth");
-      return;
-    }
-
-    if (!offerAmount || isNaN(Number(offerAmount))) {
-      toast({ title: "Invalid Amount", description: "Please enter a valid numeric offer amount.", variant: "destructive" });
-      return;
-    }
-
-    setIsSubmittingOffer(true);
-    try {
-      const offerData = {
-        propertyListingId: id,
-        proposingUserId: user.uid,
-        receivingUserId: property?.homeownerId,
-        propertyListingHomeownerId: property?.homeownerId,
-        offerAmount: Number(offerAmount),
-        offerDate: serverTimestamp(),
-        status: "pending",
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        message: "Initial cash offer submitted via EquityArc platform."
-      };
-
-      addDocumentNonBlocking(collection(db, "offers"), offerData);
-      
-      toast({
-        title: "Offer Submitted!",
-        description: `Your offer of $${Number(offerAmount).toLocaleString()} has been sent to the homeowner.`,
-      });
-      setIsOfferDialogOpen(false);
-      setOfferAmount("");
-    } catch (error) {
-      toast({ title: "Submission Error", description: "Could not submit offer. Please try again.", variant: "destructive" });
-    } finally {
-      setIsSubmittingOffer(false);
-    }
-  };
-
   const handleAcceptOffer = async (offer: any) => {
-    if (!user || !property) return;
     setIsClosingDeal(true);
-
     try {
-      // 1. Update Property Status
-      updateDocumentNonBlocking(doc(db, "public_property_listings", id), {
+      // 1. Update offer status
+      await updateDoc(doc(db, "offers", offer.id), { status: "accepted" });
+
+      // 2. Mark property as sold
+      await updateDoc(doc(db, "public_property_listings", id), {
         status: "sold",
-        updatedAt: serverTimestamp()
+        soldPrice: offer.offerAmount,
+        closedAt: serverTimestamp()
       });
-
-      // 2. Update Offer Status
-      updateDocumentNonBlocking(doc(db, "offers", offer.id), {
-        status: "accepted",
-        updatedAt: serverTimestamp()
-      });
-
-      // 3. Create Transaction Record (1.5% commission logic)
-      const commissionRate = 0.015;
-      const commissionAmount = offer.offerAmount * commissionRate;
-
-      const transactionData = {
-        propertyListingId: id,
-        acceptedOfferId: offer.id,
-        homeownerId: property.homeownerId,
-        buyerInvestorId: offer.proposingUserId,
-        finalSalePrice: offer.offerAmount,
-        platformCommissionRate: commissionRate,
-        platformCommissionAmount: commissionAmount,
-        saleDate: serverTimestamp(),
-        status: "completed",
-        createdAt: serverTimestamp()
-      };
-
-      addDocumentNonBlocking(collection(db, "transactions"), transactionData);
 
       toast({
         title: "Deal Closed!",
-        description: `Transaction of $${offer.offerAmount.toLocaleString()} completed. 1.5% commission recorded.`,
+        description: "Congratulations! The property has been marked as sold.",
+        className: "bg-green-600 text-white"
       });
-      router.push("/dashboard");
-    } catch (error) {
-      toast({ title: "Closing Error", description: "Failed to finalize the transaction.", variant: "destructive" });
+    } catch (err) {
+      toast({ title: "Error", description: "Failed to close the deal.", variant: "destructive" });
     } finally {
       setIsClosingDeal(false);
     }
   };
 
-  const handleShare = () => {
-    const shareData = {
-      title: property?.title || "Foreclosure Opportunity | EquityArc",
-      text: `🚀 Quick-sale opportunity found on EquityArc! AI Valued at $${property?.aiQuickSaleValuation?.toLocaleString()}. Check it out before the auction:`,
-      url: window.location.href,
-    };
+  const handleShare = async () => {
+    const shareUrl = `${window.location.origin}/properties/${id}?ref=${user?.uid || ''}`;
 
-    if (navigator.share) {
-      navigator.share(shareData).catch((err) => {
-        if (err.name !== 'AbortError') {
-          console.error('Error sharing:', err);
-        }
-      });
-    } else {
-      navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+    try {
+      if (typeof window !== 'undefined' && (window as any).Capacitor) {
+        await Share.share({
+          title: property.title,
+          text: `Check out this property on EquityArc: ${property.addressStreet}`,
+          url: shareUrl,
+          dialogTitle: 'Share Property',
+        });
+      } else {
+        await navigator.clipboard.writeText(shareUrl);
+        toast({
+          title: "Link Copied",
+          description: "Viral sharing text and link copied to clipboard.",
+          className: "bg-primary text-white border-none",
+        });
+      }
+    } catch (err) {
+      await navigator.clipboard.writeText(shareUrl);
       toast({
-        title: "Link Copied!",
+        title: "Link Copied",
         description: "Viral sharing text and link copied to clipboard.",
         className: "bg-primary text-white border-none",
       });
@@ -222,14 +205,19 @@ export default function PropertyDetailsClient({ params }: { params: Promise<{ id
     if (!property) return;
     setIsGeneratingOutreach(true);
     try {
-      const result = await generateOutreach({
-        propertyAddress: property.addressStreet,
-        askingPrice: property.askingPrice,
-        bedrooms: property.bedrooms,
-        bathrooms: property.bathrooms,
-        foreclosureStatus: property.foreclosureStatus,
-        targetPlatform: targetPlatform,
+      const response = await fetch('/api/ai/outreach', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          propertyAddress: property.addressStreet,
+          askingPrice: property.askingPrice,
+          bedrooms: property.bedrooms,
+          bathrooms: property.bathrooms,
+          foreclosureStatus: property.foreclosureStatus,
+          targetPlatform: targetPlatform,
+        })
       });
+      const result = await response.json();
       setOutreachResult(result);
     } catch (err) {
       toast({ title: "AI Error", description: "Failed to generate marketing content.", variant: "destructive" });
@@ -238,142 +226,65 @@ export default function PropertyDetailsClient({ params }: { params: Promise<{ id
     }
   };
 
-  if (isLoading) return <div className="min-h-screen flex items-center justify-center"><Loader2 className="animate-spin h-12 w-12 text-primary" /></div>;
-  if (!property) return <div className="min-h-screen flex items-center justify-center">Property not found.</div>;
-
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-24">
       <Navbar />
       
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 pt-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            <div className="relative aspect-video rounded-3xl overflow-hidden border shadow-lg">
-              <Image 
-                src={PlaceHolderImages.find(img => img.id.includes("house-listing"))?.imageUrl || "https://picsum.photos/seed/details/1200/800"} 
-                alt={property.title} 
-                fill 
-                className="object-cover"
-              />
-              <div className="absolute top-6 left-6 flex gap-3">
-                <Badge className="bg-primary text-white text-md px-4 py-1 uppercase tracking-wide">{property.foreclosureStatus}</Badge>
-                <Badge variant={property.status === 'sold' ? 'destructive' : 'secondary'} className="bg-white/90 backdrop-blur-sm text-md px-4 py-1 uppercase font-bold">
-                  {property.status}
-                </Badge>
+            <header>
+              <div className="flex items-center gap-2 text-muted-foreground text-sm mb-4">
+                <span className="hover:text-primary cursor-pointer" onClick={() => router.push('/properties')}>Properties</span>
+                <ChevronRight className="h-4 w-4" />
+                <span className="font-medium text-foreground truncate">{property.addressStreet}</span>
               </div>
+              <h1 className="text-3xl md:text-4xl font-bold font-headline mb-4">{property.title}</h1>
+              <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
+                <div className="flex items-center gap-1.5"><MapPin className="h-4 w-4" /> {property.addressStreet}, {property.addressCity}, {property.addressState} {property.addressZip}</div>
+                <div className="flex items-center gap-1.5"><Calendar className="h-4 w-4" /> Built in {property.yearBuilt}</div>
+              </div>
+            </header>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Card className="p-4 flex flex-col items-center justify-center text-center space-y-2">
+                <Bed className="h-6 w-6 text-primary" />
+                <div className="text-xl font-bold">{property.bedrooms}</div>
+                <div className="text-xs text-muted-foreground uppercase tracking-wider">Beds</div>
+              </Card>
+              <Card className="p-4 flex flex-col items-center justify-center text-center space-y-2">
+                <Bath className="h-6 w-6 text-primary" />
+                <div className="text-xl font-bold">{property.bathrooms}</div>
+                <div className="text-xs text-muted-foreground uppercase tracking-wider">Baths</div>
+              </Card>
+              <Card className="p-4 flex flex-col items-center justify-center text-center space-y-2">
+                <Square className="h-6 w-6 text-primary" />
+                <div className="text-xl font-bold">{property.squareFootage.toLocaleString()}</div>
+                <div className="text-xs text-muted-foreground uppercase tracking-wider">Sq Ft</div>
+              </Card>
+              <Card className="p-4 flex flex-col items-center justify-center text-center space-y-2">
+                <TrendingUp className="h-6 w-6 text-primary" />
+                <div className="text-sm font-bold uppercase text-accent">{property.foreclosureStatus}</div>
+                <div className="text-xs text-muted-foreground uppercase tracking-wider">Status</div>
+              </Card>
             </div>
 
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="space-y-2">
-                <h1 className="text-4xl font-bold font-headline">{property.addressStreet}</h1>
-                <div className="flex items-center text-muted-foreground gap-4">
-                  <div className="flex items-center gap-1"><MapPin className="h-4 w-4 text-accent" /> {property.addressCity}, {property.addressState} {property.addressZip}</div>
-                  <div className="flex items-center gap-1"><Calendar className="h-4 w-4" /> Built {property.yearBuilt}</div>
-                </div>
+            <section>
+              <h2 className="text-2xl font-bold font-headline mb-4">Location</h2>
+              <div className="rounded-2xl overflow-hidden h-[300px] border shadow-inner relative bg-muted">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  allowFullScreen
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(property.addressStreet + ' ' + property.addressCity)}&output=embed`}
+                />
               </div>
+            </section>
 
-              <div className="flex gap-2">
-                <Button variant="outline" className="rounded-full h-12 w-12 p-0" onClick={handleShare}>
-                  <Share2 className="h-5 w-5" />
-                </Button>
-                {isOwner && (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant="outline" className="rounded-full border-primary text-primary hover:bg-primary/5 h-12 px-6">
-                        <Sparkles className="mr-2 h-4 w-4" /> AI Marketing Kit
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-2xl">
-                      <DialogHeader>
-                        <DialogTitle>AI Outreach Generator</DialogTitle>
-                        <DialogDescription>
-                          Generate high-converting social media posts and messages for this property.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="space-y-6 py-4">
-                        <div className="flex items-center gap-4">
-                          <Select value={targetPlatform} onValueChange={setTargetPlatform}>
-                            <SelectTrigger className="w-[200px]">
-                              <SelectValue placeholder="Select Platform" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="LinkedIn">LinkedIn (Professional)</SelectItem>
-                              <SelectItem value="Facebook">Facebook (Community)</SelectItem>
-                              <SelectItem value="Twitter">Twitter (Short/Viral)</SelectItem>
-                              <SelectItem value="Direct Message">Direct Message (Private)</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <Button onClick={handleGenerateOutreach} disabled={isGeneratingOutreach} className="flex-1 rounded-full">
-                            {isGeneratingOutreach ? <Loader2 className="animate-spin mr-2 h-4 w-4" /> : <Sparkles className="mr-2 h-4 w-4" />}
-                            Generate Post
-                          </Button>
-                        </div>
-
-                        {outreachResult && (
-                          <Card className="bg-muted/30 border-dashed">
-                            <CardContent className="pt-6 space-y-4">
-                              <div>
-                                <h4 className="text-xs font-bold uppercase text-muted-foreground mb-2">Headline</h4>
-                                <p className="font-bold text-lg">{outreachResult.headline}</p>
-                              </div>
-                              <div>
-                                <h4 className="text-xs font-bold uppercase text-muted-foreground mb-2">Body Text</h4>
-                                <p className="text-sm whitespace-pre-wrap leading-relaxed">{outreachResult.body}</p>
-                              </div>
-                              <div className="flex flex-wrap gap-2">
-                                {outreachResult.hashtags.map(tag => (
-                                  <Badge key={tag} variant="secondary" className="text-[10px]">{tag}</Badge>
-                                ))}
-                              </div>
-                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-                                <Button variant="outline" onClick={() => {
-                                  navigator.clipboard.writeText(`${outreachResult.headline}\n\n${outreachResult.body}\n\n${outreachResult.hashtags.join(' ')}`);
-                                  toast({ title: "Copied!", description: "Content ready to paste." });
-                                }}>
-                                  <Copy className="mr-2 h-4 w-4" /> Copy Text
-                                </Button>
-                                <Button className="bg-accent text-accent-foreground hover:bg-accent/90" onClick={() => {
-                                  const viralMsg = `🔥 ${outreachResult.headline}\n\n${outreachResult.body}\n\n📍 ${property.addressStreet}\n💰 AI Valued: $${property.aiQuickSaleValuation.toLocaleString()}\n\n👉 View details: ${window.location.href}`;
-                                  if (navigator.share) {
-                                    navigator.share({ title: outreachResult.headline, text: viralMsg, url: window.location.href });
-                                  } else {
-                                    navigator.clipboard.writeText(viralMsg);
-                                    toast({ title: "Viral Summary Copied!", description: "Ready to go viral!" });
-                                  }
-                                }}>
-                                  <Sparkles className="mr-2 h-4 w-4" /> Viral Share
-                                </Button>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        )}
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                )}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-6 p-6 bg-white rounded-2xl border shadow-sm">
-               <div className="text-center">
-                 <BedDouble className="h-6 w-6 mx-auto mb-2 text-primary" />
-                 <div className="font-bold text-xl">{property.bedrooms}</div>
-                 <div className="text-sm text-muted-foreground">Bedrooms</div>
-               </div>
-               <div className="text-center border-x">
-                 <Bath className="h-6 w-6 mx-auto mb-2 text-primary" />
-                 <div className="font-bold text-xl">{property.bathrooms}</div>
-                 <div className="text-sm text-muted-foreground">Bathrooms</div>
-               </div>
-               <div className="text-center">
-                 <Square className="h-6 w-6 mx-auto mb-2 text-primary" />
-                 <div className="font-bold text-xl">{property.squareFootage}</div>
-                 <div className="text-sm text-muted-foreground">Sq. Feet</div>
-               </div>
-            </div>
-
-            <section className="space-y-4">
-              <h2 className="text-2xl font-bold font-headline">Property Description</h2>
+            <section>
+              <h2 className="text-2xl font-bold font-headline mb-4">Description</h2>
               <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
                 {property.description}
               </p>

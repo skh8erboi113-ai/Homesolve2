@@ -10,23 +10,26 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { homeownerQuickSaleValuation, HomeownerQuickSaleValuationOutput } from "@/ai/flows/homeowner-quick-sale-valuation";
 import { Loader2, TrendingUp, Info, DollarSign, CheckCircle2, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useFirestore, useUser } from "@/firebase";
+import { useFirestore, useUser, db } from "@/firebase";
+
 import { collection, serverTimestamp } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+
+// Removed direct server action import
+// import { homeownerQuickSaleValuation, HomeownerQuickSaleValuationOutput } from "@/ai/flows/homeowner-quick-sale-valuation";
+
 export default function ListPropertyPage() {
+  const { user, loading: isUserLoading } = useUser();
   const { toast } = useToast();
   const router = useRouter();
-  const db = useFirestore();
-  const { user, isUserLoading } = useUser();
   const [loading, setLoading] = useState(false);
   const [publishing, setPublishing] = useState(false);
-  const [valuation, setValuation] = useState<HomeownerQuickSaleValuationOutput | null>(null);
+  const [valuation, setValuation] = useState<any>(null);
 
   const [formData, setFormData] = useState({
     address: "",
@@ -35,10 +38,10 @@ export default function ListPropertyPage() {
     numberOfBedrooms: 3,
     numberOfBathrooms: 2,
     condition: "good",
-    yearBuilt: 2000,
+    yearBuilt: 1995,
+    specialFeatures: "",
     foreclosureStatus: "pre-foreclosure",
-    urgency: "somewhat urgent",
-    specialFeatures: ""
+    urgency: "within-30-days"
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -63,7 +66,12 @@ export default function ListPropertyPage() {
 
     setLoading(true);
     try {
-      const result = await homeownerQuickSaleValuation(formData);
+      const response = await fetch('/api/ai/valuation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      const result = await response.json();
       setValuation(result);
       toast({
         title: "Valuation Complete",
