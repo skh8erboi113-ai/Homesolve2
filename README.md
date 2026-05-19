@@ -20,7 +20,7 @@ Follow these steps to make your application live on the web.
 
 ### 2. Gemini API Key
 - Your API key is already configured in the `.env` file for local development.
-- Key: `AIzaSyCCezm3Led09tcGvZo_R987kQwS-v2D_VE`
+- Key: `YOUR_GEMINI_API_KEY`
 
 ### 3. Create a GitHub Repository
 - You have already designated your repository. Run these commands in your project folder:
@@ -40,7 +40,7 @@ Follow these steps to make your application live on the web.
 - Navigate to **Build > App Hosting**.
 - Click **"Get Started"** and connect your GitHub account.
 - Select the `Homesolve2` repository.
-- **SECRET**: Under the "Environment Variables" section of the setup, add a secret named `GOOGLE_GENAI_API_KEY` with the value `AIzaSyCCezm3Led09tcGvZo_R987kQwS-v2D_VE`.
+- **SECRET**: Under the "Environment Variables" section of the setup, add a secret named `GOOGLE_GENAI_API_KEY` with the value `YOUR_GEMINI_API_KEY`.
 
 ## 🌐 Production Launch URL
 The app is currently deployed and live at:
