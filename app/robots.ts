@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/dashboard/', '/messages/', '/api/'],
     },
-    sitemap: 'https://studio-4450623487-72853.web.app/sitemap.xml',
+    sitemap: 'https://equityarc-production.onrender.com/sitemap.xml',
   };
 }
