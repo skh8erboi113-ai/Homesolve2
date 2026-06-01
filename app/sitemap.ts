@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://studio-4450623487-72853.web.app';
+  const baseUrl = 'https://equityarc-production.onrender.com';
 
   // Base routes
   const routes = [
